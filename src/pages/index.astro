@@ -3,27 +3,23 @@
 import Base from '../layouts/Base.astro';
 import PubList from '../components/PubList.astro';
 import Diagram from '../components/diagrams/Diagram.astro';
-import DesignRows from '../components/home/DesignRows.astro';
+import DesignStrip from '../components/home/DesignStrip.astro';
 import { url, absUrl } from '../lib/site';
 import {
-  profile, education, news, publications, software, themes,
-  sortByDateDesc, sortPublications, formatYm, inlineHtml, escapeHtml,
+  profile, education, news, software, themes,
+  sortByDateDesc, formatYm, escapeHtml, newsHtml, homePublications, homePubIds,
   educationFieldHtml, headlineHtml, pubById, softwareById, plural,
 } from '../lib/data';
 
-const HOME_NEWS_COUNT = 6;
+// Highlights only: the newest news items and three selected publications; the full lists have their own pages.
+const HOME_NEWS_COUNT = 3;
 const latestNews = sortByDateDesc(news).slice(0, HOME_NEWS_COUNT);
-const selected = sortPublications(publications.filter((p) => p.selected));
-const selectedIds = new Set(selected.map((p) => p.id));
 const L = profile.links;
 
 const paperHref = (id: string) => {
   const p = pubById(id);
-  return selectedIds.has(id) ? `#p-${id}` : `https://doi.org/${p.doi}`;
+  return homePubIds.has(id) ? `#p-${id}` : `https://doi.org/${p.doi}`;
 };
-
-const newsHtml = (n: (typeof news)[number]) =>
-  inlineHtml(n.text) + (n.link ? ` <a class="ref" href="${escapeHtml(n.link.url)}">[${escapeHtml(n.link.label)}]</a>` : '');
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -67,25 +63,35 @@ const jsonLd = {
         <li><a href={L.github} aria-label="GitHub" title={`GitHub: ${L.github_handle}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg></a></li>
       </ul>
     </aside>
-    <nav class="themes-index" aria-label="Research themes">
-      {themes.map((t, i) => (
-        <a href={`#plate-${i + 1}`}><span class="ti-n">Theme {i + 1}</span><span class="ti-t">{t.title}</span></a>
-      ))}
+    <nav class="tcards" aria-label="Research themes">
+      <ul>
+        {themes.map((t, i) => (
+          <li class="tcard">
+            <div class="tc-fig" aria-hidden="true"><Diagram name={t.diagram} decorative /></div>
+            <span class="ti-n">Theme {i + 1}</span>
+            <a class="ti-t" href={url(`research/${t.slug}/`)}>{t.title}</a>
+            <p class="tc-s">{t.sentence}</p>
+          </li>
+        ))}
+      </ul>
     </nav>
   </section>
 
   <section id="news" class="sec g12" aria-labelledby="h-news">
     <header class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-news">News</h2></div></header>
-    <ol class="news body-r">
-      {latestNews.map((n) => (
-        <li><time datetime={n.date}>{formatYm(n.date)}</time><p set:html={newsHtml(n)} /></li>
-      ))}
-    </ol>
+    <div class="body-r">
+      <ol class="news">
+        {latestNews.map((n) => (
+          <li><time datetime={n.date}>{formatYm(n.date)}</time><p set:html={newsHtml(n)} /></li>
+        ))}
+      </ol>
+      <p class="more"><a href={url('news/')}>All news</a></p>
+    </div>
   </section>
 
   <section id="research" class="sec g12" aria-labelledby="h-research">
     <header class="sec-head"><div class="hd"><span class="num">02</span><h2 id="h-research">Research</h2></div><p class="sec-intro">Three themes, one aim: buildings whose data, controls and interfaces work together.</p></header>
-    <div class="plates body-f">
+    <div class="plates tight body-f">
       {themes.map((t, i) => (
         <article class="plate" id={`plate-${i + 1}`}>
           <figure><div class="sheet"><Diagram name={t.diagram} /></div><figcaption><span class="pn">Plate {i + 1} of {themes.length}</span><span>Diagram placeholder, to be redrawn</span></figcaption></figure>
@@ -103,24 +109,29 @@ const jsonLd = {
 
   <section id="software" class="sec g12" aria-labelledby="h-sw">
     <header class="sec-head"><div class="hd"><span class="num">03</span><h2 id="h-sw">Software</h2></div><p class="sec-intro">The software I write for my research: what each tool does, the languages it uses, and its code.</p></header>
-    <ul class="tools body-r">
-      {software.map((s) => (
-        <li id={`sw-${s.id}`}><p class="name">{s.name}</p><p class="meta">{[s.full_name, s.language, s.license && `${s.license} License`].filter(Boolean).join(' · ')}</p><p class="d">{s.description}</p><p class="mono"><a class="ref" href={s.repo}>[repo]</a></p></li>
-      ))}
-    </ul>
+    <div class="body-r">
+      <ul class="tools">
+        {software.map((s) => (
+          <li id={`sw-${s.id}`}><p class="name">{s.name}</p><p class="meta">{[s.full_name, s.language, s.license && `${s.license} License`].filter(Boolean).join(' · ')}</p><p class="d">{s.description}</p><p class="mono"><a class="ref" href={s.repo}>[repo]</a></p></li>
+        ))}
+      </ul>
+      <p class="more"><a href={url('software/')}>See all software</a></p>
+    </div>
   </section>
 
   <section id="design" class="sec g12" aria-labelledby="h-design">
     <header class="sec-head"><div class="hd"><span class="num">04</span><h2 id="h-design">Design</h2></div><p class="sec-intro">Design is part of how I do research: I design the interfaces and visualizations of the tools I build, and I bring computational and architectural design into building technology.</p></header>
-    <DesignRows />
-    <p class="ig body-r"><a href={L.instagram}>More design work on Instagram (@{L.instagram_handle})</a></p>
+    <div class="body-r">
+      <DesignStrip />
+      <p class="more"><a href={url('design/')}>See the Design page</a><a href={L.instagram}>More design work on Instagram (@{L.instagram_handle})</a></p>
+    </div>
   </section>
 
   <section id="publications" class="sec g12" aria-labelledby="h-pubs">
     <header class="sec-head side"><div class="hd"><span class="num">05</span><h2 id="h-pubs">Selected publications</h2></div></header>
     <div class="body-r">
-      <PubList items={selected} variant="compact" />
-      <p class="more"><a href={url('publications/')}>Full list of publications</a><a href={L.scholar}>Google Scholar</a></p>
+      <PubList items={homePublications} variant="compact" />
+      <p class="more"><a href={url('publications/')}>All publications</a><a href={L.scholar}>Google Scholar</a></p>
     </div>
   </section>
 </Base>

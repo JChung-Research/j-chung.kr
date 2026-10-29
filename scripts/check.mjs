@@ -4,7 +4,9 @@
 //   2. the four CV-printed redirect pages exist with the right targets;
 //   3. no em dash or en dash in visible text;
 //   4. mode rules: preview = noindex on every page, Disallow robots, no sitemap; production = sitemap;
-//      no CNAME anywhere.
+//      no CNAME anywhere;
+//   5. the full-list pages behind the homepage highlights exist, are linked from the homepage and,
+//      in production, are in the sitemap.
 // Exit code 1 on any failure.
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
@@ -179,6 +181,20 @@ if (IS_PREVIEW) {
 } else {
   if (!existsSync(join(DIST, 'sitemap-index.xml'))) fail('production: sitemap-index.xml missing');
   if (!robots.includes(`Sitemap: ${SITE_ROOT}sitemap-index.xml`)) fail('production: robots.txt does not point to the sitemap');
+}
+
+// ---------- 5. full-list pages linked from the homepage highlights ----------
+const HOME_LIST_PAGES = ['news/', 'software/', 'design/', 'publications/'];
+const homeFile = join(DIST, 'index.html');
+const homeHrefs = existsSync(homeFile)
+  ? new Set([...readFileSync(homeFile, 'utf8').matchAll(/<a\s[^>]*href=["']([^"']+)["']/gi)].map((m) => decode(m[1])))
+  : new Set();
+const sitemapXml = walk(DIST).filter((f) => /sitemap-\d+\.xml$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
+for (const page of HOME_LIST_PAGES) {
+  linkCount++;
+  if (!existsSync(join(DIST, page, 'index.html'))) fail(`/${page} is missing`);
+  if (!homeHrefs.has(BASE_PATH + page)) fail(`homepage does not link to ${BASE_PATH}${page}`);
+  if (!IS_PREVIEW && !sitemapXml.includes(`<loc>${SITE_ROOT}${page}</loc>`)) fail(`production: sitemap does not list ${SITE_ROOT}${page}`);
 }
 
 // ---------- report ----------

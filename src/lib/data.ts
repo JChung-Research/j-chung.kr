@@ -202,6 +202,8 @@ export type Theme = (typeof themes)[number];
   const dup = publications.map((p) => p.id).filter((id, i, a) => a.indexOf(id) !== i);
   if (dup.length) throw new Error(`publications.yml: duplicate id ${dup.join(', ')}`);
   for (const t of themes) {
+    // The homepage theme cards show "sentence" as the first sentence of "summary"; keep them in step.
+    if (!t.summary.startsWith(t.sentence)) throw new Error(`themes.yml (${t.slug}): "summary" must start with "sentence"`);
     for (const id of t.papers) if (!pubIds.has(id)) throw new Error(`themes.yml (${t.slug}): unknown paper id "${id}"`);
     for (const id of t.code) if (!swIds.has(id)) throw new Error(`themes.yml (${t.slug}): unknown software id "${id}"`);
   }
@@ -361,6 +363,16 @@ export function headlineHtml(terms: string[]): string {
 export function plural(word: string, n: number): string {
   return n === 1 ? word : `${word}s`;
 }
+
+/** News item text with its optional bracketed reference link. */
+export function newsHtml(n: (typeof news)[number]): string {
+  return inlineHtml(n.text) + (n.link ? ` <a class="ref" href="${escapeHtml(n.link.url)}">[${escapeHtml(n.link.label)}]</a>` : '');
+}
+
+/** Homepage "Selected publications": the newest three marked selected: true. Their #p-<id> anchors exist only there. */
+export const HOME_PUB_COUNT = 3;
+export const homePublications = sortPublications(publications.filter((p) => p.selected)).slice(0, HOME_PUB_COUNT);
+export const homePubIds = new Set(homePublications.map((p) => p.id));
 
 export const PUB_GROUP_LABEL: Record<Publication['type'], string> = {
   journal: 'Journal article',

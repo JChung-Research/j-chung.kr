@@ -18,7 +18,7 @@
 #   short      short label used in "Paper:" links (e.g. "SimBuild 2026")
 #   themes     research theme slugs: interoperable-digital-twins, grid-interactive-efficient-buildings,
 #              human-building-interaction
-#   selected   true = listed under "Selected publications" on the homepage
+#   selected   true = eligible for "Selected publications" on the homepage (the newest three are shown)
 #
 # Example:
 # - id: eb2027

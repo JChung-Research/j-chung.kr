@@ -1,9 +1,9 @@
 ---
-// Research theme drawing by name (see themes.yml "diagram").
+// Research theme drawing by name (see themes.yml "diagram"). decorative: for thumbnails beside a visible title.
 import Idt from './Idt.astro';
 import Geb from './Geb.astro';
 import Hbi from './Hbi.astro';
-interface Props { name: 'idt' | 'geb' | 'hbi' }
-const { name } = Astro.props;
+interface Props { name: 'idt' | 'geb' | 'hbi'; decorative?: boolean }
+const { name, decorative = false } = Astro.props;
 ---
-{name === 'idt' && <Idt />}{name === 'geb' && <Geb />}{name === 'hbi' && <Hbi />}
+{name === 'idt' && <Idt decorative={decorative} />}{name === 'geb' && <Geb decorative={decorative} />}{name === 'hbi' && <Hbi decorative={decorative} />}
