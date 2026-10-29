@@ -22,7 +22,8 @@ interface Props {
 const { title, description, jsonLd, ogType = 'website', noindex = false } = Astro.props;
 // Browser-tab title format: the ONE place it is defined. Pages pass only their own `title` prop.
 const siteName = `${profile.name}, ${profile.suffix}`;
-const fullTitle = title ? `${title} · ${siteName}` : siteName;
+const HOME_TITLE = 'Jihoon Chung | Building Scientist, Developer & Designer';
+const fullTitle = title ? `${title} | ${siteName}` : HOME_TITLE;
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = absUrl(profile.headshot);
 const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : '';
