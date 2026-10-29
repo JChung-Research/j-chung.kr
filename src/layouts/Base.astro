@@ -1,0 +1,74 @@
+---
+// Every regular page: head (SEO, icons, fonts, analytics), masthead, main, footer.
+import '../styles/global.css';
+import Icons from '../components/Icons.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { IS_PREVIEW, GOATCOUNTER_CODE, url, absUrl } from '../lib/site';
+import { profile } from '../lib/data';
+
+interface Props {
+  /** Page title; omit on the homepage. */
+  title?: string;
+  /** One or two sentences for search results and link previews. */
+  description: string;
+  /** JSON-LD object (homepage only). */
+  jsonLd?: Record<string, unknown>;
+  ogType?: 'website' | 'profile' | 'article';
+  /** true for pages that should never be indexed (404). */
+  noindex?: boolean;
+}
+
+const { title, description, jsonLd, ogType = 'website', noindex = false } = Astro.props;
+// Browser-tab title format: the ONE place it is defined. Pages pass only their own `title` prop.
+const siteName = `${profile.name}, ${profile.suffix}`;
+const fullTitle = title ? `${title} · ${siteName}` : siteName;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = absUrl(profile.headshot);
+const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : '';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{fullTitle}</title>
+  <meta name="description" content={description}>
+  {(IS_PREVIEW || noindex) && <meta name="robots" content="noindex, nofollow">}
+  {!IS_PREVIEW && !noindex && <link rel="canonical" href={pageUrl}>}
+  <meta property="og:type" content={ogType}>
+  <meta property="og:site_name" content={siteName}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={pageUrl}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:image:width" content={String(profile.headshot_width)}>
+  <meta property="og:image:height" content={String(profile.headshot_height)}>
+  <meta property="og:image:alt" content={profile.headshot_alt}>
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href={url('favicon.ico')} sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href={url('apple-touch-icon-32x32.png')}>
+  <link rel="apple-touch-icon" href={url('apple-touch-icon.png')}>
+  <link rel="manifest" href={url('site.webmanifest')}>
+  <meta name="theme-color" content="#f3f4f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101214" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Source+Serif+4:ital,wght@0,400..700;1,400..700&family=Barlow+Semi+Condensed:wght@300;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap">
+  {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLdText}></script>}
+  {GOATCOUNTER_CODE && <script is:inline data-goatcounter={`https://${GOATCOUNTER_CODE}.goatcounter.com/count`} async src="https://gc.zgo.at/count.js"></script>}
+</head>
+<body>
+  <Icons />
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap" id="top">
+  <div class="frame">
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </div>
+  </div>
+</body>
+</html>

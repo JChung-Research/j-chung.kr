@@ -1,0 +1,17 @@
+---
+// Publication rows (Mockup A ".pubs"). "compact" = homepage (year, DOI);
+// "full" = theme pages (month and year, DOI, PDF, code).
+import { authorsHtml, pubDate, pubLinksHtml, type Publication } from '../lib/data';
+
+interface Props {
+  items: Publication[];
+  variant?: 'compact' | 'full';
+}
+const { items, variant = 'compact' } = Astro.props;
+const full = variant === 'full';
+---
+<ol class="pubs">
+  {items.map((p) => (
+    <li id={`p-${p.id}`}><span class="yr">{pubDate(p, full)}</span><div class="entry"><p class="t">{p.title}</p><p class="au" set:html={authorsHtml(p.authors)} /><p class="v" set:html={pubLinksHtml(p, full)} /></div></li>
+  ))}
+</ol>

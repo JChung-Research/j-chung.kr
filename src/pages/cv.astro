@@ -1,0 +1,44 @@
+---
+// CV summary (current role, education, credentials) and the full CV as a PDF.
+// To publish a new CV: put the PDF in public/cv/, then update CV_FILE and CV_LABEL below.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { url } from '../lib/site';
+import { profile, education, spanYm, educationFieldHtml } from '../lib/data';
+
+const CV_FILE = 'cv/Jihoon-Chung-CV-2026-01.pdf';
+const CV_LABEL = 'CV (PDF, January 2026 version)';
+const r = profile.role;
+const role = `${r.title}, ${r.group}, ${r.organization}`;
+const [since, until] = spanYm(r.since).split(' to ');
+---
+<Base title="CV" description={`CV of ${profile.name}, ${profile.suffix}: current role, education and credentials, with the full CV as a PDF.`}>
+  <PageHead crumbs={[{ label: 'Home', href: '' }, { label: 'CV' }]} title="CV" lede={role}>
+    <a class="repo cv-dl" href={url(CV_FILE)} type="application/pdf"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg><span><b>{CV_LABEL}</b><i>{CV_FILE.split('/').pop()}</i></span></a>
+  </PageHead>
+
+  <section id="role" class="sec g12" aria-labelledby="h-role">
+    <header class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-role">Current role</h2></div></header>
+    <ol class="pubs body-r">
+      <li><span class="yr"><span class="nw">{since}</span> <span class="nw">to {until}</span></span><div class="entry"><p class="t">{r.title}</p><p class="v">{r.group}, {r.organization}</p></div></li>
+    </ol>
+  </section>
+
+  <section id="education" class="sec g12" aria-labelledby="h-education">
+    <header class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-education">Education</h2></div></header>
+    <ol class="pubs body-r">
+      {education.map((e) => (
+        <li><span class="yr">{e.year}</span><div class="entry"><p class="t"><b>{e.degree}</b> <Fragment set:html={educationFieldHtml(e)} /></p><p class="v">{e.school}</p></div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="credentials" class="sec g12" aria-labelledby="h-credentials">
+    <header class="sec-head side"><div class="hd"><span class="num">03</span><h2 id="h-credentials">Credentials</h2></div></header>
+    <ol class="pubs body-r">
+      {profile.credentials.map((c) => (
+        <li><span class="yr">{c.year}</span><div class="entry"><p class="t">{c.name}</p><p class="v">{c.issuer}</p></div></li>
+      ))}
+    </ol>
+  </section>
+</Base>

@@ -1,0 +1,32 @@
+---
+// Masthead from Mockup A: J. tile + "Jihoon Chung, Ph.D." in the name face (title-options.html, option C),
+// main navigation (fixed order), email.
+import JMark from './JMark.astro';
+import { url, pagePath } from '../lib/site';
+import { profile } from '../lib/data';
+
+const NAV = [
+  { label: 'Home', path: '' },
+  { label: 'Research', path: 'research/' },
+  { label: 'Software', path: 'software/' },
+  { label: 'Design', path: 'design/' },
+  { label: 'Publications', path: 'publications/' },
+  { label: 'Talks', path: 'talks/' },
+  { label: 'Teaching & Mentoring', path: 'teaching/' },
+  { label: 'CV', path: 'cv/' },
+];
+
+const here = pagePath(Astro.url.pathname);
+const isCurrent = (p: string) => (p === '' ? here === '' : here.startsWith(p));
+---
+<header class="mast">
+  <a class="mark" href={url('')}><JMark /><span class="wm-name">{profile.name}<span class="lt">, {profile.suffix}</span></span></a>
+  <nav aria-label="Main">
+    <ul>
+      {NAV.map((item) => (
+        <li><a href={url(item.path)} aria-current={isCurrent(item.path) ? 'page' : undefined}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+  <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
+</header>

@@ -1,0 +1,23 @@
+---
+// Placeholder page in the inner-page template: title, one-line description, and a status note.
+// Replace with the real page when its content is ready (Stage 2).
+import Base from './Base.astro';
+import PageHead from '../components/PageHead.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs: { label: string; href?: string }[];
+}
+const { title, description, crumbs } = Astro.props;
+---
+<Base title={title} description={description}>
+  <PageHead crumbs={crumbs} title={title} lede={description}>
+    <div class="note">
+      <p class="kick">Status</p>
+      <p>This page is being written.</p>
+      <slot />
+    </div>
+  </PageHead>
+  <slot name="after" />
+</Base>

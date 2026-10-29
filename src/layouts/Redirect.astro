@@ -1,0 +1,39 @@
+---
+// A small, self-contained redirect page: meta refresh, location.replace, canonical, and a visible link.
+import { url, absUrl, IS_PREVIEW } from '../lib/site';
+
+interface Props {
+  /** Full URL (external) or a path on this site ('' = home). */
+  to: string;
+  label: string;
+  /** true for redirects that leave the site. */
+  external?: boolean;
+}
+const { to, label, external = false } = Astro.props;
+const target = external ? to : url(to);
+const canonical = external ? to : absUrl(to);
+const script = `location.replace(${JSON.stringify(target)});`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{label}</title>
+  <meta http-equiv="refresh" content={`0; url=${target}`}>
+  <link rel="canonical" href={canonical}>
+  <meta name="robots" content={IS_PREVIEW ? 'noindex, nofollow' : 'noindex'}>
+  <link rel="icon" href={url('favicon.ico')} sizes="any">
+  <script is:inline set:html={script}></script>
+  <style is:inline>
+    body{margin:0;padding:48px 16px;background:#f3f4f1;color:#121417;font:400 17px/1.6 Georgia,"Times New Roman",serif}
+    a{color:#2340c2}
+    @media (prefers-color-scheme: dark){body{background:#101214;color:#e7e8e4}a{color:#93a6ff}}
+  </style>
+</head>
+<body>
+  {external
+    ? <p>Continue to <a href={target}>{label}</a>.</p>
+    : <p>This page has moved. Continue to <a href={target}>{label}</a>.</p>}
+</body>
+</html>

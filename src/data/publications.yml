@@ -1,0 +1,168 @@
+# Publications. Any order; pages sort newest first (year, then month).
+#
+#   id         short unique id; the entry's anchor becomes #p-<id> (e.g. #p-sb2026)
+#   type       journal | conference | report
+#   title      as published
+#   authors    list in citation form; the entry equal to profile.yml "citation_name" ("Chung, J.")
+#              is set in bold. End the list with "et al." to shorten it.
+#   venue      journal or proceedings name (set in italics)
+#   place      optional, conference city (shown after the venue)
+#   publisher  optional, shown after the venue when there is no place (e.g. for reports)
+#   year       publication year
+#   month      optional, 1 to 12 (theme pages show "May 2026")
+#   volume, issue, pages, number   optional; number = article number (e.g. 116367)
+#   doi        DOI without "https://doi.org/"
+#   pdf        optional full URL of an open PDF
+#   code       optional full URL of a code repository
+#   bibtex     citation key
+#   short      short label used in "Paper:" links (e.g. "SimBuild 2026")
+#   themes     research theme slugs: interoperable-digital-twins, grid-interactive-efficient-buildings,
+#              human-building-interaction
+#   selected   true = listed under "Selected publications" on the homepage
+#
+# Example:
+# - id: eb2027
+#   type: journal
+#   title: Title of the paper
+#   authors: ["Chung, J.", "Coauthor, A."]
+#   venue: Energy and Buildings
+#   year: 2027
+#   volume: 350
+#   number: 116000
+#   doi: 10.1016/j.enbuild.2027.116000
+#   bibtex: chung2027energy
+#   short: Energy and Buildings 2027
+#   themes: [grid-interactive-efficient-buildings]
+#   selected: false
+
+- id: tm4715
+  type: report
+  title: Generalizable Web User Interface for Scalable and Streamlined Deployment of Building Energy Management Systems in Small and Medium-Sized Commercial Buildings
+  authors: ["Chung, J.", "Huang, S.", "Liu, B.", "Lian, J.", "Dong, J.", "Katipamula, S.", "Lutes, R."]
+  venue: ORNL/TM-2026/4715
+  publisher: Oak Ridge National Laboratory
+  year: 2026
+  month: 9
+  doi: 10.2172/3740260
+  pdf: https://www.osti.gov/servlets/purl/3740260
+  bibtex: chung2026webui
+  short: ORNL/TM-2026/4715
+  themes: [grid-interactive-efficient-buildings]
+  selected: true
+
+- id: tm4854
+  type: report
+  title: "Low-Cost, Customizable Heating and Cooling Management for Small and Medium-Sized Medical Office Buildings: Design and Laboratory Validation"
+  authors: ["Chung, J.", "Lian, J.", "Huang, S.", "Dong, J.", "Liu, B."]
+  venue: ORNL/TM-2026/4854
+  publisher: Oak Ridge National Laboratory
+  year: 2026
+  month: 9
+  doi: 10.2172/17197391
+  pdf: https://www.osti.gov/servlets/purl/17197391
+  bibtex: chung2026medical
+  short: ORNL/TM-2026/4854
+  themes: [grid-interactive-efficient-buildings]
+  selected: false
+
+- id: tm4735
+  type: report
+  title: "Extending the Supervisory Controller Kit for Small and Medium-Sized Commercial Buildings to Small and Medium Industrial Facilities: A Literature-Based Feasibility Assessment"
+  authors: ["Chung, J.", "Lian, J.", "Cui, B."]
+  venue: ORNL/TM-2026/4735
+  publisher: Oak Ridge National Laboratory
+  year: 2026
+  month: 8
+  doi: 10.2172/17197467
+  pdf: https://www.osti.gov/servlets/purl/17197467
+  bibtex: chung2026industrial
+  short: ORNL/TM-2026/4735
+  themes: [grid-interactive-efficient-buildings]
+  selected: false
+
+- id: sb2026
+  type: conference
+  title: Simulation-Based Validation of an Open-Source, Scalable Framework for Building Energy Management in Small and Medium-Sized Commercial Buildings
+  authors: ["Chung, J.", "Huang, S.", "Lian, J.", "Katipamula, S.", "Lutes, R."]
+  venue: Proceedings of SimBuild 2026
+  place: Minneapolis
+  publisher: IBPSA-USA
+  year: 2026
+  month: 5
+  doi: 10.26868/30680611.2026.1365
+  pdf: https://publications.ibpsa.org/proceedings/simbuild/2026/papers/simbuild2026_1365.pdf
+  bibtex: chung2026simbuild
+  short: SimBuild 2026
+  themes: [grid-interactive-efficient-buildings]
+  selected: true
+
+- id: eb2025
+  type: journal
+  title: Towards high-performance buildings for thermal resilience and health
+  authors: ["Lu, Y.", "Ma, N.", "Arsano, A. Y.", "Brown, N.", "Chung, J.", "et al."]
+  venue: Energy and Buildings
+  year: 2025
+  volume: 347
+  number: 116367
+  doi: 10.1016/j.enbuild.2025.116367
+  bibtex: lu2025thermal
+  short: Energy and Buildings 2025
+  themes: []
+  selected: false
+
+- id: bs2025
+  type: journal
+  title: Enhancing Occupant Behavior Representation for Interoperability between Building Information Modeling and Building Energy Modeling
+  authors: ["Chung, J.", "Hong, T.", "Malik, J.", "Shelden, D."]
+  venue: Building Simulation
+  year: 2025
+  volume: 18
+  issue: 9
+  pages: 2435-2458
+  doi: 10.1007/s12273-025-1313-z
+  bibtex: chung2025occupant
+  short: Building Simulation 2025
+  themes: [interoperable-digital-twins]
+  selected: true
+
+- id: icccbe2024
+  type: conference
+  title: A Framework of ifcJSON-based Digital Twin Platform for Monitoring Building Environment using BIM, IoT, and Semantic Web Technologies
+  authors: ["Chung, J.", "Shelden, D."]
+  venue: Proceedings of ICCCBE 2024
+  place: Montreal
+  year: 2024
+  pages: 39-53
+  doi: 10.1007/978-3-031-84208-5_4
+  bibtex: chung2024ifcjson
+  short: ICCCBE 2024
+  themes: [human-building-interaction]
+  selected: true
+
+- id: sb2024
+  type: conference
+  title: Sustainability through Optimal Design of Buildings for Natural Ventilation using Updated Comfort and Occupancy Models
+  authors: ["Chung, J.", "Shahmansouri, N.", "Stoddart, J.", "Goldstein, R.", "Locke, J."]
+  venue: Proceedings of SimBuild 2024
+  place: Denver
+  year: 2024
+  month: 5
+  pages: 849-860
+  doi: 10.26868/30680611.2024.2172
+  bibtex: chung2024ventilation
+  short: SimBuild 2024
+  themes: [human-building-interaction]
+  selected: false
+
+- id: caad2023
+  type: conference
+  title: A Framework for Monitoring and Identifying Indoor Air Pollutants Based on BIM with IoT Sensors
+  authors: ["Chung, J.", "Tsamis, A.", "Shelden, D."]
+  venue: CAAD Futures 2023
+  place: Delft
+  year: 2023
+  doi: 10.1007/978-3-031-37189-9_34
+  bibtex: chung2023pollutants
+  short: CAAD Futures 2023
+  themes: [human-building-interaction]
+  selected: true

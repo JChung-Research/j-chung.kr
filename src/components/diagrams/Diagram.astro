@@ -1,0 +1,9 @@
+---
+// Research theme drawing by name (see themes.yml "diagram").
+import Idt from './Idt.astro';
+import Geb from './Geb.astro';
+import Hbi from './Hbi.astro';
+interface Props { name: 'idt' | 'geb' | 'hbi' }
+const { name } = Astro.props;
+---
+{name === 'idt' && <Idt />}{name === 'geb' && <Geb />}{name === 'hbi' && <Hbi />}

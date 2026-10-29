@@ -1,0 +1,11 @@
+---
+import Stub from '../layouts/Stub.astro';
+import { profile } from '../lib/data';
+---
+<Stub
+  title="Publications"
+  description="Journal articles, conference papers and technical reports."
+  crumbs={[{ label: 'Home', href: '' }, { label: 'Publications' }]}
+>
+  <p class="more"><a href={profile.links.scholar}>Google Scholar</a></p>
+</Stub>

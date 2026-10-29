@@ -1,0 +1,21 @@
+{
+  "name": "j-chung-kr",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal research website of Jihoon Chung, Ph.D. (j-chung.kr)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro build && node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "5.18.2",
+    "yaml": "2.9.1"
+  }
+}

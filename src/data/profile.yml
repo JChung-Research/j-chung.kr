@@ -1,0 +1,59 @@
+# Who the site is about. Used by the header, the homepage hero, the footer, the CV page,
+# and the SEO tags (title, Open Graph, JSON-LD Person).
+# Text here must trace to canonical-facts.md or the latest CV (see CLAUDE.md).
+
+name: Jihoon Chung
+suffix: Ph.D.                     # shown light grey after the name
+citation_name: "Chung, J."        # in publications.yml, the author string equal to this is set in bold
+
+# Homepage headline: each term stays on one line (never broken inside a term).
+headline:
+  - Building Science
+  - Building Informatics
+  - Computational Design
+
+role:
+  title: Postdoctoral Research Associate
+  group: Grid-interactive Controls Group
+  organization: Oak Ridge National Laboratory
+  since: 2025-05                  # YYYY-MM
+
+# Homepage lede (the bio sentences under the role line).
+bio: >-
+  I design and build the digital tools that connect buildings, grids and the people inside them.
+  I draw the system diagrams, write the software, and design the interfaces that make building data usable.
+
+# Search-engine description of the homepage.
+description: "Building science researcher: interoperable digital twins, grid-interactive efficient buildings, and human-building interaction."
+
+email: contact@j-chung.kr
+
+# Image file inside public/. Also used as the Open Graph (link preview) image.
+headshot: images/headshot.jpg
+headshot_width: 467
+headshot_height: 584
+headshot_alt: Portrait of Jihoon Chung
+
+# Credential tags under the education list. "issuer" and "year" show on hover.
+credentials:
+  - name: LEED AP BD+C
+    issuer: U.S. Green Building Council
+    year: 2024
+  - name: WELL AP
+    issuer: International WELL Building Institute
+    year: 2023
+  - name: FMP
+    issuer: International Facility Management Association
+    year: 2024
+
+# Profile links (hero icon row, footer "Elsewhere", JSON-LD sameAs).
+links:
+  scholar: https://scholar.google.com/citations?user=ExZUcKYAAAAJ
+  orcid: https://orcid.org/0000-0001-8488-0815
+  orcid_id: 0000-0001-8488-0815
+  linkedin: https://www.linkedin.com/in/jihoon-chung/
+  github: https://github.com/JChung-Research
+  github_handle: JChung-Research
+  ornl: https://www.ornl.gov/staff-profile/jihoon-chung
+  instagram: https://www.instagram.com/jchung_designwork/
+  instagram_handle: jchung_designwork

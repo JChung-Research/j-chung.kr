@@ -1,0 +1,18 @@
+# Service and leadership (committees, session chairs, juries, peer review).
+# Stage 2 fills this file and the page that renders it. Copy roles from the CV or canonical-facts.md.
+#   role          e.g. Session Chair, Committee Member, Invited Juror, Peer Reviewer
+#   organization  e.g. IBPSA-USA
+#   event         optional event or committee name, e.g. SimBuild 2026
+#   start         YYYY or YYYY-MM, in quotes
+#   end           YYYY or YYYY-MM, in quotes; empty while ongoing
+#   note          optional one sentence
+#
+# Example:
+# - role: Session Chair
+#   organization: IBPSA-USA
+#   event: SimBuild 2026
+#   start: "2026-05"
+#   end: "2026-05"
+#   note:
+
+[]

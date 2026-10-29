@@ -1,0 +1,45 @@
+# The three research themes, in order. Drives the homepage plates, the theme index,
+# /research/ and the previous/next links on theme pages.
+#   slug          URL part: /research/<slug>/ (never change a published slug)
+#   title         theme name
+#   sentence      one sentence for the /research/ index card
+#   summary       homepage plate paragraph
+#   papers        publication ids (publications.yml) listed under the plate
+#   code          software ids (software.yml) listed under the plate
+#   diagram       which drawing to show: idt | geb | hbi (src/components/diagrams/)
+
+- slug: interoperable-digital-twins
+  title: Interoperable Digital Twins
+  sentence: One building description that holds across design, simulation and operation.
+  summary: >-
+    One building description that holds across design, simulation and operation. My Ph.D. framework
+    connects BIM, building energy models, building automation and occupant behavior through IFC, Brick,
+    SHACL and obXML.
+  papers: [bs2025]
+  code: [gbobxml]
+  diagram: idt
+
+- slug: grid-interactive-efficient-buildings
+  title: Grid-Interactive Efficient Buildings
+  sentence: >-
+    Open-source building energy management for small and medium-sized commercial buildings, which are
+    94% of U.S. commercial buildings and nearly half of commercial building energy use.
+  summary: >-
+    Open-source building energy management for small and medium-sized commercial buildings, which are
+    94% of U.S. commercial buildings and nearly half of commercial building energy use. At ORNL I am a
+    contributor and developer on DOE Building Technologies Office projects that combine model predictive
+    control, VOLTTRON, Brick models, BACnet and Modbus.
+  papers: [sb2026, tm4715]
+  code: [orbit]
+  diagram: geb
+
+- slug: human-building-interaction
+  title: Human-Building Interaction
+  sentence: How occupants, operators and intelligent building systems inform each other.
+  summary: >-
+    How occupants, operators and intelligent building systems inform each other. My monitoring work links
+    BIM, IoT sensors and building automation to track indoor air quality and occupant behavior, tested in
+    university laboratory and meeting-room pilots.
+  papers: [caad2023, icccbe2024]
+  code: [comfit]
+  diagram: hbi

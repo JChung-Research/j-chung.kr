@@ -1,0 +1,21 @@
+# Teaching and mentoring. Stage 2 fills this file and the /teaching/ page that renders it.
+# Wording rules (CLAUDE.md): never "instructor of record"; a teaching assistant "helped teach" or
+# was "assisting the classroom teacher", not "taught" or "co-taught". Copy roles from the CV.
+#   role         e.g. Guest Lecturer, Project Mentor, Teaching Assistant, Workshop Instructor, Mentor
+#   title        course, program or workshop name
+#   code         optional course code, e.g. ECSE-4660/6660
+#   institution  school or organization
+#   start        YYYY-MM, in quotes
+#   end          YYYY-MM, in quotes; empty while ongoing; same as start for a single event
+#   note         optional one sentence, copied or restated from the CV
+#
+# Example:
+# - role: Guest Lecturer
+#   title: Internetworking of Things
+#   code: ECSE-4660/6660
+#   institution: Rensselaer Polytechnic Institute
+#   start: "2024-02"
+#   end: "2024-02"
+#   note:
+
+[]

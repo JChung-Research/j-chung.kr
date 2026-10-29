@@ -1,0 +1,49 @@
+# Funded projects, in the order they should be listed.
+#   title       project title as on the CV
+#   sponsor     funding source
+#   start       YYYY-MM, in quotes
+#   end         YYYY-MM, in quotes; leave empty while the project is ongoing ("to present")
+#   role        always "Contributor and developer" (never lead, PI or managed; see CLAUDE.md)
+#   report_doi  optional DOI of the project report; it must also be an entry in publications.yml
+#   theme       research theme slug the project belongs to
+#
+# Example:
+# - title: Name of the project
+#   sponsor: DOE Building Technologies Office
+#   start: "2027-01"
+#   end:
+#   role: Contributor and developer
+#   report_doi:
+#   theme: grid-interactive-efficient-buildings
+
+- title: Development and Validation of Low-Cost, Interoperable, User-Centric Supervisory Controller Kit for Small and Medium Size Commercial Buildings
+  sponsor: DOE Building Technologies Office
+  start: "2025-05"
+  end:
+  role: Contributor and developer
+  report_doi: 10.2172/3740260
+  theme: grid-interactive-efficient-buildings
+
+- title: "BTRIC Tech Collaboration: Low-Cost, Customizable Heating & Cooling Management for Small and Medium-Sized Medical Office Buildings"
+  sponsor: DOE Building Technologies Office
+  start: "2025-10"
+  end:
+  role: Contributor and developer
+  report_doi: 10.2172/17197391
+  theme: grid-interactive-efficient-buildings
+
+- title: Feasibility of Extending the Supervisory Controller Kit to Small and Medium-Sized Industrial Facilities
+  sponsor: DOE Building Technologies Office
+  start: "2026-04"
+  end:
+  role: Contributor and developer
+  report_doi: 10.2172/17197467
+  theme: grid-interactive-efficient-buildings
+
+- title: Validation of AReCoS Intelligent Control Systems for Energy Optimization in Rooftop Units with Building Supervisory Integration
+  sponsor: AReCoS LLC & ORNL
+  start: "2025-12"
+  end:
+  role: Contributor and developer
+  report_doi:
+  theme: grid-interactive-efficient-buildings

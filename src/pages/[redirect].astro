@@ -1,0 +1,14 @@
+---
+// Redirect pages at the site root. The list lives in src/lib/redirects.ts.
+import type { GetStaticPaths } from 'astro';
+import Redirect from '../layouts/Redirect.astro';
+import { CV_REDIRECTS, LEGACY_REDIRECTS } from '../lib/redirects';
+
+export const getStaticPaths = (() => [
+  ...CV_REDIRECTS.map((r) => ({ params: { redirect: r.path }, props: { to: r.to, label: r.label, external: true } })),
+  ...LEGACY_REDIRECTS.map((r) => ({ params: { redirect: r.path }, props: { to: r.to, label: r.label, external: false } })),
+]) satisfies GetStaticPaths;
+
+const { to, label, external } = Astro.props;
+---
+<Redirect to={to} label={label} external={external} />

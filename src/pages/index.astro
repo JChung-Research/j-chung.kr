@@ -1,0 +1,126 @@
+---
+// Homepage: Mockup A (research/mockups/mockup-a.html), rendered from src/data/*.yml.
+import Base from '../layouts/Base.astro';
+import PubList from '../components/PubList.astro';
+import Diagram from '../components/diagrams/Diagram.astro';
+import DesignRows from '../components/home/DesignRows.astro';
+import { url, absUrl } from '../lib/site';
+import {
+  profile, education, news, publications, software, themes,
+  sortByDateDesc, sortPublications, formatYm, inlineHtml, escapeHtml,
+  educationFieldHtml, headlineHtml, pubById, softwareById, plural,
+} from '../lib/data';
+
+const HOME_NEWS_COUNT = 6;
+const latestNews = sortByDateDesc(news).slice(0, HOME_NEWS_COUNT);
+const selected = sortPublications(publications.filter((p) => p.selected));
+const selectedIds = new Set(selected.map((p) => p.id));
+const L = profile.links;
+
+const paperHref = (id: string) => {
+  const p = pubById(id);
+  return selectedIds.has(id) ? `#p-${id}` : `https://doi.org/${p.doi}`;
+};
+
+const newsHtml = (n: (typeof news)[number]) =>
+  inlineHtml(n.text) + (n.link ? ` <a class="ref" href="${escapeHtml(n.link.url)}">[${escapeHtml(n.link.label)}]</a>` : '');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  honorificSuffix: profile.suffix,
+  jobTitle: profile.role.title,
+  affiliation: { '@type': 'Organization', name: profile.role.organization },
+  alumniOf: [...new Set(education.map((e) => e.school))].map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+  sameAs: [L.scholar, L.orcid, L.linkedin, L.github, L.ornl],
+  url: absUrl(''),
+  image: absUrl(profile.headshot),
+  email: `mailto:${profile.email}`,
+};
+---
+<Base description={profile.description} jsonLd={jsonLd} ogType="profile">
+  <section class="hero g12" aria-label="Introduction">
+    <div class="hero-main">
+      <h1>{profile.name}, <span class="phd">{profile.suffix}</span></h1>
+      <p id="headline" set:html={headlineHtml(profile.headline)} />
+      <p class="role">{profile.role.title}, {profile.role.group}, {profile.role.organization}</p>
+      <p class="lede">{profile.bio}</p>
+      <div class="ec">
+        <ul class="ec-list" aria-label="Education">
+          {education.map((e) => (
+            <li><b>{e.degree}</b> <Fragment set:html={educationFieldHtml(e)} />, <span class="nw">{e.school}</span><span class="ec-yr">{e.year}</span></li>
+          ))}
+        </ul>
+        <ul class="ec-tags" aria-label="Credentials">
+          {profile.credentials.map((c) => <li title={`${c.issuer}, ${c.year}`}>{c.name}</li>)}
+        </ul>
+      </div>
+    </div>
+    <aside class="hero-side" aria-label="Portrait and profiles">
+      <figure class="portrait"><img src={url(profile.headshot)} width={profile.headshot_width} height={profile.headshot_height} alt={profile.headshot_alt}></figure>
+      <ul class="ids" aria-label="Email and profiles">
+        <li><a href={`mailto:${profile.email}`} aria-label="Email" title={profile.email}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg></a></li>
+        <li><a href={L.scholar} aria-label="Google Scholar" title="Google Scholar"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-scholar"/></svg></a></li>
+        <li><a href={L.orcid} aria-label="ORCID" title={`ORCID ${L.orcid_id}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-orcid"/></svg></a></li>
+        <li><a href={L.linkedin} aria-label="LinkedIn" title="LinkedIn"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg></a></li>
+        <li><a href={L.github} aria-label="GitHub" title={`GitHub: ${L.github_handle}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg></a></li>
+      </ul>
+    </aside>
+    <nav class="themes-index" aria-label="Research themes">
+      {themes.map((t, i) => (
+        <a href={`#plate-${i + 1}`}><span class="ti-n">Theme {i + 1}</span><span class="ti-t">{t.title}</span></a>
+      ))}
+    </nav>
+  </section>
+
+  <section id="news" class="sec g12" aria-labelledby="h-news">
+    <header class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-news">News</h2></div></header>
+    <ol class="news body-r">
+      {latestNews.map((n) => (
+        <li><time datetime={n.date}>{formatYm(n.date)}</time><p set:html={newsHtml(n)} /></li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="research" class="sec g12" aria-labelledby="h-research">
+    <header class="sec-head"><div class="hd"><span class="num">02</span><h2 id="h-research">Research</h2></div><p class="sec-intro">Three themes, one aim: buildings whose data, controls and interfaces work together.</p></header>
+    <div class="plates body-f">
+      {themes.map((t, i) => (
+        <article class="plate" id={`plate-${i + 1}`}>
+          <figure><div class="sheet"><Diagram name={t.diagram} /></div><figcaption><span class="pn">Plate {i + 1} of {themes.length}</span><span>Diagram placeholder, to be redrawn</span></figcaption></figure>
+          <h3><a href={url(`research/${t.slug}/`)}>{t.title}</a></h3>
+          <p>{t.summary}</p>
+          <p class="related">
+            {t.papers.length > 0 && <>{plural('Paper', t.papers.length)}: <Fragment set:html={t.papers.map((id) => `<a href="${paperHref(id)}">${escapeHtml(pubById(id).short)}</a>`).join(' · ')} /></>}
+            {t.papers.length > 0 && t.code.length > 0 && <br />}
+            {t.code.length > 0 && <>Code: <Fragment set:html={t.code.map((id) => `<a href="#sw-${id}">${escapeHtml(softwareById(id).name)}</a>`).join(' · ')} /></>}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="software" class="sec g12" aria-labelledby="h-sw">
+    <header class="sec-head"><div class="hd"><span class="num">03</span><h2 id="h-sw">Software</h2></div><p class="sec-intro">The software I write for my research: what each tool does, the languages it uses, and its code.</p></header>
+    <ul class="tools body-r">
+      {software.map((s) => (
+        <li id={`sw-${s.id}`}><p class="name">{s.name}</p><p class="meta">{[s.full_name, s.language, s.license && `${s.license} License`].filter(Boolean).join(' · ')}</p><p class="d">{s.description}</p><p class="mono"><a class="ref" href={s.repo}>[repo]</a></p></li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="design" class="sec g12" aria-labelledby="h-design">
+    <header class="sec-head"><div class="hd"><span class="num">04</span><h2 id="h-design">Design</h2></div><p class="sec-intro">Design is part of how I do research: I design the interfaces and visualizations of the tools I build, and I bring computational and architectural design into building technology.</p></header>
+    <DesignRows />
+    <p class="ig body-r"><a href={L.instagram}>More design work on Instagram (@{L.instagram_handle})</a></p>
+  </section>
+
+  <section id="publications" class="sec g12" aria-labelledby="h-pubs">
+    <header class="sec-head side"><div class="hd"><span class="num">05</span><h2 id="h-pubs">Selected publications</h2></div></header>
+    <div class="body-r">
+      <PubList items={selected} variant="compact" />
+      <p class="more"><a href={url('publications/')}>Full list of publications</a><a href={L.scholar}>Google Scholar</a></p>
+    </div>
+  </section>
+</Base>

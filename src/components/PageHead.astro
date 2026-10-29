@@ -1,0 +1,38 @@
+---
+// Inner-page head from research-geb.html: breadcrumbs, title, lede, optional "On this page" list.
+// Anything passed as children (e.g. a status note) goes under the lede.
+import { url } from '../lib/site';
+
+interface Crumb { label: string; href?: string }
+interface Props {
+  crumbs: Crumb[];
+  title: string;
+  lede?: string;
+  toc?: { id: string; label: string }[];
+}
+const { crumbs, title, lede, toc } = Astro.props;
+---
+<section class="pg g12" aria-labelledby="h-page">
+  <div class="pg-main">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        {crumbs.map((c) => (
+          <li>{c.href !== undefined ? <a href={url(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+        ))}
+      </ol>
+    </nav>
+    <h1 id="h-page">{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+  {toc && (
+    <nav class="toc" aria-labelledby="toc-h">
+      <p class="kick" id="toc-h">On this page</p>
+      <ol>
+        {toc.map((t, i) => (
+          <li><a href={`#${t.id}`}><span class="num">{String(i + 1).padStart(2, '0')}</span>{t.label}</a></li>
+        ))}
+      </ol>
+    </nav>
+  )}
+</section>

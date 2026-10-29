@@ -1,0 +1,19 @@
+---
+// Footer from Mockup A. The year is the build year; a scheduled yearly rebuild keeps it current.
+import { BUILD_YEAR } from '../lib/site';
+import { profile } from '../lib/data';
+const L = profile.links;
+---
+<footer class="foot g12">
+  <div class="contact"><span class="lbl">Contact</span><a class="big" href={`mailto:${profile.email}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>{profile.email}</a></div>
+  <div class="links"><span class="lbl">Elsewhere</span>
+    <ul>
+      <li><a href={L.scholar}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-scholar"/></svg>Google Scholar</a></li>
+      <li><a href={L.orcid}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-orcid"/></svg>ORCID</a></li>
+      <li><a href={L.linkedin}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg>LinkedIn</a></li>
+      <li><a href={L.github}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg>GitHub</a></li>
+    </ul>
+  </div>
+  <p class="fine">© <span class="cy">{BUILD_YEAR}</span> Jihoon Chung. All rights reserved. Personal website. Content does not represent official positions of Oak Ridge National Laboratory or the U.S. Department of Energy.</p>
+</footer>
+<script is:inline>document.querySelectorAll(".cy").forEach(function(e){e.textContent=new Date().getFullYear();});</script>

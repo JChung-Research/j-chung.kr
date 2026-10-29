@@ -1,0 +1,363 @@
+/* Site styles. Sections 1 and 2 are copied from the approved mockups; section 3 holds site additions.
+   1. Mockup A (research/mockups/mockup-a.html), unchanged.
+   2. Inner-page template additions (research/mockups/research-geb.html), unchanged except where noted.
+   3. Site additions: mark, figure link and dark-mode dimming, stubs, CV, redirect pages. */
+
+/* ===== 1. Mockup A ===== */
+/* Mockup A, "Research program with a design voice".
+   Type: Archivo (variable width) for display and labels, Source Serif 4 for reading text, DM Mono for metadata.
+   Grid: 12 columns; section heads hang in columns 1 to 3, content runs in 4 to 12. One accent (cobalt) for links and signals. */
+:root{
+  --bg:#f3f4f1; --ink:#121417; --muted:#565c63; --rule:#cbcec8; --accent:#2340c2; --tint:#dde3f5;
+  --wf:#bfc3bc; --grid:#e6e8e3; --chip:#f3f4f1;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --text:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101214; --ink:#e7e8e4; --muted:#a2a7ad; --rule:#30353a; --accent:#93a6ff; --tint:#1d2442;
+    --wf:#3d434a; --grid:#181b1e; --chip:#101214; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101214; --ink:#e7e8e4; --muted:#a2a7ad; --rule:#30353a; --accent:#93a6ff; --tint:#1d2442;
+  --wf:#3d434a; --grid:#181b1e; --chip:#101214; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}a{transition:color .15s ease,text-decoration-color .15s ease}}
+p,ul,ol,dl,dd,dt,figure,h1,h2,h3{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:1px}
+.skip{position:absolute;left:16px;top:-60px;background:var(--ink);color:var(--bg);padding:8px 12px;font:500 .9rem var(--display);z-index:10}
+.skip:focus{top:12px}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+.frame{max-width:1200px;margin:0 auto}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+.mono{font-family:var(--mono)}
+
+/* Masthead */
+.mast{display:flex;align-items:baseline;justify-content:space-between;gap:10px 28px;padding:20px 0 16px;border-bottom:1px solid var(--ink);position:relative;flex-wrap:wrap}
+.mark{font:650 1.05rem/1 var(--display);font-stretch:118%;letter-spacing:.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.mast nav ul{display:flex;flex-wrap:wrap;gap:4px 22px}
+.mast nav a{font:500 .9rem/1.2 var(--display);color:var(--ink);text-decoration:none;padding:4px 0;display:inline-block}
+.mast nav a:hover{color:var(--accent)}
+.mast nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 var(--accent)}
+.mast nav a.stub{color:var(--muted)}
+.mast nav a[data-hint]:is(:hover,:focus-visible)::after{content:attr(data-hint);position:absolute;right:0;top:calc(100% + 6px);font:400 .74rem/1.3 var(--mono);color:var(--bg);background:var(--ink);padding:5px 9px;white-space:nowrap;pointer-events:none;z-index:5}
+.mail{font:400 .86rem var(--mono);white-space:nowrap}
+.inline-stub{position:relative}
+.inline-stub[data-hint]:is(:hover,:focus-visible)::after{content:attr(data-hint);position:absolute;left:0;top:calc(100% + 4px);font:400 .74rem/1.3 var(--mono);color:var(--bg);background:var(--ink);padding:5px 9px;white-space:nowrap;pointer-events:none;z-index:5}
+
+/* Hero */
+.hero{padding-top:72px;row-gap:56px}
+.hero-main{grid-column:1 / span 8;display:flex;flex-direction:column;gap:22px;min-width:0}
+h1{font:600 clamp(1.9rem,5.4vw,4rem)/1 "Barlow Semi Condensed","Arial Narrow",var(--display);letter-spacing:.005em;white-space:nowrap}
+.nw{white-space:nowrap}
+h1 .phd{font-weight:300;color:var(--muted);margin-left:.08em}
+#headline{font:430 clamp(1.05rem,1.75vw,1.32rem)/1.3 var(--display);font-stretch:112%;letter-spacing:.005em;margin-top:6px;text-wrap:balance}
+.role{font:500 1rem/1.4 var(--display);color:var(--ink);padding-top:16px;border-top:1px solid var(--rule);max-width:47rem}
+.lede{font-size:clamp(1.12rem,1.5vw,1.3rem);line-height:1.5;max-width:36em}
+.hero-side{grid-column:10 / span 3;min-width:0}
+.portrait img{display:block;width:100%;height:auto}
+.ec{margin-top:12px;padding-top:16px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:14px;max-width:47rem}
+.ec-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.ec-list li{font:400 .95rem/1.45 var(--display)}
+.ec-list b{font-weight:600}
+.ec-yr{font:400 .82rem var(--mono);color:var(--muted);margin-left:6px;white-space:nowrap}
+.ec abbr{text-decoration:underline dotted;text-underline-offset:.18em;cursor:help}
+.ec-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.ec-tags li{font:500 .78rem var(--mono);letter-spacing:.04em;border:1px solid var(--ink);padding:3px 9px}
+.themes-index{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:24px}
+.themes-index a{display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:2px solid var(--ink);color:var(--ink);text-decoration:none}
+.themes-index a:hover .ti-t{color:var(--accent)}
+.ti-n{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ti-t{font:560 clamp(1.15rem,1.7vw,1.4rem)/1.15 var(--display);font-stretch:108%}
+
+/* Sections */
+.sec{margin-top:112px;padding-top:14px;border-top:1px solid var(--ink);row-gap:36px}
+.sec-head{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;align-items:start}
+.sec-head.side{grid-column:1 / span 3;display:block}
+.sec-head .hd{grid-column:1 / span 3;display:flex;flex-direction:column;gap:4px}
+.num{font:400 .8rem var(--mono);color:var(--accent);letter-spacing:.04em}
+h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;letter-spacing:-.015em}
+.sec-intro{grid-column:4 / span 7;font-size:clamp(1.12rem,1.5vw,1.3rem);line-height:1.5;padding-top:4px}
+.body-r{grid-column:4 / -1;min-width:0}
+.body-f{grid-column:1 / -1;min-width:0}
+
+/* News */
+.news li{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:24px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.news li:first-child{padding-top:0}
+.news time{font:400 .82rem/1.9 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.news p{max-width:44em}
+.ref{font:400 .8rem var(--mono);white-space:nowrap}
+
+/* Research plates */
+.plates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 24px}
+.plate{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sheet{border:1px solid var(--rule);padding:12px 10px 8px;background:var(--bg)}
+.plate figcaption{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:400 .74rem/1.4 var(--mono);color:var(--muted);padding-top:8px}
+.plate figcaption .pn{color:var(--accent)}
+.plate h3{font:600 1.45rem/1.1 var(--display);font-stretch:108%;letter-spacing:-.01em;margin-top:6px}
+.plate p{max-width:34em}
+.related{font:400 .8rem/1.7 var(--mono);color:var(--muted)}
+
+/* Diagrams: one stroke weight everywhere, colors from tokens */
+.dg,.wf{display:block;width:100%;height:auto}
+.dg .ln{fill:none;stroke:var(--ink);stroke-width:1.25;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.dg .ln.a{stroke:var(--accent)}
+.dg .ln.d{stroke-dasharray:4 3.5}
+.dg .ln.f{fill:var(--bg)}
+.dg .ln.t{fill:var(--tint)}
+.dg .ln.fa{fill:var(--accent)}
+.dg .ln.g{stroke:var(--rule)}
+.dg .dot{fill:var(--accent)}
+.dg text{font-family:var(--display);font-size:12.5px;font-weight:500;fill:var(--ink)}
+.dg .sm{font-family:var(--mono);font-size:10.5px;font-weight:400;fill:var(--muted)}
+.dg .sm.ac{fill:var(--accent)}
+.dg .caps{letter-spacing:.08em}
+.dg .key{font-family:var(--mono);font-size:9.5px;font-weight:500}
+.wf .ln{fill:none;stroke:var(--wf);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.wf .ln.d{stroke-dasharray:3 3}
+
+/* Design */
+.design-rows{display:grid;grid-template-columns:subgrid}
+.drow{display:grid;grid-template-columns:subgrid;grid-column:1 / -1;padding:28px 0;border-top:1px solid var(--rule)}
+.drow:first-child{border-top:0;padding-top:0}
+.dtext{grid-column:1 / span 3;display:flex;flex-direction:column;gap:10px;padding-right:8px;min-width:0}
+.dtext .sub{font:400 .78rem var(--mono);color:var(--accent)}
+.dtext h3{font:600 1.3rem/1.15 var(--display);font-stretch:106%}
+.dtext p{font-size:1rem}
+.dtext .pat{font:400 .76rem/1.6 var(--mono);color:var(--muted)}
+.dimgs{grid-column:4 / -1;display:grid;gap:24px;align-items:start;min-width:0}
+.dimgs.r1{grid-template-columns:1fr 1fr}
+.dimgs.r2{grid-template-columns:4fr 3fr}
+.dimgs.r3{grid-template-columns:1.886fr 1fr}
+.ph{position:relative;aspect-ratio:var(--ar);border:1px solid var(--rule);display:grid;place-items:center;overflow:hidden;
+  background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px;background-position:-1px -1px}
+.ph .wf{width:64%;max-height:72%}
+.ph figcaption{position:absolute;left:10px;top:10px;right:10px;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.ph figcaption span{background:var(--chip);padding:2px 6px;font:400 .72rem/1.35 var(--mono)}
+.ph figcaption span + span{color:var(--muted)}
+.ig{margin-top:24px;font:500 1rem var(--display)}
+
+/* Publications */
+.pubs li{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:24px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.pubs li:first-child{padding-top:0}
+.pubs .yr{font:400 .82rem/1.9 var(--mono);color:var(--muted)}
+.pubs .entry{display:flex;flex-direction:column;gap:4px;min-width:0}
+.pubs .t{font:540 1.08rem/1.3 var(--display);max-width:44em}
+.pubs .au{font-size:.98rem;color:var(--muted)}
+.pubs .au b{color:var(--ink);font-weight:650}
+.pubs .v{font-size:.98rem}
+.pubs .v i{font-style:italic}
+.doi{font:400 .8rem var(--mono);overflow-wrap:anywhere}
+.more{margin-top:20px;display:flex;flex-wrap:wrap;gap:6px 24px;font:500 .95rem var(--display)}
+
+/* Software */
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 24px}
+.tools li{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:2px solid var(--ink);min-width:0}
+.tools .name{font:620 1.55rem/1.05 var(--display);font-stretch:112%;letter-spacing:-.01em}
+.tools .meta{font:400 .74rem/1.5 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.tools p.d{font-size:1rem}
+
+/* Footer */
+.foot{margin-top:128px;border-top:1px solid var(--ink);padding-top:18px;row-gap:28px}
+.foot .contact{grid-column:1 / span 6;display:flex;flex-direction:column;gap:6px}
+.foot .lbl{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.foot .big{font:500 1rem/1.4 var(--display);display:inline-flex;align-items:center;gap:8px;overflow-wrap:anywhere}
+.foot .links{grid-column:7 / -1;display:flex;flex-direction:column;gap:6px}
+.foot .links ul{display:flex;flex-wrap:wrap;gap:4px 22px;font:500 1rem var(--display)}
+.foot .fine{grid-column:1 / -1;font-size:.9rem;color:var(--muted);padding-top:14px;border-top:1px solid var(--rule)}
+
+/* Responsive */
+@media (max-width:1060px){
+  .plates{grid-template-columns:minmax(0,1fr)}
+  .plate{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:8px 28px;align-items:start}
+  .plate figure{grid-row:1 / span 4}
+}
+@media (max-width:900px){
+  .hero{padding-top:44px;row-gap:36px}
+  .hero-main,.hero-side{grid-column:1 / -1}
+  .hero-side{max-width:220px;order:-1}
+  .hero-main{order:0}
+  .themes-index{grid-template-columns:minmax(0,1fr);row-gap:14px}
+  .sec{margin-top:80px}
+  .sec-head .hd,.sec-intro,.sec-head.side{grid-column:1 / -1}
+  .sec-intro{padding-top:14px}
+  .body-r{grid-column:1 / -1}
+  .dtext,.dimgs{grid-column:1 / -1}
+  .dtext{padding:0 0 16px}
+  .tools{grid-template-columns:minmax(0,1fr)}
+  .foot .contact,.foot .links{grid-column:1 / -1}
+}
+@media (max-width:640px){
+  body{font-size:1rem}
+  .g12{column-gap:16px}
+  .mast{flex-direction:column;align-items:flex-start;gap:12px}
+  .mast nav ul{gap:2px 16px}
+  .mast nav a[data-hint]:is(:hover,:focus-visible)::after{right:auto;left:0}
+  .hero-side{max-width:168px}
+  .plate{display:flex}
+  .news li,.pubs li{grid-template-columns:minmax(0,1fr);gap:2px}
+  .dimgs.r1,.dimgs.r2,.dimgs.r3{grid-template-columns:minmax(0,1fr)}
+  .dimgs .portrait-ph{max-width:62%}
+  .sheet{padding:8px 4px 4px}
+  .dg .sm{font-size:11px}
+  .sec{margin-top:64px}
+  .foot{margin-top:88px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.ic{width:18px;height:18px;flex:none;display:block}
+.ids{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ids a{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--rule);color:var(--ink)}
+.ids a:hover{color:var(--accent);border-color:var(--accent)}
+.foot .links a{display:inline-flex;align-items:center;gap:8px}
+
+/* ===== 2. Inner pages (research-geb.html) ===== */
+/* Inner page: research theme. Additions only; everything above is Mockup A, unchanged.
+   Same 12-column grid: section heads hang in columns 1 to 3, content runs in 4 to 12,
+   and wide figure spreads take the full frame (7 + 5 columns). */
+:root{--paper:#ffffff}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#ffffff}
+}
+:root[data-theme="dark"]{--paper:#ffffff}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.kick{font:400 .74rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.h3{font:600 1.3rem/1.15 var(--display);font-stretch:106%}
+
+/* Page head */
+.pg{padding-top:56px;row-gap:40px}
+.pg-main{grid-column:1 / span 8;display:flex;flex-direction:column;gap:22px;min-width:0}
+.crumbs ol{display:flex;flex-wrap:wrap;align-items:baseline;font:400 .8rem/1.5 var(--mono);letter-spacing:.04em}
+.crumbs li{display:flex;align-items:baseline}
+.crumbs li + li::before{content:"/";color:var(--muted);margin:0 .75em}
+.crumbs [aria-current]{color:var(--muted)}
+.pg-main h1{font:600 clamp(2rem,4.2vw + .3rem,3.6rem)/1.02 var(--display);font-stretch:112%;letter-spacing:-.02em;white-space:normal;text-wrap:balance;max-width:14em}
+.pg-main .lede{margin-top:6px;padding-top:20px;border-top:1px solid var(--rule)}
+.toc{grid-column:10 / span 3;min-width:0;align-self:start;padding-top:2px}
+.toc .kick{padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.toc li{border-bottom:1px solid var(--rule)}
+.toc a{display:flex;align-items:baseline;gap:14px;padding:9px 0;color:var(--ink);text-decoration:none;font:500 .95rem/1.25 var(--display)}
+.toc a:hover{color:var(--accent)}
+
+/* Figure spreads: 7 + 5 columns */
+.spread{display:grid;grid-template-columns:subgrid;row-gap:40px;align-items:start}
+.spread > .main{grid-column:1 / span 7;min-width:0}
+.spread > .aside{grid-column:8 / -1;min-width:0;display:flex;flex-direction:column;gap:36px}
+.fig{display:flex;flex-direction:column;min-width:0}
+.fig figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:4px 16px;flex-wrap:wrap;font:400 .74rem/1.45 var(--mono);color:var(--muted);padding-top:8px}
+.fig figcaption .pn{color:var(--accent)}
+.fig figcaption .cap{color:var(--ink)}
+.sheet.paper{background:var(--paper);padding:18px}
+.sheet img{display:block;width:100%;height:auto}
+.note{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:2px solid var(--ink)}
+.note p + p{font-size:1.06rem}
+
+/* Validation */
+.checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 24px}
+.checks li{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:2px solid var(--ink);min-width:0}
+.checks p.d{font-size:1rem}
+
+/* Design + code */
+.spread > .aside.orbit{gap:20px}
+.orbit .repo{margin-top:6px}
+.prod{display:flex;flex-direction:column;gap:8px}
+.prod .name{font:620 2.2rem/1 var(--display);font-stretch:112%;letter-spacing:-.015em}
+.prod .meta{font:400 .74rem/1.5 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.orbit .d{font-size:1.06rem}
+.stack .kick{margin-bottom:10px}
+.credit{font-size:.95rem;color:var(--muted)}
+.repo{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--rule);color:var(--ink);text-decoration:none;min-width:0}
+.repo:hover{border-color:var(--accent);color:var(--accent)}
+.repo span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.repo b{font:500 1rem/1.3 var(--display)}
+.repo i{font:400 .76rem/1.35 var(--mono);font-style:normal;color:var(--muted);overflow-wrap:anywhere}
+.feats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 24px;margin-top:8px}
+.feats li{display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--rule);min-width:0}
+.feats p:not(.kick){font-size:1rem}
+
+/* Lists: projects, publications, talk (Mockup A's .pubs rows) */
+.hd-role{margin-top:14px;font:500 .95rem/1.35 var(--display)}
+.hd-role .kick{display:block;margin-bottom:2px}
+.pubs .related{margin-top:2px}
+.collab{margin-top:20px;font-size:1rem;color:var(--muted);max-width:44em}
+.grp{margin-bottom:16px}
+.pubs + .grp{margin-top:44px}
+
+/* Theme navigation */
+.tnav{margin-top:112px;row-gap:24px}
+.tnav a{grid-column:span 6;display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:2px solid var(--ink);color:var(--ink);text-decoration:none;min-width:0}
+.tnav a.next{align-items:flex-end;text-align:right}
+.tnav a:hover .ti-t{color:var(--accent)}
+
+@media (max-width:1060px){
+  .feats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  .pg{padding-top:40px;row-gap:32px}
+  .pg-main,.toc{grid-column:1 / -1}
+  .toc ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+  .spread > .main,.spread > .aside{grid-column:1 / -1}
+  .spread > .aside .fig{max-width:520px}
+  .checks{grid-template-columns:minmax(0,1fr)}
+  .tnav{margin-top:80px}
+}
+@media (max-width:640px){
+  .toc ol{column-gap:16px}
+  .sheet.paper{padding:8px}
+  .ph.main .wf{width:58%;align-self:end;margin-bottom:7%}
+  .feats{grid-template-columns:minmax(0,1fr)}
+  .tnav{margin-top:64px}
+  .tnav a{grid-column:1 / -1}
+  .tnav a.next{align-items:flex-start;text-align:left}
+}
+
+/* ===== 3. Site additions ===== */
+
+/* Site mark: the owner's original handwritten "J." tile (old site icon), fixed colors in light and dark mode,
+   then "Jihoon Chung, Ph.D." in the name face (research/mockups/title-options.html, option C).
+   The tile is centered on the name's capitals; the header keeps Mockup A's baseline alignment. */
+:root{--name:"Barlow Semi Condensed","Arial Narrow",sans-serif}
+.mark .jm{display:inline-block;width:28px;height:28px;border-radius:4px;vertical-align:-7px;margin-right:10px}
+.wm-name{font:600 1.25rem/1 var(--name);letter-spacing:.01em}
+.wm-name .lt{font-weight:300;color:var(--muted)}
+
+/* Section 2 keeps the published figure on white in dark mode; dim the whole sheet slightly there. */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .sheet.paper{filter:brightness(.88)}
+}
+:root[data-theme="dark"] .sheet.paper{filter:brightness(.88)}
+/* The figure opens full size when clicked or tapped. */
+.fig-link{display:block;cursor:zoom-in}
+.fig-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* The mockups render in quirks mode (no doctype), where a paragraph holding only a small link is as tall
+   as the link. Standards mode adds the body line height; this keeps the approved spacing. */
+.tools p.mono{display:flex}
+
+/* Theme titles that link to their pages (homepage plates, /research/ cards). */
+.plate h3 a{color:inherit;text-decoration:none}
+.plate h3 a:hover{color:var(--accent)}
+.plate .go{font:500 .95rem var(--display)}
+
+/* Previous/next theme navigation when only one neighbor exists. */
+.tnav a.next:only-child{grid-column:7 / -1}
+
+/* Stub and status notes inside the page head. */
+.pg-main .note{margin-top:10px;max-width:47rem}
+.note .more{margin-top:4px}
+
+/* CV page: download box and simple rows. */
+.cv-dl{align-self:flex-start;margin-top:4px}
+.cv-dl svg{flex:none}
+.ec-tags.wide{margin-top:4px}
+
+@media (max-width:640px){
+  .tnav a.next:only-child{grid-column:1 / -1}
+}

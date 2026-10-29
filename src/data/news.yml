@@ -1,0 +1,43 @@
+# News items. The homepage shows the most recent six, newest first (order in this file does not matter).
+#   date   YYYY-MM, in quotes
+#   text   one or two sentences. Links inside the text use [label](url).
+#          Write [[DOI]](url) to get the small bracketed "[DOI]" reference style.
+#   link   optional, appended at the end as a bracketed reference: { url: ..., label: DOI }
+#
+# Example:
+# - date: "2026-11"
+#   text: Paper on ... published in Energy and Buildings.
+#   link: { url: "https://doi.org/10.xxxx/xxxx", label: DOI }
+
+- date: "2026-09"
+  text: >-
+    Two first-author ORNL technical reports published on OSTI: a generalizable web user interface for
+    deploying building energy management systems in small and medium-sized commercial buildings
+    (ORNL/TM-2026/4715, [[DOI]](https://doi.org/10.2172/3740260)), and low-cost, customizable heating and
+    cooling management for small and medium-sized medical office buildings
+    (ORNL/TM-2026/4854, [[DOI]](https://doi.org/10.2172/17197391)).
+
+- date: "2026-08"
+  text: >-
+    First-author ORNL technical report on extending the supervisory controller kit to small and medium
+    industrial facilities, a literature-based feasibility assessment
+    (ORNL/TM-2026/4735, [[DOI]](https://doi.org/10.2172/17197467)).
+
+- date: "2026-05"
+  text: >-
+    Paper on simulation-based validation of an open-source building energy management framework published
+    in the Proceedings of SimBuild 2026, Minneapolis [[DOI]](https://doi.org/10.26868/30680611.2026.1365).
+    Also served as a SimBuild 2026 session chair.
+
+- date: "2026-04"
+  text: >-
+    Joined the DOE Building Technologies Office project on extending the supervisory controller kit to
+    small and medium industrial facilities, as a contributor and developer.
+
+- date: "2025-05"
+  text: >-
+    Completed the Ph.D. in Architectural Sciences at Rensselaer Polytechnic Institute and joined ORNL as a
+    Postdoctoral Research Associate in the Grid-interactive Controls Group.
+
+- date: "2025-05"
+  text: Received the Faculty Graduate Recognition Award for Excellent Academic Achievement, RPI.

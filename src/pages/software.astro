@@ -1,0 +1,11 @@
+---
+import Stub from '../layouts/Stub.astro';
+import { profile } from '../lib/data';
+---
+<Stub
+  title="Software"
+  description="The software I write for my research: what each tool does, the languages it uses, and its code."
+  crumbs={[{ label: 'Home', href: '' }, { label: 'Software' }]}
+>
+  <p class="more"><a href={profile.links.github}>GitHub</a></p>
+</Stub>

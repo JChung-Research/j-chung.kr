@@ -1,0 +1,29 @@
+# Talks, posters and presentations. Any order; pages sort newest first.
+# Stage 2 fills this file; the one entry below is shown on the Grid-Interactive Efficient Buildings page.
+#   date       YYYY-MM-DD, in quotes
+#   title      talk title
+#   event      event or session name (set in italics)
+#   organizer  optional, e.g. IBPSA-USA
+#   place      optional city
+#   kind       talk | invited | poster | panel | workshop
+#   link       optional URL (slides, recording or event page)
+#   themes     research theme slugs (the talk appears on those theme pages)
+#
+# Example:
+# - date: "2027-03-02"
+#   title: Title of the talk
+#   event: Name of the conference session
+#   organizer: ASHRAE
+#   place: Chicago
+#   kind: talk
+#   link:
+#   themes: [grid-interactive-efficient-buildings]
+
+- date: "2026-05-13"
+  title: Bridging the Gap Between Smart Building Devices and Accessible Energy Management Software for Small and Medium-Sized Commercial Buildings
+  event: "Batter Up! Pitch your SimBuild 2026 Sessions"
+  organizer: IBPSA-USA
+  place:
+  kind: talk
+  link:
+  themes: [grid-interactive-efficient-buildings]

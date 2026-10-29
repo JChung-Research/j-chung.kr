@@ -1,0 +1,11 @@
+---
+import Stub from '../layouts/Stub.astro';
+import { profile } from '../lib/data';
+---
+<Stub
+  title="Design"
+  description="Design is part of how I do research: I design the interfaces and visualizations of the tools I build, and I bring computational and architectural design into building technology."
+  crumbs={[{ label: 'Home', href: '' }, { label: 'Design' }]}
+>
+  <p class="more"><a href={profile.links.instagram}>More design work on Instagram (@{profile.links.instagram_handle})</a></p>
+</Stub>

@@ -1,0 +1,60 @@
+# Software, in the order shown on the homepage.
+#   id           short unique id; anchor becomes #sw-<id>
+#   name         display name
+#   full_name    optional long name (shown in the small caps line)
+#   description  one sentence: what the tool does
+#   language     main language (shown in the small caps line)
+#   stack        list of technologies (shown as tags on theme pages)
+#   repo         repository URL
+#   license      optional, e.g. MIT (shown as "MIT License"); leave empty if not stated
+#   theme        research theme slug
+#   credit       optional sentence on what it builds on (theme page)
+#   features     optional list of { label, text } (theme page)
+#
+# Example:
+# - id: newtool
+#   name: NewTool
+#   description: What it does, in one sentence.
+#   language: Python
+#   stack: [Python, Brick Schema]
+#   repo: https://github.com/JChung-Research/newtool
+#   license: MIT
+#   theme: interoperable-digital-twins
+
+- id: orbit
+  name: ORBIT
+  full_name: ORNL Building Interactive Toolkit
+  description: Open-source, scalable software platform for building energy management in small and medium-sized commercial buildings.
+  language: TypeScript
+  stack: [Next.js, React, TypeScript, Python, VOLTTRON, GraphQL, Prisma, Docker, BACnet, Modbus, Brick Schema]
+  repo: https://github.com/JChung-Research/ornl-building-interactive-toolkit
+  license:
+  theme: grid-interactive-efficient-buildings
+  credit: Built on PNNL's VOLTTRON middleware and AEMS framework, and extended at ORNL.
+  features:
+    - label: Devices
+      text: Vendor-agnostic device integration over BACnet and Modbus.
+    - label: Interface
+      text: A configuration-driven web application for real-time monitoring, time-series visualization and supervisory control.
+    - label: Configuration
+      text: Automated configuration from a single semantic building model.
+    - label: Deployment
+      text: Containerized with Docker Compose.
+
+- id: gbobxml
+  name: gb-obXML Converter
+  description: Translates gbXML to obXML so that occupant behavior models can enter BIM-to-BEM simulation workflows.
+  language: XSLT
+  stack: [XSLT]
+  repo: https://github.com/JChung-Research/gb-obXML-Converter
+  license: MIT
+  theme: interoperable-digital-twins
+
+- id: comfit
+  name: Comfit
+  description: Prototype digital twin dashboard that visualizes IoT sensor data on a BIM model in real time.
+  language: JavaScript
+  stack: [JavaScript]
+  repo: https://github.com/JChung-Research/Comfit-Demo
+  license: MIT
+  theme: human-building-interaction
