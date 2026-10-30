@@ -132,26 +132,52 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 .plates.tight .plate{gap:10px}
 .plates.tight .plate h3{margin-top:2px}
 
-/* Theme drawings (Idt, Geb, Hbi): three stroke weights in ink (outline 1.6, detail 1.0, hairline 0.6); the accent
-   only for data and semantic links; plane tints from the tokens for depth. Type: object names in the display face,
-   tags in mono caps, data and edge labels in accent mono; 12.2px and up, so 11px or more on the 384px card. */
+/* Theme drawings (Idt, Geb, Hbi): one story per drawing at a glance, full detail on a closer look.
+   Strokes in ink: hero 2.0 (.x), outline 1.6 (.o), detail 1.0 (.d), hairline 0.6 (.h). The accent only on the story
+   or data path (.a solid, .ad dashed). Planes in three steps of one light from the upper left (.p1 lit tops, .p2
+   faces turned to the left, .p3 faces turned to the right; set below for light and dark mode), soft contact shadows
+   (.sh), and the tint (.ft) for the hero's key parts. Type: object names 15px in the display face (13.6px on the
+   384px homepage card), tag lines 13px mono caps (11.8px on the card, the size of the card's "Theme 1" kicker),
+   secondary labels 12.5px mono (11.3px on the card).
+   Progressive detail: .dt marks secondary elements. The homepage cards (.tc-fig, also the phone swipe row) hide
+   them and draw a little heavier; /research/ and the theme pages show everything.
+   Motion is opt-in and off on the site: an ancestor with the class "dg-flow" makes the accent data lines (.fl)
+   flow, unless the visitor prefers reduced motion. */
+.dg{--pl1:#fbfbf9;--pl2:#e4e6e0;--pl3:#cdd0c9;--sh:rgba(18,20,23,.2)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .dg{--pl1:#272b30;--pl2:#1c1f23;--pl3:#141619;--sh:rgba(0,0,0,.65)}
+}
+:root[data-theme="dark"] .dg{--pl1:#272b30;--pl2:#1c1f23;--pl3:#141619;--sh:rgba(0,0,0,.65)}
 .dg,.wf{display:block;width:100%;height:auto}
-.dg :is(.o,.d,.h,.a,.ad,.ah){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.dg :is(.x,.o,.d,.h,.a,.ad){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.dg .x{fill:none;stroke:var(--ink);stroke-width:2}
 .dg .o{fill:none;stroke:var(--ink);stroke-width:1.6}
 .dg .d{fill:none;stroke:var(--ink);stroke-width:1}
 .dg .h{fill:none;stroke:var(--ink);stroke-width:.6}
 .dg .a{fill:none;stroke:var(--accent);stroke-width:1.6}
-.dg .ad{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-dasharray:4 3}
-.dg .fb{fill:var(--bg)}.dg .fg{fill:var(--grid)}.dg .fr{fill:var(--rule)}.dg .ft{fill:var(--tint)}.dg .fw{fill:var(--wf)}
-.dg .fi{fill:var(--ink)}.dg .fa{fill:var(--accent)}
-.dg .band{fill:var(--grid)}
-.dg text{font-family:var(--display);font-size:14px;font-weight:500;fill:var(--ink)}
-.dg .tg{font-family:var(--mono);font-size:12.2px;font-weight:400;letter-spacing:.08em;fill:var(--muted)}
-.dg .sm{font-family:var(--mono);font-size:12.2px;font-weight:400;fill:var(--muted)}
-.dg .ac{font-family:var(--mono);font-size:12.2px;font-weight:400;fill:var(--accent)}
-.dg .key{font-family:var(--mono);font-size:12.2px;font-weight:500;fill:var(--ink)}
-.dg .ko{paint-order:stroke;stroke:var(--grid);stroke-width:6px;stroke-linejoin:round}
+.dg .ad{fill:none;stroke:var(--accent);stroke-width:1.3;stroke-dasharray:5 4}
+.dg .fb{fill:var(--bg)}.dg .ft{fill:var(--tint)}.dg .fi{fill:var(--ink)}.dg .fa{fill:var(--accent)}
+.dg .p1{fill:var(--pl1)}.dg .p2{fill:var(--pl2)}.dg .p3{fill:var(--pl3)}
+.dg .band{fill:var(--pl2)}
+.dg .sh{fill:var(--sh)}
+.dg text{font-family:var(--display);font-size:15px;font-weight:500;fill:var(--ink)}
+.dg .tg{font-family:var(--mono);font-size:13px;font-weight:400;letter-spacing:.08em;fill:var(--muted)}
+.dg .sm{font-family:var(--mono);font-size:12.5px;font-weight:400;fill:var(--muted)}
+.dg .ac{font-family:var(--mono);font-size:12.5px;font-weight:400;fill:var(--accent)}
+.dg .pa{font-family:var(--mono);font-size:14.5px;font-weight:400;fill:var(--accent)}
+.dg .ko{paint-order:stroke;stroke:var(--pl2);stroke-width:6px;stroke-linejoin:round}
 .dg .kb{paint-order:stroke;stroke:var(--bg);stroke-width:6px;stroke-linejoin:round}
+.tc-fig .dg .dt{display:none}
+.tc-fig .dg .x{stroke-width:2.4}
+.tc-fig .dg .o{stroke-width:1.9}
+.tc-fig .dg .d{stroke-width:1.2}
+.tc-fig .dg .h{stroke-width:.75}
+.tc-fig .dg .a{stroke-width:2}
+.tc-fig .dg .ad{stroke-width:1.6}
+@media (prefers-reduced-motion: no-preference){
+  .dg-flow .dg .fl{stroke-dasharray:5 4;animation:dg-flow 1.2s linear infinite}
+}
+@keyframes dg-flow{to{stroke-dashoffset:-9}}
 .wf .ln{fill:none;stroke:var(--wf);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 .wf .ln.d{stroke-dasharray:3 3}
 
