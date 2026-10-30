@@ -132,21 +132,26 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 .plates.tight .plate{gap:10px}
 .plates.tight .plate h3{margin-top:2px}
 
-/* Diagrams: one stroke weight everywhere, colors from tokens */
+/* Theme drawings (Idt, Geb, Hbi): three stroke weights in ink (outline 1.6, detail 1.0, hairline 0.6); the accent
+   only for data and semantic links; plane tints from the tokens for depth. Type: object names in the display face,
+   tags in mono caps, data and edge labels in accent mono; 12.2px and up, so 11px or more on the 384px card. */
 .dg,.wf{display:block;width:100%;height:auto}
-.dg .ln{fill:none;stroke:var(--ink);stroke-width:1.25;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
-.dg .ln.a{stroke:var(--accent)}
-.dg .ln.d{stroke-dasharray:4 3.5}
-.dg .ln.f{fill:var(--bg)}
-.dg .ln.t{fill:var(--tint)}
-.dg .ln.fa{fill:var(--accent)}
-.dg .ln.g{stroke:var(--rule)}
-.dg .dot{fill:var(--accent)}
-.dg text{font-family:var(--display);font-size:12.5px;font-weight:500;fill:var(--ink)}
-.dg .sm{font-family:var(--mono);font-size:10.5px;font-weight:400;fill:var(--muted)}
-.dg .sm.ac{fill:var(--accent)}
-.dg .caps{letter-spacing:.08em}
-.dg .key{font-family:var(--mono);font-size:9.5px;font-weight:500}
+.dg :is(.o,.d,.h,.a,.ad,.ah){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.dg .o{fill:none;stroke:var(--ink);stroke-width:1.6}
+.dg .d{fill:none;stroke:var(--ink);stroke-width:1}
+.dg .h{fill:none;stroke:var(--ink);stroke-width:.6}
+.dg .a{fill:none;stroke:var(--accent);stroke-width:1.6}
+.dg .ad{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-dasharray:4 3}
+.dg .fb{fill:var(--bg)}.dg .fg{fill:var(--grid)}.dg .fr{fill:var(--rule)}.dg .ft{fill:var(--tint)}.dg .fw{fill:var(--wf)}
+.dg .fi{fill:var(--ink)}.dg .fa{fill:var(--accent)}
+.dg .band{fill:var(--grid)}
+.dg text{font-family:var(--display);font-size:14px;font-weight:500;fill:var(--ink)}
+.dg .tg{font-family:var(--mono);font-size:12.2px;font-weight:400;letter-spacing:.08em;fill:var(--muted)}
+.dg .sm{font-family:var(--mono);font-size:12.2px;font-weight:400;fill:var(--muted)}
+.dg .ac{font-family:var(--mono);font-size:12.2px;font-weight:400;fill:var(--accent)}
+.dg .key{font-family:var(--mono);font-size:12.2px;font-weight:500;fill:var(--ink)}
+.dg .ko{paint-order:stroke;stroke:var(--grid);stroke-width:6px;stroke-linejoin:round}
+.dg .kb{paint-order:stroke;stroke:var(--bg);stroke-width:6px;stroke-linejoin:round}
 .wf .ln{fill:none;stroke:var(--wf);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 .wf .ln.d{stroke-dasharray:3 3}
 
@@ -245,7 +250,6 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
   .dimgs.r1,.dimgs.r2,.dimgs.r3{grid-template-columns:minmax(0,1fr)}
   .dimgs .portrait-ph{max-width:62%}
   .sheet{padding:8px 4px 4px}
-  .dg .sm{font-size:11px}
   /* Phones: the theme cards, Recent Projects and the Design strip each become one swipeable row (native scroll
      snap, no script). Each card is 88% of the width, so the next one peeks in, and drawings stay near full size
      (a drawing beside the text would be about 200px wide, with labels near 6px). Each section keeps the height
