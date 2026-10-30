@@ -7,8 +7,9 @@
 #   sponsor    optional funding source, shown after the host
 #   line       one factual sentence, from the project's paper, report or code
 #   diagram    which drawing to show: orbit | medical | obxml | ifcjson
-#              (src/components/diagrams/Project<Name>.astro: a diagram of the type that shows the project's idea,
-#              drawn only from its sources; the header quotes the idea and lists each label with its source line)
+#              (src/components/diagrams/Project<Name>.astro: the picture of the project's idea, of whatever kind fits:
+#              interface, plan, data structure, layers; drawn only from its sources, and the header quotes the idea and
+#              lists each label with its source line)
 #   paper      optional publication id (publications.yml), linked by DOI
 #   report     optional publication id (publications.yml), linked by DOI
 #   code       optional software id (software.yml), linked to its repository

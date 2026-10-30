@@ -425,24 +425,53 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
   .tnav a.next:only-child{grid-column:1 / -1}
 }
 
-/* Recent Projects drawings: one diagram type per project (fan-out, paired comparison, schema mapping, layered
-   architecture), in the fine-line language of the theme drawings. Strokes, type and colors come from the site
-   tokens, so they follow light and dark mode. Every text class is at least 12.5px, which is 11.2px or more at
-   the 282px card. Classes are scoped to .dgf. */
+/* Recent Projects drawings: each project gets the picture of its idea (ORBIT: interface plus code; medical
+   office: schematic plan, before and as designed; obXML: schema tree; ifcJSON: the paper's four layers), in the
+   fine-line language of the theme drawings. Strokes, type and colors come from the site tokens, so they follow
+   light and dark mode. Every text class is at least 12.5px, 11.2px or more on the 282px card. Scoped to .dgf. */
 .dgf{display:block;width:100%;height:auto}
-.dgf :is(.bx,.ln,.fl){vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.dgf :is(.bx,.ln,.fl,.ax,.c1,.c2,.c3,.wall,.zl,.wk,.wl,.lap,.tr,.rl,.sn,.sa){vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.dgf text{font-family:var(--mono);font-size:12.5px;fill:var(--muted)}
+.dgf .lb{font-family:var(--display);font-size:14px;font-weight:560;fill:var(--ink)}
+.dgf .lh{font-family:var(--display);font-size:12.5px;font-weight:560;fill:var(--muted)}
+.dgf .el{fill:var(--ink)}
+.dgf .ac,.dgf .nw{fill:var(--accent)}
+.dgf .mu{fill:var(--muted)}
 .dgf .bx{fill:var(--bg);stroke:var(--ink);stroke-width:1.25}
 .dgf .bx.t{fill:var(--tint)}
-.dgf .bx.d{stroke-dasharray:4 3.5}
-.dgf .bx.a{stroke:var(--accent);stroke-width:2}
+.dgf .chip{fill:var(--bg);stroke:var(--accent);stroke-width:1.25}
 .dgf .band{fill:var(--grid);stroke:none}
 .dgf .ln{fill:none;stroke:var(--muted);stroke-width:1.25}
 .dgf .ln.d{stroke-dasharray:4 3.5}
 .dgf .fl{fill:none;stroke:var(--accent);stroke-width:1.75}
-.dgf .ah{fill:var(--accent)}.dgf .ahm{fill:var(--muted)}
-.dgf text{font-family:var(--mono);font-size:12.5px;fill:var(--muted)}
-.dgf .lb{font-family:var(--display);font-size:14px;font-weight:560;fill:var(--ink)}
-.dgf .el{fill:var(--ink)}
-.dgf .tg{letter-spacing:.06em;fill:var(--accent)}
-.dgf .ac{fill:var(--accent)}
+.dgf .ah{fill:var(--accent)}
+.dgf .rl{stroke:var(--rule);stroke-width:1}
+/* interface plus code */
+.dgf .code{fill:var(--grid);stroke:none}
+.dgf .cd{letter-spacing:-.4px}
+.dgf .ck{fill:var(--ink)}.dgf .cv{fill:var(--accent)}
+.dgf .cn{fill:var(--muted);opacity:.55}
+.dgf .bar{fill:var(--grid)}
+.dgf .wd{fill:var(--muted)}
+.dgf .ax{stroke:var(--rule);stroke-width:1}
+.dgf .c1{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-dasharray:7 3 1.5 3}
+.dgf .c2{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:1.5 3.5}
+.dgf .c3{fill:none;stroke:var(--accent);stroke-width:2.25}
+/* schematic plan */
+.dgf .wall{fill:var(--bg);stroke:var(--ink);stroke-width:1.75}
+.dgf .zl{stroke:var(--rule);stroke-width:1}
+.dgf .wk{fill:none;stroke:var(--muted);stroke-width:1.75;stroke-dasharray:.5 4.5}
+.dgf .wl{stroke:var(--accent);stroke-width:1;stroke-dasharray:3 3}
+.dgf .ts{fill:var(--bg);stroke:var(--ink);stroke-width:1.25}
+.dgf .ts.a{fill:var(--accent);stroke:var(--accent)}
+.dgf .lap{fill:var(--tint);stroke:var(--accent);stroke-width:1.5}
+.dgf .pm{fill:var(--ink)}
+/* schema tree */
+.dgf .tr{stroke:var(--rule);stroke-width:1}
+.dgf .gbm{fill:var(--muted)}
+/* four layers */
+.dgf .sn{fill:var(--bg);stroke:var(--ink);stroke-width:1.1}
+.dgf .sd{fill:var(--accent)}
+.dgf .sa{fill:none;stroke:var(--muted);stroke-width:1}
+.dgf .srv{stroke:var(--accent);stroke-width:1.75}
 
