@@ -16,7 +16,7 @@ const intro = 'Three themes, one aim: buildings whose data, controls and interfa
     <div class="plates body-f">
       {themes.map((t, i) => (
         <article class="plate" id={t.slug}>
-          <figure><a href={url(`research/${t.slug}/`)} tabindex="-1" aria-hidden="true"><div class="sheet"><Diagram name={t.diagram} /></div></a><figcaption><span class="pn">Theme {i + 1} of {themes.length}</span><span>Diagram placeholder, to be redrawn</span></figcaption></figure>
+          <figure><a href={url(`research/${t.slug}/`)} tabindex="-1" aria-hidden="true"><div class="sheet"><Diagram name={t.diagram} /></div></a><figcaption><span class="pn">Theme {i + 1} of {themes.length}</span></figcaption></figure>
           <h3><a href={url(`research/${t.slug}/`)}>{t.title}</a></h3>
           <p>{t.sentence}</p>
         </article>

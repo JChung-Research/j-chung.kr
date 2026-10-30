@@ -2,7 +2,7 @@
    1. Mockup A (research/mockups/mockup-a.html), unchanged except the homepage highlights (theme cards,
       Recent Projects, design strip).
    2. Inner-page template additions (research/mockups/research-geb.html), unchanged except where noted.
-   3. Site additions: mark, figure link and dark-mode dimming, stubs, CV, redirect pages, research diagrams. */
+   3. Site additions: mark, figure link and dark-mode dimming, stubs, CV, redirect pages, project drawings. */
 
 /* ===== 1. Mockup A ===== */
 /* Mockup A, "Research program with a design voice".
@@ -73,13 +73,13 @@ h1 .phd{font-weight:300;color:var(--muted);margin-left:.08em}
 .ec abbr{text-decoration:underline dotted;text-underline-offset:.18em;cursor:help}
 .ec-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .ec-tags li{font:500 .78rem var(--mono);letter-spacing:.04em;border:1px solid var(--ink);padding:3px 9px}
-/* Theme cards: concept drawing (axonometric), number, title, one line. Rows are shared (subgrid), so the three
+/* Theme cards: the theme drawing (fine line, as on /research/), number, title, one line. Rows are shared (subgrid), so the three
    cards keep one height and their titles and lines start on the same rows. The title link covers the card. */
 .tcards{grid-column:1 / -1;min-width:0}
 .tcards ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(4,auto);column-gap:24px}
 .tcard{position:relative;display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:6px;align-content:start;padding-top:14px;border-top:2px solid var(--ink);min-width:0}
 .tc-fig{margin-bottom:10px}
-.tc-fig .dgc{max-width:440px;margin:0 auto}
+.tc-fig .dg{max-width:440px;margin:0 auto}
 .tcard .ti-t{color:var(--ink);text-decoration:none;align-self:end}
 .tcard .ti-t::after{content:"";position:absolute;inset:0}
 .tcard:hover .ti-t{color:var(--accent)}
@@ -88,12 +88,12 @@ h1 .phd{font-weight:300;color:var(--muted);margin-left:.08em}
 .ti-n{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .ti-t{font:560 clamp(1.15rem,1.7vw,1.4rem)/1.15 var(--display);font-stretch:108%}
 
-/* Recent Projects: four cards (system drawing, title, period and host, one line, links, theme tag) on shared
+/* Recent Projects: four cards (axonometric drawing, title, period and host, one line, links, theme tag) on shared
    rows, so titles, lines and tags align across a row. */
 .rprojects{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,auto);column-gap:24px;row-gap:40px}
 .rp{display:grid;grid-row:span 6;grid-template-rows:subgrid;row-gap:8px;align-content:start;padding-top:14px;border-top:2px solid var(--ink);min-width:0;scroll-margin-top:24px}
 .rp-fig{padding:6px;margin-bottom:6px}
-.rp-fig .dgb{max-width:340px;margin:0 auto}
+.rp-fig .dgc{max-width:340px;margin:0 auto}
 .rp-t{font:560 1.1rem/1.25 var(--display);font-stretch:106%}
 .rp-m{font:400 .74rem/1.55 var(--mono);color:var(--muted);letter-spacing:.02em}
 .rp-d{font-size:.98rem;line-height:1.5}
@@ -414,70 +414,40 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
   .tnav a.next:only-child{grid-column:1 / -1}
 }
 
-/* Research diagrams (approved style sheet, diagram-styles.html): theme concepts in option C, exploded
-   axonometric (.dgc); project systems in option B, bold systems diagram (.dgb). Colors come from the tokens,
-   so both follow light and dark mode. Classes are scoped to the SVG, apart from Mockup A's .dg drawings. */
-:root{--wash:#e7e9e3;--plane:#e2e5df;--face1:#d3d7cf;--face2:#e9ebe6;--edge:#c3c7bf}
+/* Recent Projects drawings: exploded axonometrics in option C of the approved style sheet (diagram-styles.html),
+   sized for the project card. Colors come from the tokens, so they follow light and dark mode. Classes are scoped
+   to .dgc, apart from Mockup A's .dg theme drawings. */
+:root{--plane:#e2e5df;--face1:#d3d7cf;--face2:#e9ebe6;--edge:#c3c7bf}
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--wash:#191c1f;--plane:#22262b;--face1:#2b3036;--face2:#1d2024;--edge:#3a4047}
+  :root:not([data-theme="light"]){--plane:#22262b;--face1:#2b3036;--face2:#1d2024;--edge:#3a4047}
 }
-:root[data-theme="dark"]{--wash:#191c1f;--plane:#22262b;--face1:#2b3036;--face2:#1d2024;--edge:#3a4047}
-.dgb,.dgc{display:block;width:100%;height:auto;overflow:visible}
-
-/* B: bold systems */
-.dgb :is(.ln,.ln2,.fl,.tie,.blk,.mod,.chip,.dash){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
-.dgb .ln{fill:none;stroke:var(--ink);stroke-width:2}
-.dgb .ln2{fill:none;stroke:var(--muted);stroke-width:1.5}
-.dgb .blk{stroke:var(--ink);stroke-width:2}
-.dgb .blk.w{fill:var(--wash)}.dgb .blk.t{fill:var(--tint)}
-.dgb .dash{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-dasharray:5 4}
-.dgb .mod{fill:var(--bg);stroke:var(--ink);stroke-width:2}
-.dgb .chip{fill:var(--bg);stroke:var(--accent);stroke-width:1.5}
-.dgb .fl{fill:none;stroke:var(--accent);stroke-width:2.5}
-.dgb .tie{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:2 4}
-.dgb .ah,.dgb .port{fill:var(--accent)}
-.dgb .ink{fill:var(--ink)}
-.dgb text{font-family:var(--display);fill:var(--ink)}
-.dgb .tag{font-size:12.5px;font-weight:650;letter-spacing:.12em;fill:var(--muted)}
-.dgb .ttl{font-size:15px;font-weight:620;font-stretch:104%}
-.dgb .lb{font-size:13px;font-weight:540}
-.dgb .fx{font-size:13px;font-weight:620;fill:var(--accent)}
-.dgb .pr{font-size:12.5px;font-weight:560}
-.dgb .cap{font-size:13px;font-weight:500;fill:var(--muted)}
-
-/* C: exploded axonometric */
-.dgc :is(.ax,.e,.pl,.ed,.sg,.fl,.cb,.ar,.ld,.mt,.s,.pn,.sig,.tie,.rl,.sp,.wl){vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+:root[data-theme="dark"]{--plane:#22262b;--face1:#2b3036;--face2:#1d2024;--edge:#3a4047}
+.dgc{display:block;width:100%;height:auto;overflow:visible}
+.dgc :is(.ax,.e,.pl,.ed,.sg,.fl,.ar,.ld,.mt,.s,.pn,.sig,.tie,.rl,.nd){vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
 .dgc .e{fill:none;stroke:var(--ink);stroke-width:1.1}
 .dgc .s{stroke:var(--ink);stroke-width:1.1}
 .dgc .pl{fill:var(--plane);fill-opacity:.78;stroke:var(--ink);stroke-width:1.1}
 .dgc .pl.c{fill:var(--tint);fill-opacity:.85}
+.dgc .pl.d{stroke-dasharray:4 3}
 .dgc .ed{fill:var(--edge);stroke:var(--ink);stroke-width:1.1}
 .dgc .sg{stroke:var(--rule);stroke-width:1}
-.dgc .fL{fill:var(--face1)}.dgc .fR{fill:var(--face2)}.dgc .fT{fill:var(--bg)}
-.dgc .tT{fill:var(--bg)}.dgc .tL{fill:var(--face1)}.dgc .tR{fill:var(--face2)}
-.dgc .zA{fill:var(--face1)}.dgc .zB{fill:var(--face2)}.dgc .zC{fill:var(--tint)}
+.dgc .fL,.dgc .tL,.dgc .zA{fill:var(--face1)}
+.dgc .fR,.dgc .tR,.dgc .zB{fill:var(--face2)}
+.dgc .fT,.dgc .tT{fill:var(--bg)}
 .dgc .fl{stroke:var(--muted);stroke-width:.9}
 .dgc .mt{fill:var(--bg);stroke:var(--ink);stroke-width:1}
-.dgc .cb{fill:none;stroke:var(--muted);stroke-width:.9}
 .dgc .pn{fill:var(--bg);fill-opacity:.9;stroke:var(--ink);stroke-width:1.1}
 .dgc .sig{fill:none;stroke:var(--accent);stroke-width:1.6}
 .dgc .ax{stroke:var(--muted);stroke-width:.9}
 .dgc .ar{fill:none;stroke:var(--accent);stroke-width:2}
-.dgc .sp{fill:none;stroke:var(--accent);stroke-width:2.4}
 .dgc .ah,.dgc .port{fill:var(--accent)}
 .dgc .ld{fill:none;stroke:var(--muted);stroke-width:.8}
 .dgc .tie{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:2 3.5}
 .dgc .rl{stroke:var(--rule);stroke-width:1}
 .dgc .dt{fill:var(--ink)}.dgc .dt.a{fill:var(--accent)}
 .dgc .nd{fill:var(--bg);stroke:var(--accent);stroke-width:1.6}
-.dgc text{font-family:var(--mono);font-size:11px;fill:var(--ink)}
-.dgc .hd{font-size:10.5px;font-weight:500;letter-spacing:.16em;fill:var(--accent)}
-.dgc .nm{font-family:var(--display);font-size:13px;font-weight:600}
+.dgc text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.dgc .hd{font-size:11px;font-weight:500;letter-spacing:.14em;fill:var(--accent)}
+.dgc .nm{font-family:var(--display);font-size:15.5px;font-weight:600}
 .dgc .ac{fill:var(--accent)}.dgc .mu{fill:var(--muted)}
-/* Phones: the axonometric's notes would fall near 9px at full width, so they step up a size. */
-@media (max-width:640px){
-  .dgc text{font-size:12px}
-  .dgc .hd{font-size:11px}
-  .dgc .nm{font-size:14px}
-}
 

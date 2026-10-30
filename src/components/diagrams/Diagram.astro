@@ -1,9 +1,10 @@
 ---
-// Research theme drawing by name (see themes.yml "diagram"). decorative: for thumbnails beside a visible title.
+// Research theme drawing by name (themes.yml "diagram"): the one drawing per theme, used on the homepage theme
+// cards and the /research/ cards.
 import Idt from './Idt.astro';
 import Geb from './Geb.astro';
 import Hbi from './Hbi.astro';
-interface Props { name: 'idt' | 'geb' | 'hbi'; decorative?: boolean }
-const { name, decorative = false } = Astro.props;
+interface Props { name: 'idt' | 'geb' | 'hbi' }
+const { name } = Astro.props;
 ---
-{name === 'idt' && <Idt decorative={decorative} />}{name === 'geb' && <Geb decorative={decorative} />}{name === 'hbi' && <Hbi decorative={decorative} />}
+{name === 'idt' && <Idt />}{name === 'geb' && <Geb />}{name === 'hbi' && <Hbi />}

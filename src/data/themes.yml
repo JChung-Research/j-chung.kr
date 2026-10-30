@@ -7,8 +7,8 @@
 #   summary       homepage plate paragraph
 #   papers        publication ids (publications.yml) listed under the plate
 #   code          software ids (software.yml) listed under the plate
-#   diagram       which drawings to show: idt | geb | hbi (src/components/diagrams/: Theme<Name>.astro on the
-#                 homepage theme cards, the older <Name>.astro on /research/ and the theme page)
+#   diagram       the theme's drawing: idt | geb | hbi (src/components/diagrams/Idt.astro, Geb.astro, Hbi.astro).
+#                 One drawing per theme across the site: homepage theme card, /research/ card, theme page.
 
 - slug: interoperable-digital-twins
   title: Interoperable Digital Twins

@@ -2,7 +2,7 @@
 // Homepage: Mockup A (research/mockups/mockup-a.html), rendered from src/data/*.yml.
 import Base from '../layouts/Base.astro';
 import PubList from '../components/PubList.astro';
-import ThemeDiagram from '../components/diagrams/ThemeDiagram.astro';
+import Diagram from '../components/diagrams/Diagram.astro';
 import ProjectDiagram from '../components/diagrams/ProjectDiagram.astro';
 import DesignStrip from '../components/home/DesignStrip.astro';
 import { url, absUrl } from '../lib/site';
@@ -76,7 +76,7 @@ const jsonLd = {
       <ul>
         {themes.map((t, i) => (
           <li class="tcard">
-            <div class="tc-fig sheet"><ThemeDiagram name={t.diagram} /></div>
+            <div class="tc-fig sheet"><Diagram name={t.diagram} /></div>
             <span class="ti-n">Theme {i + 1}</span>
             <a class="ti-t" href={url(`research/${t.slug}/`)}>{t.title}</a>
             <p class="tc-s">{t.card}</p>
