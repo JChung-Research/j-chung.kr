@@ -1,0 +1,24 @@
+---
+// Every news item, newest first, one section per year. The homepage shows the newest three.
+// Not in the main menu; linked from the homepage News section ("All news").
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { profile, news, sortByDateDesc, formatYm, newsHtml } from '../lib/data';
+
+const items = sortByDateDesc(news);
+const years = [...new Set(items.map((n) => n.date.slice(0, 4)))];
+---
+<Base title="News" description={profile.description}>
+  <PageHead crumbs={[{ label: 'Home', href: '' }, { label: 'News' }]} title="News" />
+
+  {years.map((y, i) => (
+    <section id={`y${y}`} class="sec g12" aria-labelledby={`h-${y}`}>
+      <header class="sec-head side"><div class="hd"><span class="num">{String(i + 1).padStart(2, '0')}</span><h2 id={`h-${y}`}>{y}</h2></div></header>
+      <ol class="news body-r">
+        {items.filter((n) => n.date.startsWith(y)).map((n) => (
+          <li><time datetime={n.date}>{formatYm(n.date)}</time><p set:html={newsHtml(n)} /></li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</Base>

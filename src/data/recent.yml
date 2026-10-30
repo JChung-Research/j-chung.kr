@@ -1,0 +1,86 @@
+# Recent projects: the homepage "Recent Projects" cards, in the order shown. One entry per project.
+#   id         short unique id; the card's anchor becomes #proj-<id> (theme pages link to it)
+#   title      project title
+#   start      "YYYY-MM" or "YYYY", in quotes
+#   end        same format; leave empty while the project is ongoing ("to present")
+#   host       where the work is done
+#   sponsor    optional funding source, shown after the host
+#   line       one factual sentence, from the project's paper, report or code
+#   diagram    which drawing to show: orbit | medical | obxml | ifcjson
+#              (src/components/diagrams/Project<Name>.astro: the picture of the project's idea, of whatever kind fits:
+#              interface, plan, data structure, layers; drawn only from its sources, and the header quotes the idea and
+#              lists each label with its source line)
+#   paper      optional publication id (publications.yml), linked by DOI
+#   report     optional publication id (publications.yml), linked by DOI
+#   code       optional software id (software.yml), linked to its repository
+#   theme      research theme slug: the card's theme tag links to that theme page
+#
+# Example:
+# - id: newproject
+#   title: Project title
+#   start: "2027-01"
+#   end:
+#   host: Oak Ridge National Laboratory
+#   sponsor: DOE Building Technologies Office
+#   line: What the project built or showed, in one sentence.
+#   diagram: orbit
+#   paper: sb2026
+#   report:
+#   code:
+#   theme: grid-interactive-efficient-buildings
+#
+# A new diagram needs a new component under src/components/diagrams/ and its name in ProjectDiagram.astro.
+
+- id: orbit
+  title: "ORBIT: supervisory controller kit for small and medium commercial buildings"
+  start: "2025-05"
+  end:
+  host: Oak Ridge National Laboratory
+  sponsor: DOE Building Technologies Office
+  line: >-
+    An open-source platform for building energy management in small and medium-sized commercial buildings,
+    configured from a single semantic building model.
+  diagram: orbit
+  paper: sb2026
+  report: tm4715
+  code: orbit
+  theme: grid-interactive-efficient-buildings
+
+- id: medical-office
+  title: Heating and cooling management for small and medium-sized medical office buildings
+  start: "2025-10"
+  end:
+  host: Oak Ridge National Laboratory
+  sponsor: DOE Building Technologies Office
+  line: >-
+    A low-cost building energy management system configured for an occupied medical clinic, with its complete
+    device set validated in the laboratory.
+  diagram: medical
+  report: tm4854
+  theme: grid-interactive-efficient-buildings
+
+- id: occupant-behavior
+  title: Occupant behavior in BIM-to-energy-model workflows
+  start: "2024"
+  end: "2025"
+  host: Lawrence Berkeley National Laboratory and RPI
+  line: >-
+    An enhanced occupant behavior schema, obXML v1.4, and a converter that carries building information from
+    gbXML into occupant behavior simulation workflows.
+  diagram: obxml
+  paper: bs2025
+  code: gbobxml
+  theme: interoperable-digital-twins
+
+- id: ifcjson-twin
+  title: ifcJSON-based digital twin platform for monitoring building environments
+  start: "2022"
+  end: "2024"
+  host: Center for Architecture Science and Ecology, RPI
+  line: >-
+    A web-based building monitoring framework that federates BIM, IoT sensor data and ontologies through
+    ifcJSON linked data, piloted in a university laboratory.
+  diagram: ifcjson
+  paper: icccbe2024
+  code: comfit
+  theme: human-building-interaction

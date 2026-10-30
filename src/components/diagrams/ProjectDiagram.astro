@@ -1,0 +1,12 @@
+---
+// Project drawing for the homepage Recent Projects cards, by name (recent.yml "diagram"). Each project gets the
+// picture of its idea: ORBIT interface plus code, the medical office a schematic plan (before and as designed),
+// obXML a schema tree, ifcJSON the paper's four layers. Each is drawn only from that project's sources.
+import ProjectOrbit from './ProjectOrbit.astro';
+import ProjectMedical from './ProjectMedical.astro';
+import ProjectObxml from './ProjectObxml.astro';
+import ProjectIfcjson from './ProjectIfcjson.astro';
+interface Props { name: 'orbit' | 'medical' | 'obxml' | 'ifcjson' }
+const { name } = Astro.props;
+---
+{name === 'orbit' && <ProjectOrbit />}{name === 'medical' && <ProjectMedical />}{name === 'obxml' && <ProjectObxml />}{name === 'ifcjson' && <ProjectIfcjson />}

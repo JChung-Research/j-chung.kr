@@ -28,7 +28,7 @@
   language: TypeScript
   stack: [Next.js, React, TypeScript, Python, VOLTTRON, GraphQL, Prisma, Docker, BACnet, Modbus, Brick Schema]
   repo: https://github.com/JChung-Research/ornl-building-interactive-toolkit
-  license:
+  license: Apache-2.0
   theme: grid-interactive-efficient-buildings
   credit: Built on PNNL's VOLTTRON middleware and AEMS framework, and extended at ORNL.
   features:

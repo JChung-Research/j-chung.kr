@@ -9,8 +9,8 @@ import Geb from '../../components/diagrams/Geb.astro';
 import OrbitWireframe from '../../components/diagrams/OrbitWireframe.astro';
 import { url } from '../../lib/site';
 import {
-  themes, publications, projects, software, talks,
-  sortPublications, sortByDateDesc, spanYm, formatYmd, pubByDoi, repoSlug, plural, PUB_GROUP_LABEL,
+  themes, publications, projects, recent, software, talks,
+  sortPublications, sortByDateDesc, spanYm, spanPeriod, formatYmd, pubByDoi, repoSlug, plural, PUB_GROUP_LABEL,
   type Publication,
 } from '../../lib/data';
 
@@ -26,6 +26,8 @@ const groups = (['journal', 'conference', 'report'] as const)
   .map((type) => ({ type, items: themePubs.filter((p) => p.type === type) }))
   .filter((g) => g.items.length > 0);
 const themeProjects = projects.filter((p) => p.theme === SLUG);
+// Recent projects in this theme: short list in the page head, linking to their cards on the homepage.
+const themeRecent = recent.filter((r) => r.theme === SLUG);
 const roles = [...new Set(themeProjects.map((p) => p.role))];
 const tool = software.find((s) => s.theme === SLUG);
 const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
@@ -55,7 +57,18 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
     title={theme.title}
     lede={lede}
     toc={sections.map((s) => ({ id: s.id, label: s.label }))}
-  />
+  >
+    {themeRecent.length > 0 && (
+      <div class="note">
+        <p class="kick" id="recent-h">Projects</p>
+        <ul class="plist" aria-labelledby="recent-h">
+          {themeRecent.map((r) => (
+            <li><a href={url(`#proj-${r.id}`)}>{r.title}</a><span class="mono">{spanPeriod(r.start, r.end)}</span></li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </PageHead>
 
   <section id="approach" class="sec g12" aria-labelledby="h-approach">
     <header class="sec-head"><div class="hd"><span class="num">{num('approach')}</span><h2 id="h-approach">Approach</h2></div><p class="sec-intro">A configuration-driven platform that integrates model predictive control, VOLTTRON middleware, Brick Schema semantic models, and the BACnet and Modbus protocols, so that it can be deployed across heterogeneous building stock regardless of equipment vendor.</p></header>
@@ -71,7 +84,7 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
         </div>
         <figure class="fig">
           <div class="sheet"><Geb /></div>
-          <figcaption><span class="pn">Concept</span><span>Diagram placeholder, to be redrawn</span></figcaption>
+          <figcaption><span class="pn">Concept</span></figcaption>
         </figure>
       </div>
     </div>

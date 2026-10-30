@@ -4,7 +4,7 @@
 import Stub from './Stub.astro';
 import ThemeNav from '../components/ThemeNav.astro';
 import { url } from '../lib/site';
-import { themes, pubById, softwareById, plural, escapeHtml } from '../lib/data';
+import { themes, pubById, softwareById, plural, escapeHtml, homePubIds } from '../lib/data';
 
 interface Props { slug: string }
 const i = themes.findIndex((t) => t.slug === Astro.props.slug);
@@ -12,7 +12,7 @@ const t = themes[i];
 const papers = t.papers.map((id) => pubById(id));
 const code = t.code.map((id) => softwareById(id));
 const paperLinks = papers
-  .map((p) => (p.selected ? `<a href="${url(`#p-${p.id}`)}">${escapeHtml(p.short)}</a>` : `<a href="https://doi.org/${p.doi}">${escapeHtml(p.short)}</a>`))
+  .map((p) => (homePubIds.has(p.id) ? `<a href="${url(`#p-${p.id}`)}">${escapeHtml(p.short)}</a>` : `<a href="https://doi.org/${p.doi}">${escapeHtml(p.short)}</a>`))
   .join(' · ');
 const codeLinks = code.map((s) => `<a href="${url(`#sw-${s.id}`)}">${escapeHtml(s.name)}</a>`).join(' · ');
 ---

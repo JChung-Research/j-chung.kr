@@ -1,4 +1,5 @@
-# News items. The homepage shows the most recent six, newest first (order in this file does not matter).
+# News items. The homepage shows the most recent three and /news/ lists all, newest first
+# (order in this file does not matter).
 #   date   YYYY-MM, in quotes
 #   text   one or two sentences. Links inside the text use [label](url).
 #          Write [[DOI]](url) to get the small bracketed "[DOI]" reference style.
