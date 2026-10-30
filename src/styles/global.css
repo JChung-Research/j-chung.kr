@@ -142,7 +142,7 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
    Progressive detail: .dt marks secondary elements. The homepage cards (.tc-fig, also the phone swipe row) hide
    them and draw a little heavier; /research/ and the theme pages show everything.
    Motion: each drawing carries its own keyframes (a <style> inside the SVG, generated with the drawing). It plays
-   an intro once when it scrolls into view, then a calm 9s loop, only while on screen (the page script adds .dg-on).
+   an intro once when it scrolls into view, then a calm loop (5.5 s, 9 s and 4.5 s for Idt, Geb and Hbi), only while on screen (the page script adds .dg-on).
    Only transform and opacity move; the blurred shadows never do. Everything sits under .js-motion, which the head
    script sets only without a reduced-motion preference, so with no JS or reduced motion the drawing is static and
    complete. Moving dots and pulse rings (.mv) are invisible at rest. */
