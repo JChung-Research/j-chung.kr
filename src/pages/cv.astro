@@ -1,20 +1,23 @@
 ---
 // CV summary (current role, education, credentials) and the full CV as a PDF.
 // To publish a new CV: put the PDF in public/cv/, then update CV_FILE and CV_LABEL below.
+// While CV_FILE is empty the page shows a short note instead of the download link.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { url } from '../lib/site';
 import { profile, education, spanYm, educationFieldHtml } from '../lib/data';
 
-const CV_FILE = 'cv/Jihoon-Chung-CV-2026-01.pdf';
-const CV_LABEL = 'CV (PDF, January 2026 version)';
+const CV_FILE = '';
+const CV_LABEL = '';
 const r = profile.role;
 const role = `${r.title}, ${r.group}, ${r.organization}`;
 const [since, until] = spanYm(r.since).split(' to ');
 ---
-<Base title="CV" description={`CV of ${profile.name}, ${profile.suffix}: current role, education and credentials, with the full CV as a PDF.`}>
+<Base title="CV" description={`CV of ${profile.name}, ${profile.suffix}: current role, education and credentials${CV_FILE ? ', with the full CV as a PDF' : ''}.`}>
   <PageHead crumbs={[{ label: 'Home', href: '' }, { label: 'CV' }]} title="CV" lede={role}>
-    <a class="repo cv-dl" href={url(CV_FILE)} type="application/pdf"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg><span><b>{CV_LABEL}</b><i>{CV_FILE.split('/').pop()}</i></span></a>
+    {CV_FILE
+      ? <a class="repo cv-dl" href={url(CV_FILE)} type="application/pdf"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-doc"/></svg><span><b>{CV_LABEL}</b><i>{CV_FILE.split('/').pop()}</i></span></a>
+      : <p class="body-f">The full CV as a PDF will be posted here.</p>}
   </PageHead>
 
   <section id="role" class="sec g12" aria-labelledby="h-role">
