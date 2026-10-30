@@ -133,7 +133,8 @@ For proceedings use `venue: Proceedings of X 2027` and `place: City`; for report
 ```
 
 **New CV PDF**: add `public/cv/Jihoon-Chung-CV-YYYY-MM.pdf`, update `CV_FILE` and `CV_LABEL` in
-`src/pages/cv.astro`. Keep the old file only if something links to it.
+`src/pages/cv.astro`. Keep the old file only if something links to it. The preview build leaves every PDF out (a PDF
+cannot carry a noindex tag), so the CV PDF only appears on the production site.
 
 **Stub pages** (Software, Design, Publications, Talks, Teaching & Mentoring, two research themes) use
 `src/layouts/Stub.astro`. Replace a stub with a real page in the inner-page style of

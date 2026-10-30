@@ -3,7 +3,7 @@
 //      #fragments must exist on the target page;
 //   2. the four CV-printed redirect pages exist with the right targets;
 //   3. no em dash or en dash in visible text;
-//   4. mode rules: preview = noindex on every page, Disallow robots, no sitemap; production = sitemap;
+//   4. mode rules: preview = noindex on every page, Disallow robots, no sitemap, no PDFs; production = sitemap;
 //      no CNAME anywhere.
 // Exit code 1 on any failure.
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
@@ -173,6 +173,7 @@ const robots = existsSync(join(DIST, 'robots.txt')) ? readFileSync(join(DIST, 'r
 if (IS_PREVIEW) {
   if (!/Disallow:\s*\/\s*$/m.test(robots)) fail('preview: robots.txt must Disallow: /');
   if (existsSync(join(DIST, 'sitemap-index.xml'))) fail('preview: sitemap must not be generated');
+  if (files.some((f) => /\.pdf$/i.test(f) && f.startsWith(DIST))) fail('preview: PDFs must not be in the preview build (they cannot carry noindex)');
   for (const page of htmlFiles) {
     if (!/<meta name="robots" content="noindex, nofollow">/.test(readFileSync(page, 'utf8'))) fail(`preview: ${rel(page)} lacks noindex, nofollow`);
   }
