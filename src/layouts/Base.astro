@@ -55,7 +55,7 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
   <meta name="theme-color" content="#101214" media="(prefers-color-scheme: dark)">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@300;500;600;700&family=Source+Serif+4:ital,wght@0,400..700;1,400..700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Source+Serif+4:ital,wght@0,400..700;1,400..700&family=Barlow+Semi+Condensed:wght@300;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap">
   {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLdText}></script>}
   {GOATCOUNTER_CODE && <script is:inline data-goatcounter={`https://${GOATCOUNTER_CODE}.goatcounter.com/count`} async src="https://gc.zgo.at/count.js"></script>}
 </head>

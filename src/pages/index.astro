@@ -2,13 +2,14 @@
 // Homepage: Mockup A (research/mockups/mockup-a.html), rendered from src/data/*.yml.
 import Base from '../layouts/Base.astro';
 import PubList from '../components/PubList.astro';
-import Diagram from '../components/diagrams/Diagram.astro';
+import ThemeDiagram from '../components/diagrams/ThemeDiagram.astro';
+import ProjectDiagram from '../components/diagrams/ProjectDiagram.astro';
 import DesignStrip from '../components/home/DesignStrip.astro';
 import { url, absUrl } from '../lib/site';
 import {
-  profile, education, news, software, themes,
-  sortByDateDesc, formatYm, escapeHtml, newsHtml, homePublications, homePubIds,
-  educationFieldHtml, headlineHtml, pubById, softwareById, plural,
+  profile, education, news, software, themes, recent,
+  sortByDateDesc, formatYm, newsHtml, homePublications,
+  educationFieldHtml, headlineHtml, pubById, softwareById, themeBySlug, spanPeriod,
 } from '../lib/data';
 
 // Highlights only: the newest news items and three selected publications; the full lists have their own pages.
@@ -16,10 +17,18 @@ const HOME_NEWS_COUNT = 3;
 const latestNews = sortByDateDesc(news).slice(0, HOME_NEWS_COUNT);
 const L = profile.links;
 
-const paperHref = (id: string) => {
+// Recent Projects: paper and report links go to the DOI, code links to the repository.
+const pubLink = (id: string) => {
   const p = pubById(id);
-  return homePubIds.has(id) ? `#p-${id}` : `https://doi.org/${p.doi}`;
+  const label = p.type === 'conference' && p.pages ? `${p.short}, pp. ${p.pages}` : p.short;
+  return { href: `https://doi.org/${p.doi}`, label };
 };
+const projectLinks = (r: (typeof recent)[number]) =>
+  [
+    r.paper && { kind: 'Paper', ...pubLink(r.paper) },
+    r.report && { kind: 'Report', ...pubLink(r.report) },
+    r.code && { kind: 'Code', href: softwareById(r.code).repo, label: softwareById(r.code).name },
+  ].filter(Boolean) as { kind: string; href: string; label: string }[];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -67,10 +76,10 @@ const jsonLd = {
       <ul>
         {themes.map((t, i) => (
           <li class="tcard">
-            <div class="tc-fig" aria-hidden="true"><Diagram name={t.diagram} decorative /></div>
+            <div class="tc-fig sheet"><ThemeDiagram name={t.diagram} /></div>
             <span class="ti-n">Theme {i + 1}</span>
             <a class="ti-t" href={url(`research/${t.slug}/`)}>{t.title}</a>
-            <p class="tc-s">{t.sentence}</p>
+            <p class="tc-s">{t.card}</p>
           </li>
         ))}
       </ul>
@@ -89,22 +98,26 @@ const jsonLd = {
     </div>
   </section>
 
-  <section id="research" class="sec g12" aria-labelledby="h-research">
-    <header class="sec-head"><div class="hd"><span class="num">02</span><h2 id="h-research">Research</h2></div><p class="sec-intro">Three themes, one aim: buildings whose data, controls and interfaces work together.</p></header>
-    <div class="plates tight body-f">
-      {themes.map((t, i) => (
-        <article class="plate" id={`plate-${i + 1}`}>
-          <figure><div class="sheet"><Diagram name={t.diagram} /></div><figcaption><span class="pn">Plate {i + 1} of {themes.length}</span><span>Diagram placeholder, to be redrawn</span></figcaption></figure>
-          <h3><a href={url(`research/${t.slug}/`)}>{t.title}</a></h3>
-          <p>{t.summary}</p>
-          <p class="related">
-            {t.papers.length > 0 && <>{plural('Paper', t.papers.length)}: <Fragment set:html={t.papers.map((id) => `<a href="${paperHref(id)}">${escapeHtml(pubById(id).short)}</a>`).join(' · ')} /></>}
-            {t.papers.length > 0 && t.code.length > 0 && <br />}
-            {t.code.length > 0 && <>Code: <Fragment set:html={t.code.map((id) => `<a href="#sw-${id}">${escapeHtml(softwareById(id).name)}</a>`).join(' · ')} /></>}
-          </p>
-        </article>
-      ))}
-    </div>
+  <section id="projects" class="sec g12" aria-labelledby="h-projects">
+    <header class="sec-head"><div class="hd"><span class="num">02</span><h2 id="h-projects">Recent Projects</h2></div><p class="sec-intro">Recent projects across the three themes, each drawn from its published paper, report or code.</p></header>
+    <ul class="rprojects body-f">
+      {recent.map((r) => {
+        const theme = themeBySlug(r.theme);
+        return (
+          <li class="rp" id={`proj-${r.id}`}>
+            <div class="rp-fig sheet"><ProjectDiagram name={r.diagram} /></div>
+            <h3 class="rp-t">{r.title}</h3>
+            <p class="rp-m"><span class="nw">{spanPeriod(r.start, r.end)}</span><br />{r.host}{r.sponsor && <><br />{r.sponsor}</>}</p>
+            <p class="rp-d">{r.line}</p>
+            <ul class="rp-l">
+              {projectLinks(r).map((l) => <li>{l.kind}: <a href={l.href}>{l.label}</a></li>)}
+            </ul>
+            <p class="rp-tag"><a href={url(`research/${theme.slug}/`)}><span class="vh">Theme: </span>{theme.title}</a></p>
+          </li>
+        );
+      })}
+    </ul>
+    <p class="more body-f"><a href={url('research/')}>All research themes</a></p>
   </section>
 
   <section id="software" class="sec g12" aria-labelledby="h-sw">

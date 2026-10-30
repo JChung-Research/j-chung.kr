@@ -8,6 +8,7 @@ import educationRaw from '../data/education.yml?raw';
 import newsRaw from '../data/news.yml?raw';
 import publicationsRaw from '../data/publications.yml?raw';
 import projectsRaw from '../data/projects.yml?raw';
+import recentRaw from '../data/recent.yml?raw';
 import softwareRaw from '../data/software.yml?raw';
 import themesRaw from '../data/themes.yml?raw';
 import talksRaw from '../data/talks.yml?raw';
@@ -104,6 +105,25 @@ const Projects = z.array(
   }),
 );
 
+const yOrYm = z.string().regex(/^\d{4}(-(0[1-9]|1[0-2]))?$/, 'use YYYY or YYYY-MM in quotes, e.g. "2024" or "2026-09"');
+
+const Recent = z.array(
+  z.object({
+    id: z.string().regex(/^[a-z0-9-]+$/, 'lowercase letters, digits and hyphens only'),
+    title: text,
+    start: yOrYm,
+    end: opt(yOrYm),
+    host: str,
+    sponsor: opt(str),
+    line: text,
+    diagram: z.enum(['orbit', 'medical', 'obxml', 'ifcjson']),
+    paper: opt(str),
+    report: opt(str),
+    code: opt(str),
+    theme: themeSlug,
+  }),
+);
+
 const Software = z.array(
   z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),
@@ -125,6 +145,7 @@ const Themes = z.array(
     slug: themeSlug,
     title: str,
     sentence: text,
+    card: text,
     summary: text,
     papers: z.array(str).default([]),
     code: z.array(str).default([]),
@@ -185,6 +206,7 @@ export const education = load('education.yml', educationRaw, Education);
 export const news = load('news.yml', newsRaw, News);
 export const publications = load('publications.yml', publicationsRaw, Publications);
 export const projects = load('projects.yml', projectsRaw, Projects);
+export const recent = load('recent.yml', recentRaw, Recent);
 export const software = load('software.yml', softwareRaw, Software);
 export const themes = load('themes.yml', themesRaw, Themes);
 export const talks = load('talks.yml', talksRaw, Talks);
@@ -202,10 +224,19 @@ export type Theme = (typeof themes)[number];
   const dup = publications.map((p) => p.id).filter((id, i, a) => a.indexOf(id) !== i);
   if (dup.length) throw new Error(`publications.yml: duplicate id ${dup.join(', ')}`);
   for (const t of themes) {
-    // The homepage theme cards show "sentence" as the first sentence of "summary"; keep them in step.
+    // "sentence" (the /research/ cards) is the first sentence of "summary"; keep them in step.
     if (!t.summary.startsWith(t.sentence)) throw new Error(`themes.yml (${t.slug}): "summary" must start with "sentence"`);
     for (const id of t.papers) if (!pubIds.has(id)) throw new Error(`themes.yml (${t.slug}): unknown paper id "${id}"`);
     for (const id of t.code) if (!swIds.has(id)) throw new Error(`themes.yml (${t.slug}): unknown software id "${id}"`);
+  }
+  const recentDup = recent.map((r) => r.id).filter((id, i, a) => a.indexOf(id) !== i);
+  if (recentDup.length) throw new Error(`recent.yml: duplicate id ${recentDup.join(', ')}`);
+  for (const r of recent) {
+    for (const key of ['paper', 'report'] as const) {
+      const id = r[key];
+      if (id && !pubIds.has(id)) throw new Error(`recent.yml (${r.id}): unknown ${key} id "${id}"`);
+    }
+    if (r.code && !swIds.has(r.code)) throw new Error(`recent.yml (${r.id}): unknown software id "${r.code}"`);
   }
   for (const p of projects) {
     if (p.report_doi && !dois.has(p.report_doi)) {
@@ -320,6 +351,12 @@ export function softwareById(id: string) {
 /** "May 2025 to present" */
 export function spanYm(start: string, end?: string): string {
   return `${formatYm(start)} to ${end ? formatYm(end) : 'present'}`;
+}
+
+/** "May 2025 to present", "2022 to 2024": start and end as YYYY-MM or YYYY. */
+export function spanPeriod(start: string, end?: string): string {
+  const fmt = (v: string) => (v.length === 4 ? v : formatYm(v));
+  return `${fmt(start)} to ${end ? fmt(end) : 'present'}`;
 }
 
 /** Repository "owner/name" from a GitHub URL. */

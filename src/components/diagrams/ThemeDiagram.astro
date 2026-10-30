@@ -1,0 +1,9 @@
+---
+// Theme concept drawing for the homepage theme cards, by name (themes.yml "diagram"). Style C, axonometric.
+import ThemeIdt from './ThemeIdt.astro';
+import ThemeGeb from './ThemeGeb.astro';
+import ThemeHbi from './ThemeHbi.astro';
+interface Props { name: 'idt' | 'geb' | 'hbi' }
+const { name } = Astro.props;
+---
+{name === 'idt' && <ThemeIdt />}{name === 'geb' && <ThemeGeb />}{name === 'hbi' && <ThemeHbi />}

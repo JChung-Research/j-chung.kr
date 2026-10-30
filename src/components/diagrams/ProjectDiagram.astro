@@ -1,0 +1,10 @@
+---
+// Project system drawing for the homepage Recent Projects cards, by name (recent.yml "diagram"). Style B, bold.
+import ProjectOrbit from './ProjectOrbit.astro';
+import ProjectMedical from './ProjectMedical.astro';
+import ProjectObxml from './ProjectObxml.astro';
+import ProjectIfcjson from './ProjectIfcjson.astro';
+interface Props { name: 'orbit' | 'medical' | 'obxml' | 'ifcjson' }
+const { name } = Astro.props;
+---
+{name === 'orbit' && <ProjectOrbit />}{name === 'medical' && <ProjectMedical />}{name === 'obxml' && <ProjectObxml />}{name === 'ifcjson' && <ProjectIfcjson />}
