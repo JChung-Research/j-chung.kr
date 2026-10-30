@@ -44,11 +44,12 @@ fails on a root-relative link that ignores the base.
 | --- | --- |
 | Name, role, bio, email, links, credentials, headshot | `src/data/profile.yml` |
 | Degrees | `src/data/education.yml` |
-| News (homepage shows the newest six) | `src/data/news.yml` |
+| News (homepage shows the newest three; /news/ lists all) | `src/data/news.yml` |
 | Publications | `src/data/publications.yml` |
 | Funded projects | `src/data/projects.yml` |
 | Software | `src/data/software.yml` |
-| Research themes (plates, /research/ cards) | `src/data/themes.yml` |
+| Research themes (homepage theme cards, /research/ cards) | `src/data/themes.yml` |
+| Recent projects (homepage cards, each with its own diagram) | `src/data/recent.yml`, `src/components/diagrams/Project*.astro` |
 | Talks | `src/data/talks.yml` |
 | Teaching and mentoring (Stage 2) | `src/data/teaching.yml` |
 | Service (Stage 2) | `src/data/service.yml` |

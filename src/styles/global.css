@@ -98,9 +98,7 @@ h1 .phd{font-weight:300;color:var(--muted);margin-left:.08em}
 .rp-m{font:400 .74rem/1.55 var(--mono);color:var(--muted);letter-spacing:.02em}
 .rp-d{font-size:.98rem;line-height:1.5}
 .rp-l{font:400 .8rem/1.7 var(--mono);color:var(--muted)}
-.rp-tag{padding-top:4px}
-.rp-tag a{display:inline-block;font:500 .74rem/1.35 var(--mono);letter-spacing:.04em;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:3px 9px}
-.rp-tag a:hover{color:var(--accent);border-color:var(--accent)}
+.rp-tag{font:400 .8rem/1.5 var(--mono);color:var(--muted);padding-top:8px;border-top:1px solid var(--rule)}
 .rprojects + .more{margin-top:-8px}
 
 /* Sections */

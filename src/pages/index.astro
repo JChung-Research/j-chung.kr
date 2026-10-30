@@ -112,7 +112,7 @@ const jsonLd = {
             <ul class="rp-l">
               {projectLinks(r).map((l) => <li>{l.kind}: <a href={l.href}>{l.label}</a></li>)}
             </ul>
-            <p class="rp-tag"><a href={url(`research/${theme.slug}/`)}><span class="vh">Theme: </span>{theme.title}</a></p>
+            <p class="rp-tag">Theme: <a href={url(`research/${theme.slug}/`)}>{theme.title}</a></p>
           </li>
         );
       })}

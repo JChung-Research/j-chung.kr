@@ -48,8 +48,8 @@
   title: Heating and cooling management for small and medium-sized medical office buildings
   start: "2025-10"
   end:
-  host: ORNL BTRIC Tech Collaboration
-  sponsor: DOE BTO
+  host: Oak Ridge National Laboratory
+  sponsor: DOE Building Technologies Office, BTRIC Tech Collaboration
   line: >-
     A low-cost building energy management system configured for an occupied medical clinic, with its complete
     device set validated in the laboratory.
