@@ -246,17 +246,23 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
   .dimgs .portrait-ph{max-width:62%}
   .sheet{padding:8px 4px 4px}
   .dg .sm{font-size:11px}
-  /* Phones: the theme cards become one swipeable row (native scroll snap, no script). A drawing beside the text
-     would be about 200px wide, which puts its labels near 6px; at 88% of the width the next card peeks in and
-     the drawings stay near full size. The page keeps the height of one card instead of three. */
-  .tcards ul{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
-  .tcards ul::-webkit-scrollbar{display:none}
-  .tcard{flex:0 0 88%;scroll-snap-align:start;grid-template-columns:minmax(0,1fr);grid-template-rows:none}
+  /* Phones: the theme cards, Recent Projects and the Design strip each become one swipeable row (native scroll
+     snap, no script). Each card is 88% of the width, so the next one peeks in, and drawings stay near full size
+     (a drawing beside the text would be about 200px wide, with labels near 6px). Each section keeps the height
+     of one card. Only the rows scroll sideways, never the page; links inside stay reachable by keyboard. */
+  .tcards ul,.rprojects,.dstrip{overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+  :is(.tcards ul,.rprojects,.dstrip)::-webkit-scrollbar{display:none}
+  .tcard,.rp,.dstrip li{scroll-snap-align:start}
+  .tcards ul{display:flex;gap:14px}
+  .tcard{flex:0 0 88%;grid-template-columns:minmax(0,1fr);grid-template-rows:none}
   .tc-fig{grid-row:auto;margin-bottom:8px;padding:8px 4px 4px}
   .tcard > :not(.tc-fig){grid-column:1}
   .tc-s{font-size:.95rem}
-  .rprojects{grid-template-columns:minmax(0,1fr)}
-  .dstrip{grid-template-columns:minmax(0,1fr);gap:20px}
+  /* Projects stay one grid flowing sideways, so the shared rows still align titles, lines and links. */
+  .rprojects{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:88%;grid-template-rows:repeat(6,auto);column-gap:14px}
+  .dstrip{display:flex;gap:14px;align-items:flex-start}
+  .dstrip li{flex:0 0 88%}
+  .rp-l a,.rp-tag a{display:inline-block;padding-block:4px}
   .plates.tight{row-gap:28px}
   .sec{margin-top:64px}
   .foot{margin-top:88px}
