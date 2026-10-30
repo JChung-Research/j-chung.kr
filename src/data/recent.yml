@@ -7,8 +7,8 @@
 #   sponsor    optional funding source, shown after the host
 #   line       one factual sentence, from the project's paper, report or code
 #   diagram    which drawing to show: orbit | medical | obxml | ifcjson
-#              (src/components/diagrams/Project<Name>.astro: an exploded axonometric drawn only from the project's
-#              sources; its header lists each label with the source line it comes from)
+#              (src/components/diagrams/Project<Name>.astro: a diagram of the type that shows the project's idea,
+#              drawn only from its sources; the header quotes the idea and lists each label with its source line)
 #   paper      optional publication id (publications.yml), linked by DOI
 #   report     optional publication id (publications.yml), linked by DOI
 #   code       optional software id (software.yml), linked to its repository
@@ -69,7 +69,7 @@
   diagram: obxml
   paper: bs2025
   code: gbobxml
-  theme: human-building-interaction
+  theme: interoperable-digital-twins
 
 - id: ifcjson-twin
   title: ifcJSON-based digital twin platform for monitoring building environments
@@ -82,4 +82,4 @@
   diagram: ifcjson
   paper: icccbe2024
   code: comfit
-  theme: interoperable-digital-twins
+  theme: human-building-interaction
