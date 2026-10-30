@@ -13,7 +13,7 @@ const { title, description, crumbs } = Astro.props;
 ---
 <Base title={title} description={description}>
   <PageHead crumbs={crumbs} title={title} lede={description}>
-    <div class="note">
+    <div class="note" data-hero style="--hi:3">
       <p class="kick">Status</p>
       <p>This page is being written.</p>
       <slot />

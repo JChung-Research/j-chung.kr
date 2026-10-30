@@ -59,7 +59,7 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
     toc={sections.map((s) => ({ id: s.id, label: s.label }))}
   >
     {themeRecent.length > 0 && (
-      <div class="note">
+      <div class="note" data-hero style="--hi:3">
         <p class="kick" id="recent-h">Projects</p>
         <ul class="plist" aria-labelledby="recent-h">
           {themeRecent.map((r) => (
@@ -71,13 +71,13 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
   </PageHead>
 
   <section id="approach" class="sec g12" aria-labelledby="h-approach">
-    <header class="sec-head"><div class="hd"><span class="num">{num('approach')}</span><h2 id="h-approach">Approach</h2></div><p class="sec-intro">A configuration-driven platform that integrates model predictive control, VOLTTRON middleware, Brick Schema semantic models, and the BACnet and Modbus protocols, so that it can be deployed across heterogeneous building stock regardless of equipment vendor.</p></header>
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('approach')}</span><h2 id="h-approach">Approach</h2></div><p class="sec-intro">A configuration-driven platform that integrates model predictive control, VOLTTRON middleware, Brick Schema semantic models, and the BACnet and Modbus protocols, so that it can be deployed across heterogeneous building stock regardless of equipment vendor.</p></header>
     <div class="spread body-f">
-      <figure class="fig main">
+      <figure class="fig main" data-reveal="fig">
         <div class="sheet paper"><a class="fig-link" href={url('images/fig1-bem-architecture.png')}><span class="vh">Open the figure at full size. </span><img width="1400" height="1412" src={url('images/fig1-bem-architecture-1400.webp')} alt="Four-layer system architecture. Application layer: four web clients connect to a web server, and external dashboards run in Grafana. Data management layer: VOLTTRON middleware with five drivers, writing to an InfluxDB time-series database. Network layer: BACnet, Modbus and HTTP or HTTPS. Data source layer: installed control and sensing devices (smart thermostat, IoT sensor, energy meter) and external data sources (electricity price API, carbon intensity API)." decoding="async"></a></div>
         <figcaption><span class="cap">System architecture of the scalable BEM system. Chung et al., SimBuild 2026.</span><a class="doi" href={`https://doi.org/${sb.doi}`} aria-label="DOI for the SimBuild 2026 paper">[DOI]</a></figcaption>
       </figure>
-      <div class="aside">
+      <div class="aside" data-reveal>
         <div class="note">
           <p class="kick">From model to configuration</p>
           <p>One semantic building model, written in YAML or as a Brick model, generates the configuration files for each building.</p>
@@ -91,8 +91,8 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
   </section>
 
   <section id="validation" class="sec g12" aria-labelledby="h-validation">
-    <header class="sec-head side"><div class="hd"><span class="num">{num('validation')}</span><h2 id="h-validation">Validation</h2></div></header>
-    <ul class="checks body-r">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('validation')}</span><h2 id="h-validation">Validation</h2></div></header>
+    <ul class="checks body-r" data-reveal-group>
       {checks.map((c) => (
         <li><p class="kick">{c.kick}</p><h3 class="h3">{c.title}</h3><p class="d">{c.text}</p>{c.papers && <p class="related">{c.label}: <Fragment set:html={c.papers.map((id) => `<a href="#p-${id}">${pubShort(id)}</a>`).join(' · ')} /></p>}</li>
       ))}
@@ -101,10 +101,10 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
 
   {tool && (
     <section id="orbit" class="sec g12" aria-labelledby="h-orbit">
-      <header class="sec-head"><div class="hd"><span class="num">{num('orbit')}</span><h2 id="h-orbit">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">{tool.name}, the open-source platform from this theme: how it looks to a building operator, and what it is built with.</p></header>
+      <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('orbit')}</span><h2 id="h-orbit">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">{tool.name}, the open-source platform from this theme: how it looks to a building operator, and what it is built with.</p></header>
       <div class="spread body-f">
         <OrbitWireframe />
-        <div class="aside orbit">
+        <div class="aside orbit" data-reveal>
           <div class="prod"><p class="name">{tool.name}</p>{tool.full_name && <p class="meta">{tool.full_name}</p>}</div>
           <p class="d">{tool.description}</p>
           <div class="stack">
@@ -118,7 +118,7 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
         </div>
       </div>
       {tool.features.length > 0 && (
-        <ul class="feats body-f" aria-label={`What ${tool.name} does`}>
+        <ul class="feats body-f" data-reveal-group aria-label={`What ${tool.name} does`}>
           {tool.features.map((f) => <li><p class="kick">{f.label}</p><p>{f.text}</p></li>)}
         </ul>
       )}
@@ -127,9 +127,9 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
 
   {themeProjects.length > 0 && (
     <section id="projects" class="sec g12" aria-labelledby="h-projects">
-      <header class="sec-head side"><div class="hd"><span class="num">{num('projects')}</span><h2 id="h-projects">Funded projects</h2><p class="hd-role"><span class="kick">Role</span>{roles.join('; ')}</p></div></header>
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('projects')}</span><h2 id="h-projects">Funded projects</h2><p class="hd-role"><span class="kick">Role</span>{roles.join('; ')}</p></div></header>
       <div class="body-r">
-        <ol class="pubs">
+        <ol class="pubs" data-reveal-group>
           {themeProjects.map((p) => {
             const report = p.report_doi ? pubByDoi(p.report_doi) : undefined;
             const [from, to] = spanYm(p.start, p.end).split(' to ');
@@ -145,7 +145,7 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
 
   {themePubs.length > 0 && (
     <section id="publications" class="sec g12" aria-labelledby="h-pubs">
-      <header class="sec-head side"><div class="hd"><span class="num">{num('publications')}</span><h2 id="h-pubs">Publications</h2></div></header>
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('publications')}</span><h2 id="h-pubs">Publications</h2></div></header>
       <div class="body-r">
         {groups.map((g) => (
           <>
@@ -159,8 +159,8 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
 
   {themeTalks.length > 0 && (
     <section id="talk" class="sec g12" aria-labelledby="h-talk">
-      <header class="sec-head side"><div class="hd"><span class="num">{num('talk')}</span><h2 id="h-talk">{plural('Talk', themeTalks.length)}</h2></div></header>
-      <ol class="pubs body-r">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('talk')}</span><h2 id="h-talk">{plural('Talk', themeTalks.length)}</h2></div></header>
+      <ol class="pubs body-r" data-reveal-group>
         {themeTalks.map((t) => (
           <li><time class="yr" datetime={t.date}>{formatYmd(t.date)}</time><div class="entry"><p class="t">{t.link ? <a href={t.link}>{t.title}</a> : t.title}</p><p class="v"><i>{t.event}</i>{[t.organizer, t.place].filter(Boolean).map((x) => `, ${x}`).join('')}.</p></div></li>
         ))}

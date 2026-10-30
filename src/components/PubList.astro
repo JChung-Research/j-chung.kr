@@ -10,7 +10,7 @@ interface Props {
 const { items, variant = 'compact' } = Astro.props;
 const full = variant === 'full';
 ---
-<ol class="pubs">
+<ol class="pubs" data-reveal-group>
   {items.map((p) => (
     <li id={`p-${p.id}`}><span class="yr">{pubDate(p, full)}</span><div class="entry"><p class="t">{p.title}</p><p class="au" set:html={authorsHtml(p.authors)} /><p class="v" set:html={pubLinksHtml(p, full)} /></div></li>
   ))}

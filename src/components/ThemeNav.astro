@@ -8,7 +8,7 @@ const i = themes.findIndex((t) => t.slug === Astro.props.slug);
 const prev = i > 0 ? { n: i, t: themes[i - 1] } : undefined;
 const next = i < themes.length - 1 ? { n: i + 2, t: themes[i + 1] } : undefined;
 ---
-<nav class="tnav g12" aria-label="Other research themes">
+<nav data-reveal class="tnav g12" aria-label="Other research themes">
   {prev && <a class="prev" href={url(`research/${prev.t.slug}/`)} rel="prev"><span class="ti-n"><span aria-hidden="true">← </span>Theme {prev.n}<span class="vh">:</span></span><span class="ti-t">{prev.t.title}</span></a>}
   {next && <a class="next" href={url(`research/${next.t.slug}/`)} rel="next"><span class="ti-n">Theme {next.n}<span class="vh">:</span><span aria-hidden="true"> →</span></span><span class="ti-t">{next.t.title}</span></a>}
 </nav>

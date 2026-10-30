@@ -14,19 +14,19 @@ const { crumbs, title, lede, toc } = Astro.props;
 ---
 <section class="pg g12" aria-labelledby="h-page">
   <div class="pg-main">
-    <nav class="crumbs" aria-label="Breadcrumb">
+    <nav class="crumbs" data-hero style="--hi:0" aria-label="Breadcrumb">
       <ol>
         {crumbs.map((c) => (
           <li>{c.href !== undefined ? <a href={url(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
         ))}
       </ol>
     </nav>
-    <h1 id="h-page">{title}</h1>
-    {lede && <p class="lede">{lede}</p>}
+    <h1 id="h-page" data-hero style="--hi:1">{title}</h1>
+    {lede && <p class="lede" data-hero style="--hi:2">{lede}</p>}
     <slot />
   </div>
   {toc && (
-    <nav class="toc" aria-labelledby="toc-h">
+    <nav class="toc" data-hero style="--hi:3" aria-labelledby="toc-h">
       <p class="kick" id="toc-h">On this page</p>
       <ol>
         {toc.map((t, i) => (

@@ -13,8 +13,8 @@ const years = [...new Set(items.map((n) => n.date.slice(0, 4)))];
 
   {years.map((y, i) => (
     <section id={`y${y}`} class="sec g12" aria-labelledby={`h-${y}`}>
-      <header class="sec-head side"><div class="hd"><span class="num">{String(i + 1).padStart(2, '0')}</span><h2 id={`h-${y}`}>{y}</h2></div></header>
-      <ol class="news body-r">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{String(i + 1).padStart(2, '0')}</span><h2 id={`h-${y}`}>{y}</h2></div></header>
+      <ol class="news body-r" data-reveal-group>
         {items.filter((n) => n.date.startsWith(y)).map((n) => (
           <li><time datetime={n.date}>{formatYm(n.date)}</time><p set:html={newsHtml(n)} /></li>
         ))}

@@ -12,8 +12,8 @@ const intro = 'Three themes, one aim: buildings whose data, controls and interfa
   <PageHead crumbs={[{ label: 'Home', href: '' }, { label: 'Research' }]} title="Research" lede={intro} />
 
   <section id="themes" class="sec g12" aria-labelledby="h-themes">
-    <header class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-themes">Themes</h2></div></header>
-    <div class="plates body-f">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-themes">Themes</h2></div></header>
+    <div class="plates body-f" data-reveal-group>
       {themes.map((t, i) => (
         <article class="plate" id={t.slug}>
           <figure><a href={url(`research/${t.slug}/`)} tabindex="-1" aria-hidden="true"><div class="sheet"><Diagram name={t.diagram} /></div></a><figcaption><span class="pn">Theme {i + 1} of {themes.length}</span></figcaption></figure>
@@ -25,9 +25,9 @@ const intro = 'Three themes, one aim: buildings whose data, controls and interfa
   </section>
 
   <section id="earlier" class="sec g12" aria-labelledby="h-earlier">
-    <header class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-earlier">Earlier work</h2></div></header>
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-earlier">Earlier work</h2></div></header>
     <div class="body-r">
-      <div class="note">
+      <div class="note" data-reveal>
         <p class="kick">Status</p>
         <p>This section is being written. It will cover construction IT and design research at Yonsei University, 2018 to 2021, including 3D concrete printing.</p>
       </div>

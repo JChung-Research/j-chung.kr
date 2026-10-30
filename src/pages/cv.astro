@@ -22,15 +22,15 @@ const [since, until] = spanYm(r.since).split(' to ');
   </PageHead>
 
   <section id="role" class="sec g12" aria-labelledby="h-role">
-    <header class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-role">Current role</h2></div></header>
-    <ol class="pubs body-r">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-role">Current role</h2></div></header>
+    <ol class="pubs body-r" data-reveal-group>
       <li><span class="yr"><span class="nw">{since}</span> <span class="nw">to {until}</span></span><div class="entry"><p class="t">{r.title}</p><p class="v">{r.group}, {r.organization}</p></div></li>
     </ol>
   </section>
 
   <section id="education" class="sec g12" aria-labelledby="h-education">
-    <header class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-education">Education</h2></div></header>
-    <ol class="pubs body-r">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-education">Education</h2></div></header>
+    <ol class="pubs body-r" data-reveal-group>
       {education.map((e) => (
         <li><span class="yr">{e.year}</span><div class="entry"><p class="t"><b>{e.degree}</b> <Fragment set:html={educationFieldHtml(e)} /></p><p class="v">{e.school}</p></div></li>
       ))}
@@ -38,8 +38,8 @@ const [since, until] = spanYm(r.since).split(' to ');
   </section>
 
   <section id="credentials" class="sec g12" aria-labelledby="h-credentials">
-    <header class="sec-head side"><div class="hd"><span class="num">03</span><h2 id="h-credentials">Credentials</h2></div></header>
-    <ol class="pubs body-r">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">03</span><h2 id="h-credentials">Credentials</h2></div></header>
+    <ol class="pubs body-r" data-reveal-group>
       {profile.credentials.map((c) => (
         <li><span class="yr">{c.year}</span><div class="entry"><p class="t">{c.name}</p><p class="v">{c.issuer}</p></div></li>
       ))}

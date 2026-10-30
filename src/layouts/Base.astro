@@ -33,6 +33,15 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script is:inline>
+    // Motion is a progressive enhancement: .js-motion is set before the first paint, and only when the visitor has no
+    // reduced-motion preference. If the page script at the end of <body> never starts, everything shows after 3s.
+    (function (d) {
+      if (!window.matchMedia || !matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+      d.classList.add('js-motion');
+      setTimeout(function () { if (!window.__motion) d.classList.remove('js-motion'); }, 3000);
+    })(document.documentElement);
+  </script>
   <title>{fullTitle}</title>
   <meta name="description" content={description}>
   {(IS_PREVIEW || noindex) && <meta name="robots" content="noindex, nofollow">}
@@ -71,5 +80,53 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
     <Footer />
   </div>
   </div>
+  <script is:inline>
+    // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
+    // [data-reveal] and [data-reveal-group] get .is-in once, when they enter the viewport (or take focus);
+    // each theme drawing (svg.dg) gets .dg-on while at least a fifth of it is on screen, so it plays only then.
+    (function () {
+      window.__motion = true;
+      var root = document.documentElement;
+      if (!root.classList.contains('js-motion')) return;
+      var all = function (q) { return Array.prototype.slice.call(document.querySelectorAll(q)); };
+      var revs = all('[data-reveal],[data-reveal-group]');
+      var dgs = all('svg.dg');
+      var show = function (el) { el.classList.add('is-in'); };
+      revs.forEach(function (g) {
+        if (g.hasAttribute('data-reveal-group')) Array.prototype.forEach.call(g.children, function (c, i) { c.style.setProperty('--ri', Math.min(i, 8)); });
+      });
+      if (!('IntersectionObserver' in window)) {
+        revs.forEach(show);
+        dgs.forEach(function (d) { d.classList.add('dg-on'); });
+        return;
+      }
+      var once = function (opts) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+        }, opts);
+        return io;
+      };
+      var single = once({ threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+      var group = once({ threshold: 0, rootMargin: '0px 0px -10% 0px' });
+      // Groups and tall elements (over half the viewport) reveal as soon as their top passes 90% of the viewport.
+      revs.forEach(function (el) {
+        var tall = el.hasAttribute('data-reveal-group') || el.getBoundingClientRect().height > innerHeight * 0.5;
+        (tall ? group : single).observe(el);
+      });
+      document.addEventListener('focusin', function (e) {
+        for (var el = e.target; el && el.nodeType === 1; el = el.parentNode) {
+          if (el.hasAttribute('data-reveal') || el.hasAttribute('data-reveal-group')) show(el);
+          if (el.parentNode && el.parentNode.nodeType === 1 && el.parentNode.hasAttribute('data-reveal-group')) el.style.setProperty('--ri', 0);
+        }
+      });
+      var play = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.intersectionRatio >= 0.2) e.target.classList.add('dg-on');
+          else if (!e.isIntersecting) e.target.classList.remove('dg-on');
+        });
+      }, { threshold: [0, 0.2] });
+      dgs.forEach(function (d) { play.observe(d); });
+    })();
+  </script>
 </body>
 </html>
