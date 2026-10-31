@@ -191,9 +191,9 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 .tc-fig .dg .h{stroke-width:.75}
 .tc-fig .dg .a{stroke-width:2}
 .tc-fig .dg .ad{stroke-width:1.6}
-.dg .mv{opacity:0}
-.js-motion .dg .an{transform-box:view-box}
-.js-motion .dg:not(.dg-on) .an{animation-play-state:paused}
+.dg .mv,.dgf .mv{opacity:0}
+.js-motion :is(.dg,.dgf) .an{transform-box:view-box}
+.js-motion :is(.dg,.dgf):not(.dg-on) .an{animation-play-state:paused}
 .dg-reset .an{animation:none!important}
 .wf .ln{fill:none;stroke:var(--wf);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 .wf .ln.d{stroke-dasharray:3 3}
@@ -553,6 +553,11 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 .dgf .sd{fill:var(--accent)}
 .dgf .sa{fill:none;stroke:var(--muted);stroke-width:1}
 .dgf .srv{stroke:var(--accent);stroke-width:1.75}
+/* motion marks (invisible at rest, .mv): a highlight bar or box, a pulse ring, a moving read point. The four drawings
+   move like the theme drawings (see "Theme drawings"): an intro once in view, then a calm loop while on screen. */
+.dgf .hi{fill:var(--tint);stroke:none}
+.dgf .ring{fill:none;stroke:var(--accent);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.dgf .rd{fill:var(--accent);stroke:var(--bg);stroke-width:1.5;vector-effect:non-scaling-stroke}
 
 
 /* Scroll reveal, a progressive enhancement tied to the scroll position (as on apple.com). The head script (Base.astro)

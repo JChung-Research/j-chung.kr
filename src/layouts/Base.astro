@@ -125,7 +125,8 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
     // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
     // Each [data-reveal] element and each child of a [data-reveal-group] gets --rv, 0 to 1, from how far it sits above
     // the bottom edge of the viewport, so it fades in while scrolling down and fades out while scrolling back up, in
-    // step with the scroll. Each theme drawing (svg.dg) gets .dg-on while at least a fifth of it is on screen.
+    // step with the scroll. Each theme drawing (svg.dg) and each Recent Projects drawing (svg.dgf) gets .dg-on while
+    // at least a fifth of it is on screen (in a phone swipe row, only the card in view), so it plays only then.
     (function () {
       window.__motion = true;
       var root = document.documentElement;
@@ -174,7 +175,7 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
       addEventListener('load', function () { measure(); request(); });
       document.addEventListener('focusin', request);
       if (!('IntersectionObserver' in window)) {
-        all('svg.dg').forEach(function (d) { d.classList.add('dg-on'); });
+        all('svg.dg, svg.dgf').forEach(function (d) { d.classList.add('dg-on'); });
         return;
       }
       var play = new IntersectionObserver(function (es) {
@@ -183,7 +184,7 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
           else if (!e.isIntersecting) e.target.classList.remove('dg-on');
         });
       }, { threshold: [0, 0.2] });
-      all('svg.dg').forEach(function (d) { play.observe(d); });
+      all('svg.dg, svg.dgf').forEach(function (d) { play.observe(d); });
     })();
   </script>
 </body>
