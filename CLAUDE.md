@@ -58,6 +58,7 @@ fails on a root-relative link that ignores the base.
 | Images | `public/images/` |
 | Styles (copied from the approved mockups) | `src/styles/global.css` |
 | Browser-tab title format | `src/layouts/Base.astro` (`fullTitle`) |
+| Light/dark switch (header button; choice kept in localStorage) | `src/components/Header.astro`, scripts in `src/layouts/Base.astro` |
 
 Each data file starts with a comment listing its fields. The build validates every file and stops with a
 message naming the file and field if something is wrong. Use quotes around dates (`"2026-09"`).

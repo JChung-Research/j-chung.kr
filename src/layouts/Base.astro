@@ -34,6 +34,13 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script is:inline>
+    // Color mode: a choice made with the header switch is kept in localStorage and applied here, before the first
+    // paint; without one the page follows the system setting (global.css handles both through data-theme).
+    (function (d) {
+      try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t); } catch (e) {}
+    })(document.documentElement);
+  </script>
+  <script is:inline>
     // Motion is a progressive enhancement: .js-motion is set before the first paint, and only when the visitor has no
     // reduced-motion preference. If the page script at the end of <body> never starts, everything shows after 3s.
     (function (d) {
@@ -80,6 +87,40 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
     <Footer />
   </div>
   </div>
+  <script is:inline>
+    // Light/dark switch in the header. It flips to the other mode; a choice that matches the system setting is
+    // dropped, so the page follows the system again. The browser bar color (meta theme-color) follows too.
+    (function () {
+      var d = document.documentElement, btn = document.querySelector('.theme-tg');
+      if (!btn) return;
+      var mq = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
+      var metas = Array.prototype.slice.call(document.querySelectorAll('meta[name="theme-color"]'));
+      metas.forEach(function (m) { m.setAttribute('data-c', m.getAttribute('content')); });
+      var system = function () { return mq && mq.matches ? 'dark' : 'light'; };
+      var current = function () { var t = d.getAttribute('data-theme'); return t === 'light' || t === 'dark' ? t : system(); };
+      var sync = function () {
+        var text = 'Switch to ' + (current() === 'dark' ? 'light' : 'dark') + ' mode';
+        btn.setAttribute('aria-label', text);
+        btn.title = text;
+        var forced = d.getAttribute('data-theme');
+        metas.forEach(function (m) { m.setAttribute('content', forced ? (forced === 'dark' ? '#101214' : '#f3f4f1') : m.getAttribute('data-c')); });
+      };
+      btn.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        if (next === system()) {
+          d.removeAttribute('data-theme');
+          try { localStorage.removeItem('theme'); } catch (e) {}
+        } else {
+          d.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (e) {}
+        }
+        sync();
+      });
+      if (mq && mq.addEventListener) mq.addEventListener('change', sync);
+      btn.hidden = false;
+      sync();
+    })();
+  </script>
   <script is:inline>
     // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
     // Each [data-reveal] element and each child of a [data-reveal-group] gets --rv, 0 to 1, from how far it sits above

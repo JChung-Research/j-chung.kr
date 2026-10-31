@@ -51,6 +51,20 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius
 .mast nav a.stub{color:var(--muted)}
 .mast nav a[data-hint]:is(:hover,:focus-visible)::after{content:attr(data-hint);position:absolute;right:0;top:calc(100% + 6px);font:400 .74rem/1.3 var(--mono);color:var(--bg);background:var(--ink);padding:5px 9px;white-space:nowrap;pointer-events:none;z-index:5}
 .mail{font:400 .86rem var(--mono);white-space:nowrap}
+/* Light/dark switch (Header.astro, scripts in Base.astro): a moon in light mode, a sun in dark mode. */
+.mast-end{display:flex;align-items:center;gap:14px}
+.theme-tg{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:1px solid var(--rule);border-radius:4px;background:transparent;color:var(--ink);cursor:pointer}
+.theme-tg[hidden]{display:none}
+.theme-tg:hover{border-color:var(--ink);color:var(--accent)}
+.theme-tg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.theme-tg svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.theme-tg .i-sun{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme-tg .i-sun{display:block}
+  :root:not([data-theme="light"]) .theme-tg .i-moon{display:none}
+}
+:root[data-theme="dark"] .theme-tg .i-sun{display:block}
+:root[data-theme="dark"] .theme-tg .i-moon{display:none}
 .inline-stub{position:relative}
 .inline-stub[data-hint]:is(:hover,:focus-visible)::after{content:attr(data-hint);position:absolute;left:0;top:calc(100% + 4px);font:400 .74rem/1.3 var(--mono);color:var(--bg);background:var(--ink);padding:5px 9px;white-space:nowrap;pointer-events:none;z-index:5}
 
