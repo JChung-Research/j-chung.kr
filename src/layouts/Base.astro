@@ -82,8 +82,10 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
   </div>
   <script is:inline>
     // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
-    // [data-reveal] and [data-reveal-group] get .is-in once, when they enter the viewport (or take focus);
-    // each theme drawing (svg.dg) gets .dg-on while at least a fifth of it is on screen, so it plays only then.
+    // [data-reveal] and [data-reveal-group] get .is-in when they enter the viewport (or take focus), and lose it again
+    // when they leave through the bottom edge (the visitor scrolled back up), so they fade out and fade in again on the
+    // way down; elements above the viewport stay visible. Each theme drawing (svg.dg) gets .dg-on while at least a
+    // fifth of it is on screen, so it plays only then.
     (function () {
       window.__motion = true;
       var root = document.documentElement;
@@ -100,14 +102,19 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
         dgs.forEach(function (d) { d.classList.add('dg-on'); });
         return;
       }
-      var once = function (opts) {
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
-        }, opts);
-        return io;
+      // Two-way: in once `min` of the element is inside the viewport's upper 90%; out only when none of it is and it
+      // sits below that line (top > 0). Between the two nothing changes, so an element on the edge never flickers.
+      var watch = function (min) {
+        return new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            var el = e.target;
+            if (e.isIntersecting && e.intersectionRatio >= min) show(el);
+            else if (!e.isIntersecting && e.boundingClientRect.top > 0 && !el.contains(document.activeElement)) el.classList.remove('is-in');
+          });
+        }, { threshold: min ? [0, min] : 0, rootMargin: '0px 0px -10% 0px' });
       };
-      var single = once({ threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-      var group = once({ threshold: 0, rootMargin: '0px 0px -10% 0px' });
+      var single = watch(0.15);
+      var group = watch(0);
       // Groups and tall elements (over half the viewport) reveal as soon as their top passes 90% of the viewport.
       revs.forEach(function (el) {
         var tall = el.hasAttribute('data-reveal-group') || el.getBoundingClientRect().height > innerHeight * 0.5;
