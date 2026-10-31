@@ -1,8 +1,9 @@
 ---
 // Contact: the owner's original contact form from the old site, rebuilt in this site's style. Same Formspree form
 // (profile.yml contact_form), same four fields in the same order (email, name, subject, message), same subject line
-// for the inbox and the same hidden spam trap. The page itself shows no email address. The form has Formspree's
-// reCAPTCHA on, so it posts the normal way: Formspree shows the check and its thank-you page, as on the old site.
+// for the inbox and the same hidden spam trap. The page itself shows no email address. Formspree's reCAPTCHA is
+// off for this form (the owner turned it off on 2026-10-31; with it on, Formspree rejected every message). With JS
+// the form sends in place and confirms under the button; without JS it posts the normal way to Formspree's page.
 // Until a form ID is set the page shows a short note instead of the form.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
@@ -30,8 +31,9 @@ const action = key ? `https://formspree.io/f/${key}` : '';
           <div class="cf-field"><label for="cf-msg">Message</label><textarea id="cf-msg" name="message" rows="9" required></textarea></div>
           <div class="cf-foot">
             <button class="cf-send" type="submit">Send message</button>
-            <p class="cf-privacy">Messages are delivered by Formspree, which may ask you to confirm that you are not a robot. Your email address is used only to reply.</p>
+            <p class="cf-privacy">Messages are delivered by Formspree. Your email address is used only to reply.</p>
           </div>
+          <p class="cf-status" id="cf-status" role="status" aria-live="polite" tabindex="-1"></p>
         </form>
       ) : (
         <p class="cf-pending">The message form is being set up. Until it opens, you can reach me on <a href={L.linkedin}>LinkedIn</a>.</p>
@@ -48,4 +50,30 @@ const action = key ? `https://formspree.io/f/${key}` : '';
       <li><a class="repo" href={L.github}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>GitHub</b><i>{L.github_handle}</i></span></a></li>
     </ul>
   </section>
+  {action && (
+    <script is:inline>
+      // Send in place: post the form to Formspree as JSON and confirm under the button.
+      (function () {
+        var form = document.querySelector('.cform');
+        if (!form || !window.fetch || !window.FormData) return;
+        var status = document.getElementById('cf-status');
+        var send = form.querySelector('.cf-send');
+        var say = function (text, kind) { status.textContent = text; status.className = 'cf-status' + (kind ? ' is-' + kind : ''); };
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          send.disabled = true;
+          say('Sending your message.', '');
+          fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.ok !== false; }); })
+            .then(function (ok) {
+              if (!ok) throw new Error('send failed');
+              form.reset();
+              say('Thank you. Your message was sent, and I will reply by email.', 'ok');
+            })
+            .catch(function () { say('The message could not be sent. Please try again later, or reach me on LinkedIn.', 'err'); })
+            .then(function () { send.disabled = false; status.focus(); });
+        });
+      })();
+    </script>
+  )}
 </Base>
