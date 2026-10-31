@@ -140,10 +140,11 @@ For proceedings use `venue: Proceedings of X 2027` and `place: City`; for report
 `src/pages/cv.astro`. Keep the old file only if something links to it. The preview build leaves every PDF out (a PDF
 cannot carry a noindex tag), so the CV PDF only appears on the production site.
 
-**Contact form**: `/contact/` posts to a form service set in `src/data/profile.yml` (`contact_form`:
-`provider` web3forms or formspree, `key` the Web3Forms access key or the Formspree form ID). The key is public by
-design and does not reveal the delivery address, which lives in the service account. Empty key = the page shows a
-short note instead of the form.
+**Contact form**: `/contact/` is the owner's original Formspree form from the old site (form ID in
+`src/data/profile.yml`, `contact_form.key`; fields email, name, subject, message; inbox subject "New Contact Form
+Submission"). The form ID is public by design; the delivery address lives in the Formspree account. The form has
+Formspree's reCAPTCHA on, so it posts the normal way and Formspree shows the check and its thank-you page. Empty
+key = the page shows a short note instead of the form.
 
 **Stub pages** (Software, Design, Publications, Talks, Teaching & Mentoring, two research themes) use
 `src/layouts/Stub.astro`. Replace a stub with a real page in the inner-page style of

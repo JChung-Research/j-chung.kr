@@ -31,7 +31,7 @@ const Profile = z.object({
   role: z.object({ title: str, group: str, organization: str, since: ym }),
   bio: text,
   description: text,
-  contact_form: z.object({ provider: z.enum(['web3forms', 'formspree']), key: opt(str) }),
+  contact_form: z.object({ provider: z.literal('formspree'), key: opt(str) }),
   headshot: str,
   headshot_width: z.number().int(),
   headshot_height: z.number().int(),

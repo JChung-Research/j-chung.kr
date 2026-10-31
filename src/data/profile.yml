@@ -26,14 +26,15 @@ bio: >-
 # Search-engine description of the homepage.
 description: "Building science researcher: interoperable digital twins, grid-interactive efficient buildings, and human-building interaction."
 
-# Contact form on /contact/. No email address appears anywhere on the site; messages reach the owner through the
-# form service, which keeps the delivery address in its own account settings.
-#   provider   web3forms | formspree
-#   key        Web3Forms access key, or the Formspree form ID (the part after /f/). Empty = the page shows a short
-#              note instead of the form.
+# Contact form on /contact/: the owner's original Formspree form from the old site (same form ID, fields, subject
+# line and spam trap). No email address appears anywhere on the site; Formspree keeps the delivery address in the
+# owner's account. The form has Formspree's reCAPTCHA on, so it posts the normal way (Formspree shows the check and
+# its thank-you page), exactly as on the old site.
+#   provider   formspree
+#   key        the Formspree form ID (the part after formspree.io/f/). Empty = the page shows a short note instead.
 contact_form:
-  provider: web3forms
-  key:
+  provider: formspree
+  key: mlepyzqv
 
 # Image file inside public/. Also used as the Open Graph (link preview) image.
 headshot: images/headshot.jpg
