@@ -247,10 +247,13 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 /* Footer */
 .foot{margin-top:128px;border-top:1px solid var(--ink);padding-top:18px;row-gap:28px}
 .foot .contact{grid-column:1 / span 6;display:flex;flex-direction:column;gap:6px}
-.foot .lbl{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.foot .lbl{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .foot .big{font:500 1rem/1.4 var(--display);display:inline-flex;align-items:center;gap:8px;overflow-wrap:anywhere}
 .foot .links{grid-column:7 / -1;display:flex;flex-direction:column;gap:6px}
 .foot .links ul{display:flex;flex-wrap:wrap;gap:4px 22px;font:500 1rem var(--display)}
+/* The links under CONTACT and ELSEWHERE, and their icons, in the text color (black in light mode); blue on hover. */
+.foot :is(.contact,.links) a{color:var(--ink)}
+.foot :is(.contact,.links) a:hover{color:var(--accent)}
 .foot .fine{grid-column:1 / -1;font-size:.9rem;color:var(--muted);padding-top:14px;border-top:1px solid var(--rule)}
 
 /* Responsive */
