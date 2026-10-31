@@ -247,7 +247,7 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 /* Footer */
 .foot{margin-top:128px;border-top:1px solid var(--ink);padding-top:18px;row-gap:28px}
 .foot .contact{grid-column:1 / span 6;display:flex;flex-direction:column;gap:6px}
-.foot .lbl{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.foot .lbl{font:400 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
 .foot .big{font:500 1rem/1.4 var(--display);display:inline-flex;align-items:center;gap:8px;overflow-wrap:anywhere}
 .foot .links{grid-column:7 / -1;display:flex;flex-direction:column;gap:6px}
 .foot .links ul{display:flex;flex-wrap:wrap;gap:4px 22px;font:500 1rem var(--display)}
@@ -465,7 +465,7 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 
 /* CV page: download box and simple rows. */
 .cv-dl{align-self:flex-start;margin-top:4px}
-/* Contact page (contact.astro): the owner's original Formspree form and the "Elsewhere" links. No email address appears on the site. */
+/* Contact page (contact.astro): the owner's original Formspree form and the "Elsewhere" links. */
 .cform{display:flex;flex-direction:column;gap:18px;max-width:46rem}
 .cf-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .cf-field{display:flex;flex-direction:column;gap:6px;min-width:0}

@@ -11,8 +11,8 @@ GitHub Pages by `.github/workflows/deploy.yml`. Content lives in `src/data/*.yml
 - No unpublished numbers. Only numbers already in a published paper or report, or on the CV.
 - No em dashes or en dashes anywhere in site text (use commas, colons, "to" for ranges). `npm run check` enforces this.
 - Never write "trained as an architect".
-- No email address anywhere on the site (the owner's rule): visitors use the form on `/contact/`. Only the CV PDF
-  carries contact details.
+- Email address: only in the footer (`contact@j-chung.kr`, the owner's choice). Not in the header, the homepage,
+  the contact page or the JSON-LD; visitors write through the form on `/contact/`.
 - Theme 3 is **"Human-Building Interaction"** (exact spelling).
 - The CV-printed redirect URLs must never break: `/ornl-profile/`, `/google-scholar/`, `/orcid/`, `/linkedin/`
   (list in `src/lib/redirects.ts`; `npm run check` verifies them independently). Do not rename or remove them.

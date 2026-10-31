@@ -31,6 +31,7 @@ const Profile = z.object({
   role: z.object({ title: str, group: str, organization: str, since: ym }),
   bio: text,
   description: text,
+  email: z.string().email(),
   contact_form: z.object({ provider: z.literal('formspree'), key: opt(str) }),
   headshot: str,
   headshot_width: z.number().int(),

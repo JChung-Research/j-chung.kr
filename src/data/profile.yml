@@ -26,8 +26,11 @@ bio: >-
 # Search-engine description of the homepage.
 description: "Building science researcher: interoperable digital twins, grid-interactive efficient buildings, and human-building interaction."
 
+# Email: shown only in the footer (the owner's choice); the header, homepage and JSON-LD carry no address.
+email: contact@j-chung.kr
+
 # Contact form on /contact/: the owner's original Formspree form from the old site (same form ID, fields, subject
-# line and spam trap). No email address appears anywhere on the site; Formspree keeps the delivery address in the
+# line and spam trap). Formspree keeps the delivery address in the
 # owner's account. The form has Formspree's reCAPTCHA on, so it posts the normal way (Formspree shows the check and
 # its thank-you page), exactly as on the old site.
 #   provider   formspree

@@ -1,11 +1,11 @@
 ---
 // Footer from Mockup A. The year is the build year; a scheduled yearly rebuild keeps it current.
-import { BUILD_YEAR, url } from '../lib/site';
+import { BUILD_YEAR } from '../lib/site';
 import { profile } from '../lib/data';
 const L = profile.links;
 ---
 <footer class="foot g12">
-  <div class="contact"><span class="lbl">Contact</span><a class="big" href={url('contact/')}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>Send a message</a></div>
+  <div class="contact"><span class="lbl">Contact</span><a class="big" href={`mailto:${profile.email}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>{profile.email}</a></div>
   <div class="links"><span class="lbl">Elsewhere</span>
     <ul>
       <li><a href={L.scholar}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-scholar"/></svg>Google Scholar</a></li>
