@@ -33,7 +33,7 @@ const dropPdfs = {
 };
 
 // Redirect pages are kept out of the sitemap.
-const NOT_IN_SITEMAP = /\/(ornl-profile|google-scholar|orcid|linkedin|about|blog|contact|designworks|Research[_-][^/]*)\/$/;
+const NOT_IN_SITEMAP = /\/(ornl-profile|google-scholar|orcid|linkedin|about|blog|designworks|Research[_-][^/]*)\/$/;
 
 export default defineConfig({
   site: SITE,

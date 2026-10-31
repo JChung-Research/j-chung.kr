@@ -465,6 +465,35 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 
 /* CV page: download box and simple rows. */
 .cv-dl{align-self:flex-start;margin-top:4px}
+/* Contact page (contact.astro): the message form and the "Elsewhere" links. No email address appears on the site. */
+.cform{display:flex;flex-direction:column;gap:18px;max-width:46rem}
+.cf-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.cf-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cf-field label{font:500 .92rem/1.3 var(--display);color:var(--ink)}
+.cf-note{font:400 .76rem var(--mono);color:var(--muted);margin-left:6px}
+.cform :is(input,select,textarea){font:400 1rem/1.45 var(--text);color:var(--ink);background:var(--bg);border:1px solid var(--rule);border-radius:3px;padding:10px 12px;width:100%;min-width:0}
+.cform :is(input,select){min-height:46px}
+.cform select{font-family:var(--display);font-size:.95rem}
+.cform textarea{resize:vertical;min-height:9rem}
+.cform :is(input,select,textarea):hover{border-color:var(--muted)}
+.cform :is(input,select,textarea):focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.cform .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.cf-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.cf-send{font:600 1rem var(--display);color:var(--bg);background:var(--ink);border:1px solid var(--ink);border-radius:3px;padding:11px 20px;cursor:pointer}
+.cf-send:hover{background:var(--accent);border-color:var(--accent)}
+.cf-send:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cf-send:disabled{opacity:.6;cursor:progress}
+.cf-privacy{font:400 .8rem/1.5 var(--mono);color:var(--muted);margin:0;max-width:34rem}
+.cf-status{font:500 .95rem/1.5 var(--display);margin:0;min-height:1.5em}
+.cf-status.is-ok{color:var(--ink)}
+.cf-status.is-err{color:var(--accent)}
+.cf-status:focus{outline:none}
+.cf-pending{font-size:1.05rem;margin:0;max-width:40rem}
+.cf-links{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){
+  .cf-row,.cf-links{grid-template-columns:minmax(0,1fr)}
+}
+
 .cv-dl svg{flex:none}
 .ec-tags.wide{margin-top:4px}
 

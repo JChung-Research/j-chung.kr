@@ -1,0 +1,108 @@
+---
+// Contact: a message form instead of an email address, so no address appears on the site. The form posts to the
+// form service set in profile.yml (contact_form); that service keeps the delivery address in its own account.
+// With JS the form sends in place and shows the result here; without JS it posts to the service's own page.
+// Until a key is set the page shows a short note instead of the form.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { profile } from '../lib/data';
+
+const L = profile.links;
+const cf = profile.contact_form;
+const key = (cf.key ?? '').trim();
+const isW3 = cf.provider === 'web3forms';
+const action = key ? (isW3 ? 'https://api.web3forms.com/submit' : `https://formspree.io/f/${key}`) : '';
+const service = isW3 ? 'Web3Forms' : 'Formspree';
+const SUBJECT = 'Message from j-chung.kr';
+const TOPICS = ['Research collaboration', 'Invited talk or review', 'Prospective student', 'Other'];
+---
+<Base title="Contact" description={`Send a message to ${profile.name}, ${profile.suffix}.`}>
+  <PageHead crumbs={[{ label: 'Home', href: '' }, { label: 'Contact' }]} title="Contact" lede="Send a message about research, collaboration or talks, and I will reply by email." />
+
+  <section id="message" class="sec g12" aria-labelledby="h-message">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-message">Send a message</h2></div></header>
+    <div class="cform-wrap body-r" data-reveal>
+      {action ? (
+        <form class="cform" id="cform" action={action} method="POST" data-provider={cf.provider}>
+          {isW3 ? (
+            <>
+              <input type="hidden" name="access_key" value={key}>
+              <input type="hidden" name="subject" value={SUBJECT}>
+              <input type="hidden" name="from_name" value="j-chung.kr">
+              <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </>
+          ) : (
+            <>
+              <input type="hidden" name="_subject" value={SUBJECT}>
+              <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </>
+          )}
+          <div class="cf-row">
+            <div class="cf-field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+            <div class="cf-field"><label for="cf-email">Email <span class="cf-note">for my reply</span></label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-field"><label for="cf-aff">Affiliation <span class="cf-note">optional</span></label><input id="cf-aff" name="affiliation" type="text" autocomplete="organization"></div>
+            <div class="cf-field"><label for="cf-topic">Topic</label>
+              <select id="cf-topic" name="topic">
+                {TOPICS.map((t) => <option value={t}>{t}</option>)}
+              </select>
+            </div>
+          </div>
+          <div class="cf-field"><label for="cf-msg">Message</label><textarea id="cf-msg" name="message" rows="7" required></textarea></div>
+          <div class="cf-foot">
+            <button class="cf-send" type="submit">Send message</button>
+            <p class="cf-privacy">Messages are delivered by {service}. Your email address is used only to reply.</p>
+          </div>
+          <p class="cf-status" id="cf-status" role="status" aria-live="polite" tabindex="-1"></p>
+        </form>
+      ) : (
+        <p class="cf-pending">The message form is being set up. Until it opens, you can reach me on <a href={L.linkedin}>LinkedIn</a>.</p>
+      )}
+    </div>
+  </section>
+
+  <section id="elsewhere" class="sec g12" aria-labelledby="h-elsewhere">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">02</span><h2 id="h-elsewhere">Elsewhere</h2></div></header>
+    <ul class="cf-links body-r" data-reveal-group>
+      <li><a class="repo" href={L.linkedin}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg><span><b>LinkedIn</b><i>{L.linkedin.replace(/\/+$/, '').split('/').pop()}</i></span></a></li>
+      <li><a class="repo" href={L.scholar}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-scholar"/></svg><span><b>Google Scholar</b><i>Publications and citations</i></span></a></li>
+      <li><a class="repo" href={L.orcid}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-orcid"/></svg><span><b>ORCID</b><i>{L.orcid_id}</i></span></a></li>
+      <li><a class="repo" href={L.github}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>GitHub</b><i>{L.github_handle}</i></span></a></li>
+    </ul>
+  </section>
+
+  {action && (
+    <script is:inline>
+      // Send in place: post the form to the service as JSON and show the result under the button.
+      (function () {
+        var form = document.getElementById('cform');
+        if (!form || !window.fetch || !window.FormData) return;
+        var status = document.getElementById('cf-status');
+        var send = form.querySelector('.cf-send');
+        var say = function (text, kind) { status.textContent = text; status.className = 'cf-status' + (kind ? ' is-' + kind : ''); };
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var data = new FormData(form);
+          var topic = data.get('topic');
+          if (topic) data.set(form.dataset.provider === 'web3forms' ? 'subject' : '_subject', 'Message from j-chung.kr: ' + topic);
+          send.disabled = true;
+          say('Sending your message.', '');
+          fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.success !== false; }); })
+            .then(function (ok) {
+              if (!ok) throw new Error('send failed');
+              form.reset();
+              say('Thank you. Your message was sent, and I will reply by email.', 'ok');
+              status.focus();
+            })
+            .catch(function () {
+              say('The message could not be sent. Please try again later, or reach me on LinkedIn.', 'err');
+              status.focus();
+            })
+            .then(function () { send.disabled = false; });
+        });
+      })();
+    </script>
+  )}
+</Base>

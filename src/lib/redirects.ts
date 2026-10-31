@@ -21,7 +21,6 @@ const HBI = { to: 'research/human-building-interaction/', label: 'Human-Building
 export const LEGACY_REDIRECTS = [
   { path: 'about', ...HOME },
   { path: 'blog', ...HOME },
-  { path: 'contact', ...HOME },
   { path: 'designworks', to: 'design/', label: 'Design' },
   // Earlier work -> /research/
   { path: 'Research_Haebang-ro', ...RESEARCH },

@@ -11,6 +11,8 @@ GitHub Pages by `.github/workflows/deploy.yml`. Content lives in `src/data/*.yml
 - No unpublished numbers. Only numbers already in a published paper or report, or on the CV.
 - No em dashes or en dashes anywhere in site text (use commas, colons, "to" for ranges). `npm run check` enforces this.
 - Never write "trained as an architect".
+- No email address anywhere on the site (the owner's rule): visitors use the form on `/contact/`. Only the CV PDF
+  carries contact details.
 - Theme 3 is **"Human-Building Interaction"** (exact spelling).
 - The CV-printed redirect URLs must never break: `/ornl-profile/`, `/google-scholar/`, `/orcid/`, `/linkedin/`
   (list in `src/lib/redirects.ts`; `npm run check` verifies them independently). Do not rename or remove them.
@@ -42,7 +44,7 @@ fails on a root-relative link that ignores the base.
 
 | What | File |
 | --- | --- |
-| Name, role, bio, email, links, credentials, headshot | `src/data/profile.yml` |
+| Name, role, bio, links, credentials, headshot, contact form settings | `src/data/profile.yml` |
 | Degrees | `src/data/education.yml` |
 | News (homepage shows the newest three; /news/ lists all) | `src/data/news.yml` |
 | Publications | `src/data/publications.yml` |
@@ -137,6 +139,11 @@ For proceedings use `venue: Proceedings of X 2027` and `place: City`; for report
 **New CV PDF**: add `public/cv/Jihoon-Chung-CV-YYYY-MM.pdf`, update `CV_FILE` and `CV_LABEL` in
 `src/pages/cv.astro`. Keep the old file only if something links to it. The preview build leaves every PDF out (a PDF
 cannot carry a noindex tag), so the CV PDF only appears on the production site.
+
+**Contact form**: `/contact/` posts to a form service set in `src/data/profile.yml` (`contact_form`:
+`provider` web3forms or formspree, `key` the Web3Forms access key or the Formspree form ID). The key is public by
+design and does not reveal the delivery address, which lives in the service account. Empty key = the page shows a
+short note instead of the form.
 
 **Stub pages** (Software, Design, Publications, Talks, Teaching & Mentoring, two research themes) use
 `src/layouts/Stub.astro`. Replace a stub with a real page in the inner-page style of

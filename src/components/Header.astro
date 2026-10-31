@@ -1,6 +1,6 @@
 ---
 // Masthead from Mockup A: J. tile + "Jihoon Chung, Ph.D." in the name face (title-options.html, option C),
-// main navigation (fixed order), email.
+// main navigation (fixed order), light/dark switch. No email address on the site: Contact leads to a form.
 import JMark from './JMark.astro';
 import { url, pagePath } from '../lib/site';
 import { profile } from '../lib/data';
@@ -14,6 +14,7 @@ const NAV = [
   { label: 'Talks', path: 'talks/' },
   { label: 'Teaching & Mentoring', path: 'teaching/' },
   { label: 'CV', path: 'cv/' },
+  { label: 'Contact', path: 'contact/' },
 ];
 
 const here = pagePath(Astro.url.pathname);
@@ -29,7 +30,6 @@ const isCurrent = (p: string) => (p === '' ? here === '' : here.startsWith(p));
     </ul>
   </nav>
   <div class="mast-end">
-    <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
     <!-- Light/dark switch: shown by the page script (Base.astro), so it stays hidden without JS. -->
     <button class="theme-tg" type="button" aria-label="Switch color mode" title="Switch color mode" hidden>
       <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>

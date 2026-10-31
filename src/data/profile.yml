@@ -26,7 +26,14 @@ bio: >-
 # Search-engine description of the homepage.
 description: "Building science researcher: interoperable digital twins, grid-interactive efficient buildings, and human-building interaction."
 
-email: contact@j-chung.kr
+# Contact form on /contact/. No email address appears anywhere on the site; messages reach the owner through the
+# form service, which keeps the delivery address in its own account settings.
+#   provider   web3forms | formspree
+#   key        Web3Forms access key, or the Formspree form ID (the part after /f/). Empty = the page shows a short
+#              note instead of the form.
+contact_form:
+  provider: web3forms
+  key:
 
 # Image file inside public/. Also used as the Open Graph (link preview) image.
 headshot: images/headshot.jpg

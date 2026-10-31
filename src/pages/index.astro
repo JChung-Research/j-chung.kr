@@ -41,7 +41,6 @@ const jsonLd = {
   sameAs: [L.scholar, L.orcid, L.linkedin, L.github, L.ornl],
   url: absUrl(''),
   image: absUrl(profile.headshot),
-  email: `mailto:${profile.email}`,
 };
 ---
 <Base description={profile.description} jsonLd={jsonLd} ogType="profile">
@@ -64,8 +63,8 @@ const jsonLd = {
     </div>
     <aside class="hero-side" aria-label="Portrait and profiles">
       <figure class="portrait" data-hero style="--hi:2"><img src={url(profile.headshot)} width={profile.headshot_width} height={profile.headshot_height} alt={profile.headshot_alt}></figure>
-      <ul class="ids" data-hero style="--hi:5" aria-label="Email and profiles">
-        <li><a href={`mailto:${profile.email}`} aria-label="Email" title={profile.email}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg></a></li>
+      <ul class="ids" data-hero style="--hi:5" aria-label="Contact and profiles">
+        <li><a href={url('contact/')} aria-label="Contact" title="Contact"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg></a></li>
         <li><a href={L.scholar} aria-label="Google Scholar" title="Google Scholar"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-scholar"/></svg></a></li>
         <li><a href={L.orcid} aria-label="ORCID" title={`ORCID ${L.orcid_id}`}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-orcid"/></svg></a></li>
         <li><a href={L.linkedin} aria-label="LinkedIn" title="LinkedIn"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg></a></li>
