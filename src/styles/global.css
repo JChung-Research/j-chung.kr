@@ -414,17 +414,7 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
    A hairline in the rule color keeps the light tile's square edge visible on the light page.
    The tile is centered on the name's capitals; the header keeps Mockup A's baseline alignment. */
 :root{--name:"Barlow Semi Condensed","Arial Narrow",sans-serif}
-/* Header mark: light mode a dark tile with a light J; dark mode the original light tile with a dark J and a hairline. */
-.mark .jm{display:inline-block;width:28px;height:28px;border-radius:4px;vertical-align:-7px;margin-right:10px}
-.jm .jm-t{fill:#222222}.jm .jm-i{fill:#eeeeee}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .jm .jm-t{fill:#eeeeee}
-  :root:not([data-theme="light"]) .jm .jm-i{fill:#222222}
-  :root:not([data-theme="light"]) .mark .jm{border:1px solid var(--rule)}
-}
-:root[data-theme="dark"] .jm .jm-t{fill:#eeeeee}
-:root[data-theme="dark"] .jm .jm-i{fill:#222222}
-:root[data-theme="dark"] .mark .jm{border:1px solid var(--rule)}
+.mark .jm{display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--rule);vertical-align:-7px;margin-right:10px}
 .wm-name{font:600 1.25rem/1 var(--name);letter-spacing:.01em}
 .wm-name .lt{font-weight:300;color:var(--muted)}
 
