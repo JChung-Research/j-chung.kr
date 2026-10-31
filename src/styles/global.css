@@ -509,26 +509,26 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 .dgf .srv{stroke:var(--accent);stroke-width:1.75}
 
 
-/* Scroll reveal, a progressive enhancement. The head script (Base.astro) sets .js-motion on <html> only when the
-   visitor has no reduced-motion preference; without it, or without JS, everything is visible at rest.
-   [data-reveal] fades in and rises 28px once, when it enters the viewport; [data-reveal="fig"] also grows from 98%;
-   the children of [data-reveal-group] follow one another 80ms apart (up to the ninth). The page script adds .is-in
-   when an element enters and removes it when the element leaves through the bottom edge (scrolling back up), so it
-   fades out (0.5s, all together) and fades in again on the way down; elements above the viewport stay visible.
-   [data-hero] plays once on load instead (homepage hero and page heads, --hi = order,
-   55ms apart, all done within 0.9s). The header and nav are never hidden. */
+/* Scroll reveal, a progressive enhancement tied to the scroll position (as on apple.com). The head script (Base.astro)
+   sets .js-motion on <html> only when the visitor has no reduced-motion preference; without it, or without JS,
+   everything is visible at rest. The page script gives every [data-reveal] element and every child of a
+   [data-reveal-group] a progress value --rv from 0 to 1, from how far it sits above the bottom edge of the viewport:
+   0 at the edge, 1 once it has risen a third of the viewport (at most 280px). So an element fades in and rises 28px
+   as it scrolls up into view, and fades out and sinks again, in step with the scroll, when the visitor scrolls back
+   up. Elements above the viewport stay fully visible, everything is fully visible at the end of the page, and a
+   focused element never fades. Cards side by side in one row lag 40px each, so they still follow one another.
+   [data-reveal="fig"] also grows from 98%. [data-hero] plays once on load instead (homepage hero and page heads,
+   --hi = order, 55ms apart, all done within 0.9s). The header and nav are never hidden. */
 :root{--rv-ease:cubic-bezier(.2,.7,.2,1)}
 @media (prefers-reduced-motion: no-preference){
   .js-motion [data-hero]{animation:rv-hero .62s var(--rv-ease) both;animation-delay:calc(var(--hi,0) * 55ms)}
-  .js-motion :is([data-reveal],[data-reveal-group] > *){transition:opacity .5s ease-in,transform .5s ease-in}
-  .js-motion :is([data-reveal].is-in,[data-reveal-group].is-in > *){transition:opacity .8s var(--rv-ease),transform .8s var(--rv-ease);transition-delay:calc(var(--ri,0) * 80ms)}
-  .js-motion [data-reveal]:not(.is-in),.js-motion [data-reveal-group]:not(.is-in) > *{opacity:0;transform:translate3d(0,28px,0)}
-  .js-motion [data-reveal="fig"]:not(.is-in){transform:translate3d(0,28px,0) scale(.98)}
+  .js-motion :is([data-reveal],[data-reveal-group] > *){opacity:var(--rv,0);transform:translate3d(0,calc((1 - var(--rv,0)) * 28px),0);transition:opacity .12s linear,transform .12s linear}
+  .js-motion [data-reveal="fig"]{transform:translate3d(0,calc((1 - var(--rv,0)) * 28px),0) scale(calc(.98 + var(--rv,0) * .02))}
 }
 @keyframes rv-hero{from{opacity:0;transform:translate3d(0,16px,0)}}
 /* Phones: the swipe rows (theme cards, Recent Projects, Design) only fade, so nothing moves inside a scroller. */
 @media (max-width:640px){
-  .js-motion :is(.tcards ul,.rprojects,.dstrip):not(.is-in) > *{transform:none}
+  .js-motion :is(.tcards ul,.rprojects,.dstrip) > *{transform:none}
 }
 @media print{
   .js-motion :is([data-reveal],[data-reveal-group] > *,[data-hero]){opacity:1!important;transform:none!important;animation:none!important}

@@ -82,57 +82,67 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
   </div>
   <script is:inline>
     // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
-    // [data-reveal] and [data-reveal-group] get .is-in when they enter the viewport (or take focus), and lose it again
-    // when they leave through the bottom edge (the visitor scrolled back up), so they fade out and fade in again on the
-    // way down; elements above the viewport stay visible. Each theme drawing (svg.dg) gets .dg-on while at least a
-    // fifth of it is on screen, so it plays only then.
+    // Each [data-reveal] element and each child of a [data-reveal-group] gets --rv, 0 to 1, from how far it sits above
+    // the bottom edge of the viewport, so it fades in while scrolling down and fades out while scrolling back up, in
+    // step with the scroll. Each theme drawing (svg.dg) gets .dg-on while at least a fifth of it is on screen.
     (function () {
       window.__motion = true;
       var root = document.documentElement;
       if (!root.classList.contains('js-motion')) return;
       var all = function (q) { return Array.prototype.slice.call(document.querySelectorAll(q)); };
-      var revs = all('[data-reveal],[data-reveal-group]');
-      var dgs = all('svg.dg');
-      var show = function (el) { el.classList.add('is-in'); };
-      revs.forEach(function (g) {
-        if (g.hasAttribute('data-reveal-group')) Array.prototype.forEach.call(g.children, function (c, i) { c.style.setProperty('--ri', Math.min(i, 8)); });
+      var items = all('[data-reveal]').map(function (el) { return { el: el, lag: 0 }; });
+      var groups = all('[data-reveal-group]');
+      groups.forEach(function (g) {
+        Array.prototype.forEach.call(g.children, function (c) { items.push({ el: c, lag: 0, group: g }); });
       });
+      var vh = innerHeight, span = 280, ticking = false;
+      // Cards side by side in one row lag 40px each, so a row still fills from left to right.
+      var measure = function () {
+        vh = innerHeight;
+        span = Math.min(vh / 3, 280);
+        groups.forEach(function (g) {
+          var prev = null, lag = 0;
+          Array.prototype.forEach.call(g.children, function (c) {
+            var t = c.getBoundingClientRect().top;
+            lag = prev !== null && Math.abs(t - prev) < 4 ? lag + 40 : 0;
+            prev = t;
+            items.forEach(function (it) { if (it.el === c) it.lag = lag; });
+          });
+        });
+      };
+      var frame = function () {
+        ticking = false;
+        var maxY = root.scrollHeight - vh;
+        // Over the last stretch of the page everything comes fully in, so nothing stays faded at the very end.
+        var end = maxY <= 0 ? 1 : Math.max(0, 1 - (maxY - scrollY) / span);
+        var focus = document.activeElement;
+        var tops = items.map(function (it) { return it.el.getBoundingClientRect().top; });
+        items.forEach(function (it, i) {
+          var p = Math.max((vh - tops[i] - it.lag) / span, end);
+          if (focus && focus !== document.body && it.el.contains(focus)) p = 1;
+          p = p <= 0 ? 0 : p >= 1 ? 1 : p * p * (3 - 2 * p);
+          var v = p.toFixed(3);
+          if (v !== it.v) { it.v = v; it.el.style.setProperty('--rv', v); }
+        });
+      };
+      var request = function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+      measure();
+      frame();
+      addEventListener('scroll', request, { passive: true });
+      addEventListener('resize', function () { measure(); request(); });
+      addEventListener('load', function () { measure(); request(); });
+      document.addEventListener('focusin', request);
       if (!('IntersectionObserver' in window)) {
-        revs.forEach(show);
-        dgs.forEach(function (d) { d.classList.add('dg-on'); });
+        all('svg.dg').forEach(function (d) { d.classList.add('dg-on'); });
         return;
       }
-      // Two-way: in once `min` of the element is inside the viewport's upper 90%; out only when none of it is and it
-      // sits below that line (top > 0). Between the two nothing changes, so an element on the edge never flickers.
-      var watch = function (min) {
-        return new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            var el = e.target;
-            if (e.isIntersecting && e.intersectionRatio >= min) show(el);
-            else if (!e.isIntersecting && e.boundingClientRect.top > 0 && !el.contains(document.activeElement)) el.classList.remove('is-in');
-          });
-        }, { threshold: min ? [0, min] : 0, rootMargin: '0px 0px -10% 0px' });
-      };
-      var single = watch(0.15);
-      var group = watch(0);
-      // Groups and tall elements (over half the viewport) reveal as soon as their top passes 90% of the viewport.
-      revs.forEach(function (el) {
-        var tall = el.hasAttribute('data-reveal-group') || el.getBoundingClientRect().height > innerHeight * 0.5;
-        (tall ? group : single).observe(el);
-      });
-      document.addEventListener('focusin', function (e) {
-        for (var el = e.target; el && el.nodeType === 1; el = el.parentNode) {
-          if (el.hasAttribute('data-reveal') || el.hasAttribute('data-reveal-group')) show(el);
-          if (el.parentNode && el.parentNode.nodeType === 1 && el.parentNode.hasAttribute('data-reveal-group')) el.style.setProperty('--ri', 0);
-        }
-      });
       var play = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (e.intersectionRatio >= 0.2) e.target.classList.add('dg-on');
           else if (!e.isIntersecting) e.target.classList.remove('dg-on');
         });
       }, { threshold: [0, 0.2] });
-      dgs.forEach(function (d) { play.observe(d); });
+      all('svg.dg').forEach(function (d) { play.observe(d); });
     })();
   </script>
 </body>
