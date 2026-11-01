@@ -126,7 +126,7 @@
   code: https://github.com/JChung-Research/gb-obXML-Converter
   bibtex: chung2025occupant
   short: Building Simulation 2025
-  themes: [interoperable-digital-twins]
+  themes: [human-building-interaction]
   selected: true
 
 - id: autcon2021
@@ -207,7 +207,7 @@
   code: https://github.com/JChung-Research/case-dashboard
   bibtex: chung2024ifcjson
   short: ICCCBE 2024
-  themes: [human-building-interaction, interoperable-digital-twins]
+  themes: [interoperable-digital-twins]
   selected: true
 
 - id: i3ce2024

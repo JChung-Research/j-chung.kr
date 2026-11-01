@@ -65,56 +65,6 @@
 
 # ---------- Interoperable Digital Twins ----------
 
-- id: gbobxml
-  name: gb-obXML Converter
-  description: Translates gbXML to obXML so that occupant behavior models can enter BIM-to-BEM simulation workflows.
-  language: Python, XSLT
-  stack: [Python, XSLT, lxml, xmlschema, gbXML v7.04, obXML v1.4]
-  visibility: public
-  repo: https://github.com/JChung-Research/gb-obXML-Converter
-  license: MIT
-  theme: interoperable-digital-twins
-  home: true
-  drawing: obxml
-  caption: The obXML v1.4 schema tree, with the elements new in v1.4 and the elements the converter fills from gbXML.
-  papers: [bs2025]
-  features:
-    - label: Validate
-      text: Checks the input file against the gbXML v7.04 schema.
-    - label: Transform
-      text: Maps gbXML elements to obXML elements with XSLT rules kept apart from the code.
-    - label: Check
-      text: Validates the generated file against the obXML v1.4 schema.
-    - label: Reuse
-      text: Runs from the command line; its core module can be built into other Python applications.
-
-- id: ifc-brick
-  name: IFC-to-Brick converter
-  description: SHACL-based converter from IFC to the Brick schema, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
-  stack: [SHACL, IFC, Brick Schema]
-  visibility: private
-  theme: interoperable-digital-twins
-  home: false
-
-- id: ifc-ecs
-  name: IFC4.3-to-ECS translator
-  description: Translator from IFC 4.3 to ECS, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
-  stack: [IFC 4.3]
-  visibility: private
-  theme: interoperable-digital-twins
-  home: false
-
-- id: pyobfmu
-  name: obFMU in Python
-  description: Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM.
-  language: Python
-  stack: [Python, obXML, Functional Mockup Unit]
-  visibility: private
-  theme: interoperable-digital-twins
-  home: false
-
-# ---------- Human-Building Interaction ----------
-
 - id: case-dashboard
   name: CASE dashboard
   description: Web dashboard of the ifcJSON-based monitoring platform, showing real-time sensor data on the 3D BIM model of a university laboratory.
@@ -123,7 +73,7 @@
   visibility: public
   repo: https://github.com/JChung-Research/case-dashboard
   license: MIT
-  theme: human-building-interaction
+  theme: interoperable-digital-twins
   home: false
   image: images/videos/zWMlJOSf1o0.jpg
   image_alt: "The CASE dashboard: a 3D BIM model of the laboratory with sensor labels, beside panels for visualization options, real-time temperature and humidity gauges, data records, object types and a data table."
@@ -141,9 +91,62 @@
     - label: Application layer
       text: The dashboard renders the BIM model with Three.js and shows the live data in gauges and line charts.
 
+- id: ifc-brick
+  name: IFC-to-Brick converter
+  description: SHACL-based converter from IFC to the Brick schema, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
+  stack: [SHACL, IFC, Brick Schema]
+  visibility: private
+  theme: interoperable-digital-twins
+  home: false
+
+- id: ifc-ecs
+  name: IFC4.3-to-ECS translator
+  description: Translator from IFC 4.3 to ECS, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
+  stack: [IFC 4.3]
+  visibility: private
+  theme: interoperable-digital-twins
+  home: false
+
+# ---------- Human-Building Interaction ----------
+
+- id: gbobxml
+  name: gb-obXML Converter
+  description: Translates gbXML to obXML so that occupant behavior models can enter BIM-to-BEM simulation workflows.
+  language: Python, XSLT
+  stack: [Python, XSLT, lxml, xmlschema, gbXML v7.04, obXML v1.4]
+  visibility: public
+  repo: https://github.com/JChung-Research/gb-obXML-Converter
+  license: MIT
+  theme: human-building-interaction
+  home: true
+  drawing: obxml
+  caption: The obXML v1.4 schema tree, with the elements new in v1.4 and the elements the converter fills from gbXML.
+  papers: [bs2025]
+  features:
+    - label: Validate
+      text: Checks the input file against the gbXML v7.04 schema.
+    - label: Transform
+      text: Maps gbXML elements to obXML elements with XSLT rules kept apart from the code.
+    - label: Check
+      text: Validates the generated file against the obXML v1.4 schema.
+    - label: Reuse
+      text: Runs from the command line; its core module can be built into other Python applications.
+
+- id: pyobfmu
+  name: obFMU in Python
+  description: Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM.
+  language: Python
+  stack: [Python, obXML, Functional Mockup Unit]
+  visibility: private
+  theme: human-building-interaction
+  home: false
+
+# ---------- Human-Building Interaction ----------
+
 - id: comfit
   name: Comfit
-  description: Prototype digital twin dashboard that visualizes IoT sensor data on a BIM model in real time.
+  full_name: Web-based microservice for monitoring indoor air quality based on BIM & IoT
+  description: A web platform for non-experts to monitor indoor thermal comfort and air quality with BIM and IoT sensors. The BIM model comes in as ifcJSON, the sensors connect over MQTT, and the readings are stored with the Google Sheets API.
   language: JavaScript
   stack: [JavaScript, Three.js, MQTT.js, ifcJSON, IfcOpenShell, DataTables, Bootstrap, Google Sheets API]
   visibility: public
@@ -151,11 +154,9 @@
   license: MIT
   theme: human-building-interaction
   home: true
-  image: images/videos/QrzMWPwNgBs.jpg
-  image_alt: "Comfit in a web browser beside a camera view of a conference room: the room's BIM model with the occupant shown at the table, and controls for occupant tracking, lighting, color temperature and light intensity."
-  caption: Comfit in the conference room, from the video linked in the ASCE i3CE 2024 paper.
-  papers: [i3ce2024]
-  video: comfit-lighting
+  image: images/software/comfit-ui.jpg
+  image_alt: "The Comfit web interface: a 3D model viewer with camera and geometry controls, status with the MQTT connection and real-time readings, data controls, object types with color and opacity, and a data table of the selected object."
+  caption: The Comfit web interface, from the Comfit-Demo repository.
 
 - id: scr-nodered
   name: Node-RED API for the Smart Conference Room

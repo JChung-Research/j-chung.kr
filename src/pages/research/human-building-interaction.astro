@@ -10,7 +10,7 @@ import TalkList from '../../components/TalkList.astro';
 import ThemeNav from '../../components/ThemeNav.astro';
 import Video from '../../components/Video.astro';
 import Hbi from '../../components/diagrams/Hbi.astro';
-import ProjectIfcjson from '../../components/diagrams/ProjectIfcjson.astro';
+import ProjectObxml from '../../components/diagrams/ProjectObxml.astro';
 import { url } from '../../lib/site';
 import {
   themes, publications, recent, talks, videos,
@@ -30,20 +30,19 @@ const themeRecent = recent.filter((r) => r.theme === SLUG);
 const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
 const vids = videos.filter((v) => v.theme === SLUG);
 // The theme's featured tool (software.yml), and the code behind the demo video.
-const tool = softwareById('case-dashboard');
-const toolVideo = tool.video ? videoById(tool.video) : undefined;
-const demoCode = softwareById('comfit');
+const tool = softwareById('gbobxml');
 const demoPaper = pubById('i3ce2024');
-const icccbe = pubById('icccbe2024');
+const bs = pubById('bs2025');
 
 // Study cards (page text). "papers" are publication ids on this page; "video" links to a video player.
 type Card = { kick: string; title: string; text: string; papers?: string[]; video?: string; patents?: boolean };
 const pilots: Card[] = [
   { kick: 'Meeting room and laboratory', title: 'Indoor air pollutant sources', text: 'Estimates the probable area of an indoor air pollutant source from the sensor locations and CFD airflow vectors, and notifies the nearest occupants on their phones. Two pilot tests in a meeting room, then a case study in a laboratory.', papers: ['caad2023'] },
-  { kick: 'University laboratory', title: 'ifcJSON digital twin', text: 'Readings from 56 sensors for temperature, humidity, desk occupancy and door and window status, shown live on an ifcJSON version of the laboratory\'s BIM model and queried with SPARQL.', papers: ['icccbe2024'], video: 'case-dashboard' },
-  { kick: 'Conference room', title: 'Occupant behavior', text: 'Combines IoT sensor data with building automation data on a BIM model to follow the occupant\'s interaction with lighting, blinds, doors and other building systems. Eighteen ToF cameras under the ceiling locate the occupant and tell standing from sitting.', papers: ['i3ce2024'], video: 'comfit-lighting' },
+  { kick: 'Conference room', title: 'Occupant behavior', text: 'Combines IoT sensor data with building automation data on a BIM model to follow the occupant\'s interaction with lighting, blinds, doors and other building systems. Eighteen ToF cameras under the ceiling locate the occupant and tell standing from sitting.', papers: ['i3ce2024'], video: 'conference-room' },
 ];
 const models: Card[] = [
+  { kick: 'Energy model to occupant behavior', title: 'obXML v1.4', text: 'An enhanced obXML, the DOE-supported occupant behavior schema used with EnergyPlus: 154 enhancements that improve its interoperability with BIM models.', papers: ['bs2025'] },
+  { kick: 'Occupant behavior simulation', title: 'obFMU in Python', text: 'A Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM. I also updated the obFMU Application Guide and the tutorial IDF files for EnergyPlus 24.1.0.' },
   { kick: 'Semantic web', title: 'Indoor environmental quality ontology', text: 'An ontology that combines indoor and outdoor environmental conditions with occupant profiles, so that an application can recommend actions that improve indoor environmental quality.', papers: ['swocot2023'] },
   { kick: 'Generative design, Autodesk', title: 'Natural ventilation', text: 'A workflow that brings natural ventilation simulation into the generative design of residential floor plans, with post-COVID occupant presence models and adaptive comfort models. It resulted in two U.S. patent applications.', papers: ['sb2024'], patents: true },
 ];
@@ -56,7 +55,7 @@ const firstPatent = themePubs.find((p) => p.type === 'patent');
 const sections = [
   { id: 'approach', label: 'Approach', show: true },
   { id: 'pilots', label: 'Pilots', show: true },
-  { id: 'models', label: 'Ontology and simulation', show: true },
+  { id: 'models', label: 'Schema, ontology and simulation', show: true },
   { id: 'code', label: 'Design + code', show: true },
   { id: 'demo', label: 'Demo', show: vids.length > 0 },
   { id: 'publications', label: 'Publications', show: themePubs.length > 0 },
@@ -96,6 +95,10 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
           <p>Pilot studies in a university laboratory, a meeting room and a conference room.</p>
         </div>
         <div class="note">
+          <p class="kick">Berkeley Lab</p>
+          <p>I did the obXML and obFMU work as an affiliate researcher at Lawrence Berkeley National Laboratory, hosted by Dr. Tianzhen Hong.</p>
+        </div>
+        <div class="note">
           <p class="kick">What the sensors read</p>
           <p>Temperature, humidity, volatile organic compounds, CO2, desk occupancy, doors and windows, plug power, and where the occupant is in the room.</p>
         </div>
@@ -116,7 +119,7 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
   </section>
 
   <section id="models" class="sec g12" aria-labelledby="h-models">
-    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('models')}</span><h2 id="h-models">Ontology <span class="nw">and simulation</span></h2></div></header>
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('models')}</span><h2 id="h-models">Schema, ontology <span class="nw">and simulation</span></h2></div></header>
     <ul class="checks two body-r" data-reveal-group>
       {models.map((c) => (
         <li>
@@ -128,11 +131,11 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
   </section>
 
   <section id="code" class="sec g12" aria-labelledby="h-code">
-    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, the web platform of the ifcJSON pilot: the framework it is built on, and its code.</p></header>
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, released with the Building Simulation paper: the schema it fills, and what it is built with.</p></header>
     <div class="spread body-f">
       <figure class="fig main" data-reveal="fig">
-        <div class="sheet dgf-sheet"><ProjectIfcjson /></div>
-        <figcaption><span class="cap">The ifcJSON-based framework in four layers. After Chung and Shelden, ICCCBE 2024, Fig. 1.</span><a class="doi" href={`https://doi.org/${icccbe.doi}`} aria-label="DOI for the ICCCBE 2024 paper">[DOI]</a></figcaption>
+        <div class="sheet dgf-sheet"><ProjectObxml /></div>
+        <figcaption><span class="cap">{tool.caption} After Chung et al., Building Simulation 2025.</span><a class="doi" href={`https://doi.org/${bs.doi}`} aria-label="DOI for the Building Simulation 2025 paper">[DOI]</a></figcaption>
       </figure>
       <div class="aside orbit" data-reveal>
         <div class="prod"><p class="name">{tool.name}</p><p class="meta">{softwareMeta(tool)}</p></div>
@@ -143,13 +146,11 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
             {tool.stack.map((s) => <li>{s}</li>)}
           </ul>
         </div>
-        {tool.credit && <p class="credit">{tool.credit}</p>}
-        {toolVideo && <p class="related">Video: <a href={videoHref(toolVideo.id)}>{toolVideo.short} ({toolVideo.length})</a></p>}
         {tool.repo && <a class="repo" href={tool.repo}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>Source code on GitHub</b><i>{repoSlug(tool.repo)}</i></span></a>}
       </div>
     </div>
     {tool.features.length > 0 && (
-      <ul class="feats body-f" data-reveal-group aria-label="The four layers of the platform">
+      <ul class="feats body-f" data-reveal-group aria-label={`What the ${tool.name} does`}>
         {tool.features.map((f) => <li><p class="kick">{f.label}</p><p>{f.text}</p></li>)}
       </ul>
     )}
@@ -162,7 +163,7 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
         <div class="vids" data-reveal-group>
           {vids.map((v) => <Video v={v} />)}
         </div>
-        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a> · Code: <a href={demoCode.repo}>{demoCode.name}</a></p>
+        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a></p>
       </div>
     </section>
   )}

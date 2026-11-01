@@ -24,13 +24,13 @@
     model, with real-time temperature and humidity and their records.
   theme: interoperable-digital-twins
 
-- id: comfit-lighting
+- id: conference-room
   youtube: QrzMWPwNgBs
   title: BIM & IoT-based Web Platform for Controlling Lighting and Monitoring Occupant Behavior
-  short: Comfit lighting and occupant tracking
+  short: Conference room lighting and occupant tracking
   length: "2:05"
   date: "2023-05"
   line: >-
-    Comfit, a web platform that links BIM, IoT sensors and the building automation system of a conference room, tracks
-    the occupant on the BIM model and controls the lighting.
+    A web platform that links BIM, IoT sensors and the building automation system of a conference room: it tracks the
+    occupant on the BIM model and controls the lighting.
   theme: human-building-interaction

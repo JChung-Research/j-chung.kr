@@ -71,7 +71,7 @@
   diagram: obxml
   paper: bs2025
   code: gbobxml
-  theme: interoperable-digital-twins
+  theme: human-building-interaction
 
 - id: ifcjson-twin
   title: ifcJSON-based digital twin platform for monitoring building environments
@@ -85,4 +85,4 @@
   paper: icccbe2024
   code: comfit
   video: case-dashboard
-  theme: human-building-interaction
+  theme: interoperable-digital-twins

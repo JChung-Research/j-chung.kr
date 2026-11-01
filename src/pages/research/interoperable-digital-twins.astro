@@ -10,11 +10,11 @@ import TalkList from '../../components/TalkList.astro';
 import ThemeNav from '../../components/ThemeNav.astro';
 import Video from '../../components/Video.astro';
 import Idt from '../../components/diagrams/Idt.astro';
-import ProjectObxml from '../../components/diagrams/ProjectObxml.astro';
+import ProjectIfcjson from '../../components/diagrams/ProjectIfcjson.astro';
 import { url } from '../../lib/site';
 import {
   themes, publications, recent, talks, videos,
-  groupPublications, sortByDateDesc, spanPeriod, repoSlug, plural, softwareById, softwareMeta, pubById, PUB_GROUP_LABEL,
+  groupPublications, sortByDateDesc, spanPeriod, repoSlug, plural, softwareById, softwareMeta, pubById, videoById, PUB_GROUP_LABEL,
 } from '../../lib/data';
 
 const SLUG = 'interoperable-digital-twins';
@@ -30,18 +30,23 @@ const themeRecent = recent.filter((r) => r.theme === SLUG);
 const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
 const vids = videos.filter((v) => v.theme === SLUG);
 // The theme's featured tool (software.yml) and the code behind the demo video.
-const tool = softwareById('gbobxml');
+const tool = softwareById('case-dashboard');
+const toolVideo = tool.video ? videoById(tool.video) : undefined;
 const demoCode = softwareById('case-dashboard');
 const demoPaper = pubById('icccbe2024');
-const bs = pubById('bs2025');
+const icccbe = pubById('icccbe2024');
 
-// Prototype cards (page text). "papers" are publication ids on this page; "talk" links to the Talks section.
-const cards: { kick: string; title: string; text: string; papers?: string[]; talk?: boolean }[] = [
+// Prototype cards (page text). "papers" are publication ids on this page; "talk" links to the Talks section;
+// "video" links to a video player.
+const cards: { kick: string; title: string; text: string; papers?: string[]; talk?: boolean; video?: string }[] = [
   { kick: 'BIM to building automation', title: 'IFC-to-Brick converter', text: 'A SHACL-based converter from IFC to the Brick schema, developed with industry experts from Autodesk, Solibri and Trimble.', talk: true },
   { kick: 'BIM standards', title: 'IFC4.3-to-ECS translator', text: 'A translator from IFC 4.3 to ECS, from the same collaboration. I demonstrated the outcomes at the IFC Implementers Meeting of buildingSMART International.', talk: true },
-  { kick: 'Energy model to occupant behavior', title: 'obXML v1.4', text: 'An enhanced obXML, the DOE-supported occupant behavior schema used with EnergyPlus: 154 enhancements that improve its interoperability with BIM models.', papers: ['bs2025'] },
-  { kick: 'Occupant behavior simulation', title: 'obFMU in Python', text: 'A Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM. I also updated the obFMU Application Guide and the tutorial IDF files for EnergyPlus 24.1.0.' },
+  { kick: 'University laboratory', title: 'ifcJSON digital twin', text: 'Readings from 56 sensors for temperature, humidity, desk occupancy and door and window status, shown live on an ifcJSON version of the laboratory\'s BIM model and queried with SPARQL.', papers: ['icccbe2024'], video: 'case-dashboard' },
 ];
+const videoHref = (id: string) => {
+  const v = videoById(id);
+  return v.theme === SLUG ? `#video-${v.id}` : url(`research/${v.theme}/#video-${v.id}`);
+};
 const talkLabel = themeTalks.find((t) => t.organizer === 'buildingSMART International');
 
 const sections = [
@@ -85,10 +90,6 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
           <p class="kick">Ph.D. research</p>
           <p>Eight peer-reviewed publications came out of the framework, among them the journal article in Building Simulation and conference papers at CAAD Futures, ICCCBE and ASCE i3CE.</p>
         </div>
-        <div class="note">
-          <p class="kick">Berkeley Lab</p>
-          <p>I did the obXML and obFMU work as an affiliate researcher at Lawrence Berkeley National Laboratory, hosted by Dr. Tianzhen Hong.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -101,17 +102,18 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
           <p class="kick">{c.kick}</p><h3 class="h3">{c.title}</h3><p class="d">{c.text}</p>
           {c.papers && <p class="related">Paper: <Fragment set:html={c.papers.map((id) => `<a href="#p-${id}">${pubById(id).short}</a>`).join(' · ')} /></p>}
           {c.talk && talkLabel && <p class="related">Talk: <a href="#talk">buildingSMART International, {talkLabel.date.slice(0, 4)}</a></p>}
+          {c.video && <p class="related">Video: <a href={videoHref(c.video)}>{videoById(c.video).short} ({videoById(c.video).length})</a></p>}
         </li>
       ))}
     </ul>
   </section>
 
   <section id="code" class="sec g12" aria-labelledby="h-code">
-    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, released with the Building Simulation paper: the schema it fills, and what it is built with.</p></header>
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, the web platform of the ifcJSON pilot: the framework it is built on, and its code.</p></header>
     <div class="spread body-f">
       <figure class="fig main" data-reveal="fig">
-        <div class="sheet dgf-sheet"><ProjectObxml /></div>
-        <figcaption><span class="cap">{tool.caption} After Chung et al., Building Simulation 2025.</span><a class="doi" href={`https://doi.org/${bs.doi}`} aria-label="DOI for the Building Simulation 2025 paper">[DOI]</a></figcaption>
+        <div class="sheet dgf-sheet"><ProjectIfcjson /></div>
+        <figcaption><span class="cap">The ifcJSON-based framework in four layers. After Chung and Shelden, ICCCBE 2024, Fig. 1.</span><a class="doi" href={`https://doi.org/${icccbe.doi}`} aria-label="DOI for the ICCCBE 2024 paper">[DOI]</a></figcaption>
       </figure>
       <div class="aside orbit" data-reveal>
         <div class="prod"><p class="name">{tool.name}</p><p class="meta">{softwareMeta(tool)}</p></div>
@@ -122,11 +124,13 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
             {tool.stack.map((s) => <li>{s}</li>)}
           </ul>
         </div>
+        {tool.credit && <p class="credit">{tool.credit}</p>}
+        {toolVideo && <p class="related">Video: <a href={videoHref(toolVideo.id)}>{toolVideo.short} ({toolVideo.length})</a></p>}
         {tool.repo && <a class="repo" href={tool.repo}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>Source code on GitHub</b><i>{repoSlug(tool.repo)}</i></span></a>}
       </div>
     </div>
     {tool.features.length > 0 && (
-      <ul class="feats body-f" data-reveal-group aria-label={`What the ${tool.name} does`}>
+      <ul class="feats body-f" data-reveal-group aria-label="The four layers of the platform">
         {tool.features.map((f) => <li><p class="kick">{f.label}</p><p>{f.text}</p></li>)}
       </ul>
     )}

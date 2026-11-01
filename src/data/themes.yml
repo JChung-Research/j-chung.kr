@@ -18,8 +18,8 @@
     One building description that holds across design, simulation and operation. My Ph.D. framework
     connects BIM, building energy models, building automation and occupant behavior through IFC, Brick,
     SHACL and obXML.
-  papers: [bs2025]
-  code: [gbobxml]
+  papers: [icccbe2024]
+  code: [case-dashboard]
   diagram: idt
 
 - slug: grid-interactive-efficient-buildings
@@ -45,6 +45,6 @@
     How occupants, operators and intelligent building systems inform each other. My monitoring work links
     BIM, IoT sensors and building automation to track indoor air quality and occupant behavior, tested in
     university laboratory and meeting-room pilots.
-  papers: [caad2023, icccbe2024]
-  code: [comfit]
+  papers: [bs2025, caad2023]
+  code: [gbobxml, comfit]
   diagram: hbi
