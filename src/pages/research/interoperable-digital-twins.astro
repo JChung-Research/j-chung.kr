@@ -38,7 +38,7 @@ const icccbe = pubById('icccbe2024');
 // "video" links to a video player.
 const cards: { kick: string; title: string; text: string; papers?: string[]; talk?: boolean; video?: string }[] = [
   { kick: 'BIM to building automation', title: 'IFC-to-Brick converter', text: 'A SHACL-based converter from IFC to the Brick schema, developed with industry experts from Autodesk, Solibri and Trimble.', talk: true },
-  { kick: 'BIM standards', title: 'IFC4.3-to-ECS translator', text: 'A translator from IFC 4.3 to ECS, from the same collaboration. I demonstrated the outcomes at the IFC Implementers Meeting of buildingSMART International.', talk: true },
+  { kick: 'BIM standards', title: 'IFC4.3-to-ECS translator', text: 'A translator from IFC 4.3 to ECS (Entity Component System), from the same collaboration. I demonstrated the outcomes at the IFC Implementers Meeting of buildingSMART International.', talk: true },
   { kick: 'University laboratory', title: 'ifcJSON digital twin', text: 'Readings from 56 sensors for temperature, humidity, desk occupancy and door and window status, shown live on an ifcJSON version of the laboratory\'s BIM model and queried with SPARQL.', papers: ['icccbe2024'], video: 'case-dashboard' },
 ];
 const videoHref = (id: string) => {

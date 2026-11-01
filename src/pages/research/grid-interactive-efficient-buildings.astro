@@ -7,7 +7,7 @@ import PubList from '../../components/PubList.astro';
 import TalkList from '../../components/TalkList.astro';
 import ThemeNav from '../../components/ThemeNav.astro';
 import Geb from '../../components/diagrams/Geb.astro';
-import OrbitWireframe from '../../components/diagrams/OrbitWireframe.astro';
+import ProjectOrbit from '../../components/diagrams/ProjectOrbit.astro';
 import { url } from '../../lib/site';
 import {
   themes, publications, projects, recent, talks,
@@ -101,9 +101,12 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
 
   {tool && (
     <section id="orbit" class="sec g12" aria-labelledby="h-orbit">
-      <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('orbit')}</span><h2 id="h-orbit">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">{tool.name}, the open-source platform from this theme: how it looks to a building operator, and what it is built with.</p></header>
+      <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('orbit')}</span><h2 id="h-orbit">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">{tool.name}, the open-source platform from this theme: how its configuration becomes the operator's chart, and what it is built with.</p></header>
       <div class="spread body-f">
-        <OrbitWireframe />
+        <figure class="fig main" data-reveal="fig">
+          <div class="sheet dgf-sheet"><ProjectOrbit /></div>
+          {tool.caption && <figcaption><span class="cap">{tool.caption}</span></figcaption>}
+        </figure>
         <div class="aside orbit" data-reveal>
           <div class="prod"><p class="name">{tool.name}</p>{tool.full_name && <p class="meta">{tool.full_name}</p>}</div>
           <p class="d">{tool.description}</p>

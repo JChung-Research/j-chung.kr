@@ -1,6 +1,6 @@
 # Talks, posters and presentations: the CV's "Presentations & invited talks" section. Any order; pages sort newest
 # first. Session chairing is service, not a talk, and is not listed here.
-#   date       YYYY-MM-DD, in quotes
+#   date       YYYY-MM-DD, in quotes (YYYY-MM when the day is not known; shown as "Nov 2018")
 #   title      talk title, as on the CV
 #   event      event or session name (set in italics)
 #   organizer  optional, e.g. IBPSA-USA
@@ -120,7 +120,7 @@
   kind: talk
   themes: []
 
-- date: "2018-11-30"
+- date: "2018-11"
   title: Performance Evaluation Criteria for Building 3D Printing
   event: 2018 Annual Conference of KICEM
   kind: talk

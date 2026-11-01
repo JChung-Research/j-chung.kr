@@ -101,7 +101,7 @@
 
 - id: ifc-ecs
   name: IFC4.3-to-ECS translator
-  description: Translator from IFC 4.3 to ECS, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
+  description: Translator from IFC 4.3 to ECS (Entity Component System), a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
   stack: [IFC 4.3]
   visibility: private
   theme: interoperable-digital-twins

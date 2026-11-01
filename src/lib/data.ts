@@ -195,7 +195,7 @@ const Themes = z.array(
 
 const Talks = z.array(
   z.object({
-    date: ymd,
+    date: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$/, 'use YYYY-MM-DD in quotes, or YYYY-MM when the day is not known'),
     title: text,
     event: str,
     organizer: opt(str),
@@ -315,7 +315,7 @@ export function formatYm(value: string): string {
 /** "2026-05-13" -> "May 13, 2026" */
 export function formatYmd(value: string): string {
   const [y, m, d] = value.split('-').map(Number);
-  return `${MONTHS[m - 1]} ${d}, ${y}`;
+  return d ? `${MONTHS[m - 1]} ${d}, ${y}` : `${MONTHS[m - 1]} ${y}`;
 }
 
 export function pubDate(p: Publication, withMonth: boolean): string {

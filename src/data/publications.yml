@@ -9,8 +9,8 @@
 #   title      as published (patents: the CV's exact wording)
 #   authors    list in citation form; the entry equal to profile.yml "citation_name" ("Chung, J.")
 #              is set in bold. End the list with "et al." to shorten it. Patents: the inventors, as on the CV.
-#   venue      journal or proceedings name (set in italics). Patents: the CV's number line, e.g.
-#              "Application Serial No. US20250238578A1" (not italic).
+#   venue      journal or proceedings name (set in italics). Patents: the patent or publication number, e.g.
+#              "U.S. Patent Application Publication No. US 2025/0238578 A1" (not italic).
 #   place      optional, conference city, or a patent's country (shown after the venue)
 #   publisher  optional, shown after the venue when there is no place (e.g. for reports)
 #   year       journals: issue year; proceedings and abstracts: the year the work was presented at the meeting
@@ -392,8 +392,7 @@
   type: patent
   title: Generation and Simulation of Building Designs for Energy and Comfort Performance
   authors: ["Chung, J.", "Stoddart, J.", "Locke, J. H.", "Goldstein, R.", "Shahmansouri, N."]
-  venue: Application Serial No. US20250238578A1
-  place: United States
+  venue: U.S. Patent Application Publication No. US 2025/0238578 A1
   year: 2025
   month: 7
   link: { url: "https://patents.google.com/patent/US20250238578A1/en", label: Google Patents }
@@ -406,8 +405,7 @@
   type: patent
   title: Generation and Simulation of Building Designs for Energy and Comfort Performance
   authors: ["Chung, J.", "Stoddart, J.", "Locke, J. H.", "Goldstein, R.", "Shahmansouri, N."]
-  venue: Application Serial No. US20250238566A1
-  place: United States
+  venue: U.S. Patent Application Publication No. US 2025/0238566 A1
   year: 2025
   month: 7
   link: { url: "https://patents.google.com/patent/US20250238566A1/en", label: Google Patents }
