@@ -1,0 +1,36 @@
+# Videos: the owner's own YouTube uploads. Each plays in the "Demo" section of its theme page, click to play: the page
+# shows a local poster (public/images/videos/<youtube>.jpg, the video's YouTube thumbnail) and loads the
+# privacy-enhanced YouTube player (youtube-nocookie.com) only when the visitor clicks. Without JS the poster links to
+# the video on YouTube. A recent.yml entry can link to one with `video: <id>`.
+#   id        short unique id; the player's anchor becomes #video-<id>
+#   youtube   the YouTube video ID (the part after youtu.be/)
+#   title     the video's title, as on YouTube
+#   short     a few words for "Video:" links on the homepage project cards
+#   length    "M:SS", in quotes
+#   date      upload month "YYYY-MM", in quotes
+#   line      one sentence on what the video shows, traceable to the paper or the code
+#   theme     the theme page that shows it
+#
+# Poster for a new video: save https://i.ytimg.com/vi/<youtube>/maxresdefault.jpg as public/images/videos/<youtube>.jpg.
+
+- id: case-dashboard
+  youtube: zWMlJOSf1o0
+  title: BIM & IoT-based CASE Dashboard for Digital Twin
+  short: CASE dashboard
+  length: "0:55"
+  date: "2023-12"
+  line: >-
+    The BIM and IoT-based building monitoring system of the CASE laboratory at RPI: sensor readings on the 3D BIM
+    model, with real-time temperature and humidity and their records.
+  theme: interoperable-digital-twins
+
+- id: comfit-lighting
+  youtube: QrzMWPwNgBs
+  title: BIM & IoT-based Web Platform for Controlling Lighting and Monitoring Occupant Behavior
+  short: Comfit lighting and occupant tracking
+  length: "2:05"
+  date: "2023-05"
+  line: >-
+    Comfit, a web platform that links BIM, IoT sensors and the building automation system of a conference room, tracks
+    the occupant on the BIM model and controls the lighting.
+  theme: human-building-interaction

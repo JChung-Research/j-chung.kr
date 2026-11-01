@@ -9,7 +9,7 @@ import { url, absUrl } from '../lib/site';
 import {
   profile, education, news, software, themes, recent,
   sortByDateDesc, formatYm, newsHtml, homePublications,
-  educationFieldHtml, headlineHtml, pubById, softwareById, themeBySlug, spanPeriod,
+  educationFieldHtml, headlineHtml, pubById, softwareById, themeBySlug, spanPeriod, videoById,
 } from '../lib/data';
 
 // Highlights only: the newest news items and three selected publications; the full lists have their own pages.
@@ -28,6 +28,7 @@ const projectLinks = (r: (typeof recent)[number]) =>
     r.paper && { kind: 'Paper', ...pubLink(r.paper) },
     r.report && { kind: 'Report', ...pubLink(r.report) },
     r.code && { kind: 'Code', href: softwareById(r.code).repo, label: softwareById(r.code).name },
+    r.video && (() => { const v = videoById(r.video!); return { kind: 'Video', href: url(`research/${v.theme}/#video-${v.id}`), label: `${v.short} (${v.length})` }; })(),
   ].filter(Boolean) as { kind: string; href: string; label: string }[];
 
 const jsonLd = {

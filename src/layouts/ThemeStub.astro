@@ -3,8 +3,9 @@
 // already on the homepage and the previous/next theme links.
 import Stub from './Stub.astro';
 import ThemeNav from '../components/ThemeNav.astro';
+import Video from '../components/Video.astro';
 import { url } from '../lib/site';
-import { themes, pubById, softwareById, plural, escapeHtml, homePubIds } from '../lib/data';
+import { themes, pubById, softwareById, plural, escapeHtml, homePubIds, videos } from '../lib/data';
 
 interface Props { slug: string }
 const i = themes.findIndex((t) => t.slug === Astro.props.slug);
@@ -14,6 +15,7 @@ const code = t.code.map((id) => softwareById(id));
 const paperLinks = papers
   .map((p) => (homePubIds.has(p.id) ? `<a href="${url(`#p-${p.id}`)}">${escapeHtml(p.short)}</a>` : `<a href="https://doi.org/${p.doi}">${escapeHtml(p.short)}</a>`))
   .join(' · ');
+const vids = videos.filter((v) => v.theme === t.slug);
 const codeLinks = code.map((s) => `<a href="${url(`#sw-${s.id}`)}">${escapeHtml(s.name)}</a>`).join(' · ');
 ---
 <Stub
@@ -28,5 +30,15 @@ const codeLinks = code.map((s) => `<a href="${url(`#sw-${s.id}`)}">${escapeHtml(
       {code.length > 0 && <>Code: <Fragment set:html={codeLinks} /></>}
     </p>
   )}
-  <ThemeNav slot="after" slug={t.slug} />
+  <Fragment slot="after">
+    {vids.length > 0 && (
+      <section id="demo" class="sec g12" aria-labelledby="h-demo">
+        <header data-reveal class="sec-head side"><div class="hd"><span class="num">01</span><h2 id="h-demo">Demo</h2></div></header>
+        <div class="vids body-r" data-reveal-group>
+          {vids.map((v) => <Video v={v} />)}
+        </div>
+      </section>
+    )}
+    <ThemeNav slug={t.slug} />
+  </Fragment>
 </Stub>

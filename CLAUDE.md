@@ -50,6 +50,7 @@ fails on a root-relative link that ignores the base.
 | Publications | `src/data/publications.yml` |
 | Funded projects | `src/data/projects.yml` |
 | Software | `src/data/software.yml` |
+| Videos (theme page "Demo" sections; posters in `public/images/videos/`) | `src/data/videos.yml`, `src/components/Video.astro` |
 | Research themes (homepage theme cards, /research/ cards) | `src/data/themes.yml` |
 | Recent projects (homepage cards, each with its own diagram) | `src/data/recent.yml`, `src/components/diagrams/Project*.astro` |
 | Talks | `src/data/talks.yml` |
@@ -139,6 +140,22 @@ For proceedings use `venue: Proceedings of X 2027` and `place: City`; for report
 **New CV PDF**: add `public/cv/Jihoon-Chung-CV-YYYY-MM.pdf`, update `CV_FILE` and `CV_LABEL` in
 `src/pages/cv.astro`. Keep the old file only if something links to it. The preview build leaves every PDF out (a PDF
 cannot carry a noindex tag), so the CV PDF only appears on the production site.
+
+**Add a video** (`src/data/videos.yml`; it appears in the "Demo" section of its theme page, click to play):
+
+```yaml
+- id: newdemo                      # anchor becomes #video-newdemo
+  youtube: AbCdEfGhIjK             # the part after youtu.be/
+  title: Title as on YouTube
+  short: A few words               # used in "Video:" links on the homepage project cards
+  length: "1:30"
+  date: "2027-03"
+  line: What the video shows, in one sentence.
+  theme: human-building-interaction
+```
+
+Save the poster as `public/images/videos/<youtube>.jpg` (from `https://i.ytimg.com/vi/<youtube>/maxresdefault.jpg`).
+To link it from a project card, add `video: newdemo` to the entry in `src/data/recent.yml`.
 
 **Contact form**: `/contact/` is the owner's original Formspree form from the old site (form ID in
 `src/data/profile.yml`, `contact_form.key`; fields email, name, subject, message; inbox subject "New Contact Form

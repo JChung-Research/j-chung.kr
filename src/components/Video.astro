@@ -1,0 +1,19 @@
+---
+// One video, click to play (videos.yml). The poster is a local copy of the YouTube thumbnail; the privacy-enhanced
+// player (youtube-nocookie.com) loads only when the visitor clicks (script in Base.astro). Without JS the poster
+// links to the video on YouTube.
+import { url } from '../lib/site';
+import { formatYm } from '../lib/data';
+import type { videos } from '../lib/data';
+
+interface Props { v: (typeof videos)[number] }
+const { v } = Astro.props;
+---
+<figure class="vid" id={`video-${v.id}`}>
+  <a class="vid-play" href={`https://www.youtube.com/watch?v=${v.youtube}`} data-yt={v.youtube} data-title={v.title} aria-label={`Play video: ${v.title} (${v.length})`}>
+    <img src={url(`images/videos/${v.youtube}.jpg`)} width="1280" height="720" alt="" loading="lazy" decoding="async">
+    <span class="vid-btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" focusable="false"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+    <span class="vid-len" aria-hidden="true">{v.length}</span>
+  </a>
+  <figcaption><b>{v.title}</b><span class="vid-line">{v.line}</span><span class="vid-meta">{formatYm(v.date)} · {v.length} · YouTube</span></figcaption>
+</figure>

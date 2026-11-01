@@ -14,6 +14,7 @@ import themesRaw from '../data/themes.yml?raw';
 import talksRaw from '../data/talks.yml?raw';
 import teachingRaw from '../data/teaching.yml?raw';
 import serviceRaw from '../data/service.yml?raw';
+import videosRaw from '../data/videos.yml?raw';
 
 const ym = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'use YYYY-MM in quotes, e.g. "2026-09"');
 const ymd = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'use YYYY-MM-DD in quotes');
@@ -121,6 +122,20 @@ const Recent = z.array(
     paper: opt(str),
     report: opt(str),
     code: opt(str),
+    video: opt(str),
+    theme: themeSlug,
+  }),
+);
+
+const Videos = z.array(
+  z.object({
+    id: z.string().regex(/^[a-z0-9-]+$/, 'lowercase letters, digits and hyphens only'),
+    youtube: z.string().regex(/^[A-Za-z0-9_-]{11}$/, 'the 11-character YouTube video ID'),
+    title: text,
+    short: str,
+    length: z.string().regex(/^\d{1,2}:\d{2}$/, 'use M:SS in quotes, e.g. "2:05"'),
+    date: ym,
+    line: text,
     theme: themeSlug,
   }),
 );
@@ -213,6 +228,8 @@ export const themes = load('themes.yml', themesRaw, Themes);
 export const talks = load('talks.yml', talksRaw, Talks);
 export const teaching = load('teaching.yml', teachingRaw, Teaching);
 export const service = load('service.yml', serviceRaw, Service);
+export const videos = load('videos.yml', videosRaw, Videos);
+export const videoById = (id: string) => videos.find((v) => v.id === id)!;
 
 export type Publication = (typeof publications)[number];
 export type Theme = (typeof themes)[number];
@@ -238,6 +255,7 @@ export type Theme = (typeof themes)[number];
       if (id && !pubIds.has(id)) throw new Error(`recent.yml (${r.id}): unknown ${key} id "${id}"`);
     }
     if (r.code && !swIds.has(r.code)) throw new Error(`recent.yml (${r.id}): unknown software id "${r.code}"`);
+    if (r.video && !videos.some((v) => v.id === r.video)) throw new Error(`recent.yml (${r.id}): unknown video id "${r.video}"`);
   }
   for (const p of projects) {
     if (p.report_doi && !dois.has(p.report_doi)) {

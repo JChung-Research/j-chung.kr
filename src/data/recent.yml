@@ -13,6 +13,7 @@
 #   paper      optional publication id (publications.yml), linked by DOI
 #   report     optional publication id (publications.yml), linked by DOI
 #   code       optional software id (software.yml), linked to its repository
+#   video      optional video id (videos.yml), linked to its player on the theme page
 #   theme      research theme slug: the card's theme tag links to that theme page
 #
 # Example:
@@ -83,4 +84,5 @@
   diagram: ifcjson
   paper: icccbe2024
   code: comfit
+  video: case-dashboard
   theme: human-building-interaction

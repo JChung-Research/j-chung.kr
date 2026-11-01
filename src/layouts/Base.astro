@@ -122,6 +122,23 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : ''
     })();
   </script>
   <script is:inline>
+    // Videos (Video.astro): a click on the poster swaps it for the privacy-enhanced YouTube player, playing.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a.vid-play[data-yt]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault();
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-yt') + '?autoplay=1&rel=0';
+      f.title = a.getAttribute('data-title') || 'Video';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.allowFullscreen = true;
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      f.className = 'vid-frame';
+      a.replaceWith(f);
+      f.focus();
+    });
+  </script>
+  <script is:inline>
     // Scroll reveal and theme drawing playback (styles: "Scroll reveal" and "Theme drawings" in global.css).
     // Each [data-reveal] element and each child of a [data-reveal-group] gets --rv, 0 to 1, from how far it sits above
     // the bottom edge of the viewport, so it fades in while scrolling down and fades out while scrolling back up, in
