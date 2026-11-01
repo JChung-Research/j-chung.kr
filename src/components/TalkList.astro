@@ -1,0 +1,25 @@
+---
+// Talk rows (talks.yml) in the ".pubs" list style: date, title, event line, then the kind (Talk, Poster, Panel) with
+// the CV's note. Used by the theme pages (talks tagged with the theme) and /talks/ (with a link to each talk's theme).
+import { url } from '../lib/site';
+import { formatYmd, themeBySlug, escapeHtml, TALK_KIND_LABEL, type Talk } from '../lib/data';
+
+interface Props {
+  items: Talk[];
+  showThemes?: boolean;
+  class?: string;
+}
+const { items, showThemes = false, class: cls = '' } = Astro.props;
+---
+<ol class={`pubs ${cls}`.trim()} data-reveal-group>
+  {items.map((t) => (
+    <li>
+      <time class="yr" datetime={t.date}>{formatYmd(t.date)}</time>
+      <div class="entry">
+        <p class="t">{t.link ? <a href={t.link}>{t.title}</a> : t.title}</p>
+        <p class="v"><i>{t.event}</i>{[t.organizer, t.place].filter(Boolean).map((x) => `, ${x}`).join('')}.</p>
+        <p class="related">{TALK_KIND_LABEL[t.kind]}{t.note && <>. {t.note}</>}{showThemes && t.themes.length > 0 && <> · Theme: <Fragment set:html={t.themes.map((s) => `<a href="${url(`research/${s}/`)}">${escapeHtml(themeBySlug(s).title)}</a>`).join(', ')} /></>}</p>
+      </div>
+    </li>
+  ))}
+</ol>

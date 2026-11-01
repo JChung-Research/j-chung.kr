@@ -1,4 +1,192 @@
 ---
-import ThemeStub from '../../layouts/ThemeStub.astro';
+// Theme 3 page, in the inner-page template of the Grid-Interactive Efficient Buildings page.
+// Lists (projects, software, publications, talks, videos) come from src/data/*.yml; narrative text is below.
+// Every sentence here is listed with its source in
+// personal-website/research/compare-2026-11-01-stage2/source-check.md (CV, canonical-facts.md, papers, repositories).
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PubList from '../../components/PubList.astro';
+import TalkList from '../../components/TalkList.astro';
+import ThemeNav from '../../components/ThemeNav.astro';
+import Video from '../../components/Video.astro';
+import Hbi from '../../components/diagrams/Hbi.astro';
+import ProjectIfcjson from '../../components/diagrams/ProjectIfcjson.astro';
+import { url } from '../../lib/site';
+import {
+  themes, publications, recent, talks, videos,
+  groupPublications, sortByDateDesc, spanPeriod, repoSlug, plural, softwareById, softwareMeta, pubById, videoById, PUB_GROUP_LABEL,
+} from '../../lib/data';
+
+const SLUG = 'human-building-interaction';
+const themeNo = themes.findIndex((t) => t.slug === SLUG) + 1;
+const theme = themes[themeNo - 1];
+
+const lede =
+  'How occupants, operators and intelligent building systems inform each other. At the Center for Architecture Science and Ecology at RPI, I designed and deployed a web-based building monitoring system that integrates BIM, IoT sensors, building automation systems and semantic web technologies.';
+
+const themePubs = publications.filter((p) => p.themes.includes(SLUG));
+const groups = groupPublications(themePubs);
+const themeRecent = recent.filter((r) => r.theme === SLUG);
+const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
+const vids = videos.filter((v) => v.theme === SLUG);
+// The theme's featured tool (software.yml), and the code behind the demo video.
+const tool = softwareById('case-dashboard');
+const toolVideo = tool.video ? videoById(tool.video) : undefined;
+const demoCode = softwareById('comfit');
+const demoPaper = pubById('i3ce2024');
+const icccbe = pubById('icccbe2024');
+
+// Study cards (page text). "papers" are publication ids on this page; "video" links to a video player.
+type Card = { kick: string; title: string; text: string; papers?: string[]; video?: string; patents?: boolean };
+const pilots: Card[] = [
+  { kick: 'Meeting room and laboratory', title: 'Indoor air pollutant sources', text: 'Estimates the probable area of an indoor air pollutant source from the sensor locations and CFD airflow vectors, and notifies the nearest occupants on their phones. Two pilot tests in a meeting room, then a case study in a laboratory.', papers: ['caad2023'] },
+  { kick: 'University laboratory', title: 'ifcJSON digital twin', text: 'Readings from 56 sensors for temperature, humidity, desk occupancy and door and window status, shown live on an ifcJSON version of the laboratory\'s BIM model and queried with SPARQL.', papers: ['icccbe2024'], video: 'case-dashboard' },
+  { kick: 'Conference room', title: 'Occupant behavior', text: 'Combines IoT sensor data with building automation data on a BIM model to follow the occupant\'s interaction with lighting, blinds, doors and other building systems. Eighteen ToF cameras under the ceiling locate the occupant and tell standing from sitting.', papers: ['i3ce2024'], video: 'comfit-lighting' },
+];
+const models: Card[] = [
+  { kick: 'Semantic web', title: 'Indoor environmental quality ontology', text: 'An ontology that combines indoor and outdoor environmental conditions with occupant profiles, so that an application can recommend actions that improve indoor environmental quality.', papers: ['swocot2023'] },
+  { kick: 'Generative design, Autodesk', title: 'Natural ventilation', text: 'A workflow that brings natural ventilation simulation into the generative design of residential floor plans, with post-COVID occupant presence models and adaptive comfort models. It resulted in two U.S. patent applications.', papers: ['sb2024'], patents: true },
+];
+const videoHref = (id: string) => {
+  const v = videoById(id);
+  return v.theme === SLUG ? `#video-${v.id}` : url(`research/${v.theme}/#video-${v.id}`);
+};
+const firstPatent = themePubs.find((p) => p.type === 'patent');
+
+const sections = [
+  { id: 'approach', label: 'Approach', show: true },
+  { id: 'pilots', label: 'Pilots', show: true },
+  { id: 'models', label: 'Ontology and simulation', show: true },
+  { id: 'code', label: 'Design + code', show: true },
+  { id: 'demo', label: 'Demo', show: vids.length > 0 },
+  { id: 'publications', label: 'Publications', show: themePubs.length > 0 },
+  { id: 'talk', label: plural('Talk', themeTalks.length), show: themeTalks.length > 0 },
+].filter((s) => s.show);
+const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 ---
-<ThemeStub slug="human-building-interaction" />
+<Base title={theme.title} description={theme.sentence} ogType="article">
+  <PageHead
+    crumbs={[{ label: 'Research', href: 'research/' }, { label: `Theme ${themeNo} of ${themes.length}` }]}
+    title={theme.title}
+    lede={lede}
+    toc={sections.map((s) => ({ id: s.id, label: s.label }))}
+  >
+    {themeRecent.length > 0 && (
+      <div class="note" data-hero style="--hi:3">
+        <p class="kick" id="recent-h">Projects</p>
+        <ul class="plist" aria-labelledby="recent-h">
+          {themeRecent.map((r) => (
+            <li><a href={url(`#proj-${r.id}`)}>{r.title}</a><span class="mono">{spanPeriod(r.start, r.end)}</span></li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </PageHead>
+
+  <section id="approach" class="sec g12" aria-labelledby="h-approach">
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('approach')}</span><h2 id="h-approach">Approach</h2></div><p class="sec-intro">A BIM model holds detailed information about a building's spaces and components, but that information is rarely used for facility management once the building is in operation. My prototypes combine IoT sensor data and building automation data with the BIM model, so that indoor conditions and occupant behavior are tied to the locations and properties of building components.</p></header>
+    <div class="spread body-f">
+      <figure class="fig main" data-reveal="fig">
+        <div class="sheet"><Hbi /></div>
+        <figcaption><span class="pn">Concept</span></figcaption>
+      </figure>
+      <div class="aside" data-reveal>
+        <div class="note">
+          <p class="kick">Where it was tested</p>
+          <p>Pilot studies in a university laboratory, a meeting room and a conference room.</p>
+        </div>
+        <div class="note">
+          <p class="kick">What the sensors read</p>
+          <p>Temperature, humidity, volatile organic compounds, CO2, desk occupancy, doors and windows, plug power, and where the occupant is in the room.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pilots" class="sec g12" aria-labelledby="h-pilots">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('pilots')}</span><h2 id="h-pilots">Pilots</h2></div></header>
+    <ul class="checks body-r" data-reveal-group>
+      {pilots.map((c) => (
+        <li>
+          <p class="kick">{c.kick}</p><h3 class="h3">{c.title}</h3><p class="d">{c.text}</p>
+          <p class="related">{c.papers && <>Paper: <Fragment set:html={c.papers.map((id) => `<a href="#p-${id}">${pubById(id).short}</a>`).join(' · ')} /></>}{c.video && <>{c.papers && ' · '}Video: <a href={videoHref(c.video)}>{videoById(c.video).short} ({videoById(c.video).length})</a></>}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="models" class="sec g12" aria-labelledby="h-models">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('models')}</span><h2 id="h-models">Ontology <span class="nw">and simulation</span></h2></div></header>
+    <ul class="checks two body-r" data-reveal-group>
+      {models.map((c) => (
+        <li>
+          <p class="kick">{c.kick}</p><h3 class="h3">{c.title}</h3><p class="d">{c.text}</p>
+          <p class="related">{c.papers && <>Paper: <Fragment set:html={c.papers.map((id) => `<a href="#p-${id}">${pubById(id).short}</a>`).join(' · ')} /></>}{c.patents && firstPatent && <> · Patents: <a href={`#p-${firstPatent.id}`}>U.S. applications</a></>}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="code" class="sec g12" aria-labelledby="h-code">
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, the web platform of the ifcJSON pilot: the framework it is built on, and its code.</p></header>
+    <div class="spread body-f">
+      <figure class="fig main" data-reveal="fig">
+        <div class="sheet dgf-sheet"><ProjectIfcjson /></div>
+        <figcaption><span class="cap">The ifcJSON-based framework in four layers. After Chung and Shelden, ICCCBE 2024, Fig. 1.</span><a class="doi" href={`https://doi.org/${icccbe.doi}`} aria-label="DOI for the ICCCBE 2024 paper">[DOI]</a></figcaption>
+      </figure>
+      <div class="aside orbit" data-reveal>
+        <div class="prod"><p class="name">{tool.name}</p><p class="meta">{softwareMeta(tool)}</p></div>
+        <p class="d">{tool.description}</p>
+        <div class="stack">
+          <p class="kick" id="stack-h">Stack</p>
+          <ul class="ec-tags" aria-labelledby="stack-h">
+            {tool.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+        {tool.credit && <p class="credit">{tool.credit}</p>}
+        {toolVideo && <p class="related">Video: <a href={videoHref(toolVideo.id)}>{toolVideo.short} ({toolVideo.length})</a></p>}
+        {tool.repo && <a class="repo" href={tool.repo}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>Source code on GitHub</b><i>{repoSlug(tool.repo)}</i></span></a>}
+      </div>
+    </div>
+    {tool.features.length > 0 && (
+      <ul class="feats body-f" data-reveal-group aria-label="The four layers of the platform">
+        {tool.features.map((f) => <li><p class="kick">{f.label}</p><p>{f.text}</p></li>)}
+      </ul>
+    )}
+  </section>
+
+  {vids.length > 0 && (
+    <section id="demo" class="sec g12" aria-labelledby="h-demo">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('demo')}</span><h2 id="h-demo">Demo</h2></div></header>
+      <div class="body-r">
+        <div class="vids" data-reveal-group>
+          {vids.map((v) => <Video v={v} />)}
+        </div>
+        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a> · Code: <a href={demoCode.repo}>{demoCode.name}</a></p>
+      </div>
+    </section>
+  )}
+
+  {themePubs.length > 0 && (
+    <section id="publications" class="sec g12" aria-labelledby="h-pubs">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('publications')}</span><h2 id="h-pubs">Publications</h2></div></header>
+      <div class="body-r">
+        {groups.map((g) => (
+          <>
+            <p class="kick grp">{plural(PUB_GROUP_LABEL[g.type], g.items.length)}</p>
+            <PubList items={g.items} variant="full" />
+          </>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {themeTalks.length > 0 && (
+    <section id="talk" class="sec g12" aria-labelledby="h-talk">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('talk')}</span><h2 id="h-talk">{plural('Talk', themeTalks.length)}</h2></div></header>
+      <TalkList items={themeTalks} class="body-r" />
+    </section>
+  )}
+
+  <ThemeNav slug={SLUG} />
+</Base>

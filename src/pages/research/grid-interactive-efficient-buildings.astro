@@ -4,13 +4,14 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import PubList from '../../components/PubList.astro';
+import TalkList from '../../components/TalkList.astro';
 import ThemeNav from '../../components/ThemeNav.astro';
 import Geb from '../../components/diagrams/Geb.astro';
 import OrbitWireframe from '../../components/diagrams/OrbitWireframe.astro';
 import { url } from '../../lib/site';
 import {
-  themes, publications, projects, recent, software, talks,
-  sortPublications, sortByDateDesc, spanYm, spanPeriod, formatYmd, pubByDoi, repoSlug, plural, PUB_GROUP_LABEL,
+  themes, publications, projects, recent, talks,
+  groupPublications, sortByDateDesc, spanYm, spanPeriod, pubByDoi, repoSlug, plural, softwareById, PUB_GROUP_LABEL,
   type Publication,
 } from '../../lib/data';
 
@@ -21,15 +22,14 @@ const theme = themes[themeNo - 1];
 const lede =
   "Small and medium-sized commercial buildings (SMCBs) are 94% of U.S. commercial buildings and account for nearly half of commercial building energy use, yet they lack affordable, interoperable building energy management (BEM) tools. At Oak Ridge National Laboratory I develop portable, vendor-agnostic BEM and supervisory control for these buildings, supporting the U.S. Department of Energy's Grid-interactive Efficient Buildings initiative.";
 
-const themePubs = sortPublications(publications.filter((p) => p.themes.includes(SLUG)));
-const groups = (['journal', 'conference', 'report'] as const)
-  .map((type) => ({ type, items: themePubs.filter((p) => p.type === type) }))
-  .filter((g) => g.items.length > 0);
+const themePubs = publications.filter((p) => p.themes.includes(SLUG));
+const groups = groupPublications(themePubs);
 const themeProjects = projects.filter((p) => p.theme === SLUG);
 // Recent projects in this theme: short list in the page head, linking to their cards on the homepage.
 const themeRecent = recent.filter((r) => r.theme === SLUG);
 const roles = [...new Set(themeProjects.map((p) => p.role))];
-const tool = software.find((s) => s.theme === SLUG);
+// The theme's featured tool (software.yml).
+const tool = softwareById('orbit');
 const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
 
 // Validation cards (page text). "papers" are publication ids on this page.
@@ -160,11 +160,7 @@ const sb = publications.find((p) => p.id === 'sb2026') as Publication;
   {themeTalks.length > 0 && (
     <section id="talk" class="sec g12" aria-labelledby="h-talk">
       <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('talk')}</span><h2 id="h-talk">{plural('Talk', themeTalks.length)}</h2></div></header>
-      <ol class="pubs body-r" data-reveal-group>
-        {themeTalks.map((t) => (
-          <li><time class="yr" datetime={t.date}>{formatYmd(t.date)}</time><div class="entry"><p class="t">{t.link ? <a href={t.link}>{t.title}</a> : t.title}</p><p class="v"><i>{t.event}</i>{[t.organizer, t.place].filter(Boolean).map((x) => `, ${x}`).join('')}.</p></div></li>
-        ))}
-      </ol>
+      <TalkList items={themeTalks} class="body-r" />
     </section>
   )}
 

@@ -47,13 +47,14 @@ fails on a root-relative link that ignores the base.
 | Name, role, bio, links, credentials, headshot, contact form settings | `src/data/profile.yml` |
 | Degrees | `src/data/education.yml` |
 | News (homepage shows the newest three; /news/ lists all) | `src/data/news.yml` |
-| Publications | `src/data/publications.yml` |
+| Publications (journal, conference, report, abstract, article, patent) | `src/data/publications.yml` |
 | Funded projects | `src/data/projects.yml` |
-| Software | `src/data/software.yml` |
+| Software (/software/; `home: true` = homepage) | `src/data/software.yml` |
+| Languages & tools strip on /software/ (from the CV skills) | `src/data/skills.yml` |
 | Videos (theme page "Demo" sections; posters in `public/images/videos/`) | `src/data/videos.yml`, `src/components/Video.astro` |
 | Research themes (homepage theme cards, /research/ cards) | `src/data/themes.yml` |
 | Recent projects (homepage cards, each with its own diagram) | `src/data/recent.yml`, `src/components/diagrams/Project*.astro` |
-| Talks | `src/data/talks.yml` |
+| Talks (/talks/ and the theme pages) | `src/data/talks.yml`, `src/components/TalkList.astro` |
 | Teaching and mentoring (Stage 2) | `src/data/teaching.yml` |
 | Service (Stage 2) | `src/data/service.yml` |
 | Redirect pages | `src/lib/redirects.ts` |
@@ -72,7 +73,7 @@ message naming the file and field if something is wrong. Use quotes around dates
 
 ```yaml
 - id: eb2027                       # unique; anchor becomes #p-eb2027
-  type: journal                    # journal | conference | report
+  type: journal                    # journal | conference | report | abstract | article | patent
   title: Title as published
   authors: ["Chung, J.", "Coauthor, A."]   # "Chung, J." is bolded automatically; end with "et al." to shorten
   venue: Energy and Buildings      # italic
@@ -89,7 +90,10 @@ message naming the file and field if something is wrong. Use quotes around dates
   selected: false                  # true = listed on the homepage
 ```
 
-For proceedings use `venue: Proceedings of X 2027` and `place: City`; for reports use `publisher:`.
+For proceedings use `venue: Proceedings of X 2027` and `place: City`; for reports use `publisher:`. Proceedings and
+abstracts carry the year (and month) the work was presented, as on the CV. An entry without a DOI can carry
+`link: { url: ..., label: NTRS }`. Patents: the CV's exact wording, `venue: Application Serial No. US...`,
+`place: United States`. Never list work in progress, submitted or under review.
 
 **Add a news item** (`src/data/news.yml`):
 
@@ -108,21 +112,30 @@ For proceedings use `venue: Proceedings of X 2027` and `place: City`; for report
   title: Title of the talk
   event: Name of the session or conference
   organizer: ASHRAE
-  kind: talk
+  kind: talk                       # talk (the CV's [Oral]) | poster | panel | workshop | invited (only if the CV says so)
+  note:                            # optional, e.g. a prize
   themes: [grid-interactive-efficient-buildings]
 ```
 
-**Add software** (`src/data/software.yml`; homepage order = file order):
+Session chairing is service, not a talk.
+
+**Add software** (`src/data/software.yml`; only tools named on the CV or in a published paper; /software/ groups by
+theme in file order; the homepage shows the `home: true` entries, at most three):
 
 ```yaml
 - id: newtool
   name: NewTool
   description: What it does, in one sentence.
-  language: Python
-  stack: [Python, Brick Schema]
+  language: Python                 # leave empty if no public source states it
+  stack: [Python, Brick Schema]    # from the repository or the paper
+  visibility: public               # public (repo required) | private (no repo, "Code not public")
   repo: https://github.com/JChung-Research/newtool
   license: MIT                     # leave empty if the repository states none
   theme: interoperable-digital-twins
+  home: false
+  drawing:                         # optional project drawing: orbit | medical | obxml | ifcjson
+  image:                           # or an image in public/, with image_alt
+  papers: [eb2027]                 # publication ids that describe it
 ```
 
 **Add a funded project** (`src/data/projects.yml`; list order = file order):
@@ -164,8 +177,8 @@ reCAPTCHA is off for this form (with it on, Formspree rejected every message); w
 and confirms under the button, without JS it posts to Formspree's thank-you page. Empty
 key = the page shows a short note instead of the form.
 
-**Stub pages** (Software, Design, Publications, Talks, Teaching & Mentoring, two research themes) use
-`src/layouts/Stub.astro`. Replace a stub with a real page in the inner-page style of
-`src/pages/research/grid-interactive-efficient-buildings.astro`.
+**Stub pages** (Design, Teaching & Mentoring) use `src/layouts/Stub.astro`. Replace a stub with a real page in the
+inner-page style of `src/pages/research/grid-interactive-efficient-buildings.astro` (the three theme pages, Software,
+Publications and Talks follow it). Each theme page features one tool by id (`softwareById(...)` in the page).
 
 After any change: `npm run check`, look at the page with `npm run dev`, then commit.

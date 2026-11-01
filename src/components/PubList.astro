@@ -1,17 +1,22 @@
 ---
 // Publication rows (Mockup A ".pubs"). "compact" = homepage (year, DOI);
-// "full" = theme pages (month and year, DOI, PDF, code).
-import { authorsHtml, pubDate, pubLinksHtml, type Publication } from '../lib/data';
+// "full" = theme pages and /publications/ (month and year, DOI, PDF, code). showThemes adds a link to each
+// entry's theme pages (/publications/).
+import { url } from '../lib/site';
+import { authorsHtml, pubDate, pubLinksHtml, themeBySlug, escapeHtml, type Publication } from '../lib/data';
 
 interface Props {
   items: Publication[];
   variant?: 'compact' | 'full';
+  showThemes?: boolean;
 }
-const { items, variant = 'compact' } = Astro.props;
+const { items, variant = 'compact', showThemes = false } = Astro.props;
 const full = variant === 'full';
+const themeLinks = (p: Publication) =>
+  p.themes.map((s) => `<a href="${url(`research/${s}/`)}">${escapeHtml(themeBySlug(s).title)}</a>`).join(', ');
 ---
 <ol class="pubs" data-reveal-group>
   {items.map((p) => (
-    <li id={`p-${p.id}`}><span class="yr">{pubDate(p, full)}</span><div class="entry"><p class="t">{p.title}</p><p class="au" set:html={authorsHtml(p.authors)} /><p class="v" set:html={pubLinksHtml(p, full)} /></div></li>
+    <li id={`p-${p.id}`}><span class="yr">{pubDate(p, full)}</span><div class="entry"><p class="t">{p.title}</p><p class="au" set:html={authorsHtml(p.authors)} /><p class="v" set:html={pubLinksHtml(p, full)} />{showThemes && p.themes.length > 0 && <p class="related">{p.themes.length === 1 ? 'Theme' : 'Themes'}: <Fragment set:html={themeLinks(p)} /></p>}</div></li>
   ))}
 </ol>

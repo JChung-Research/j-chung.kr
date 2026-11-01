@@ -1,4 +1,169 @@
 ---
-import ThemeStub from '../../layouts/ThemeStub.astro';
+// Theme 1 page, in the inner-page template of the Grid-Interactive Efficient Buildings page.
+// Lists (projects, software, publications, talks, videos) come from src/data/*.yml; narrative text is below.
+// Every sentence here is listed with its source in
+// personal-website/research/compare-2026-11-01-stage2/source-check.md (CV, canonical-facts.md, papers, repositories).
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PubList from '../../components/PubList.astro';
+import TalkList from '../../components/TalkList.astro';
+import ThemeNav from '../../components/ThemeNav.astro';
+import Video from '../../components/Video.astro';
+import Idt from '../../components/diagrams/Idt.astro';
+import ProjectObxml from '../../components/diagrams/ProjectObxml.astro';
+import { url } from '../../lib/site';
+import {
+  themes, publications, recent, talks, videos,
+  groupPublications, sortByDateDesc, spanPeriod, repoSlug, plural, softwareById, softwareMeta, pubById, PUB_GROUP_LABEL,
+} from '../../lib/data';
+
+const SLUG = 'interoperable-digital-twins';
+const themeNo = themes.findIndex((t) => t.slug === SLUG) + 1;
+const theme = themes[themeNo - 1];
+
+const lede =
+  'One building description that holds across design, simulation and operation. My Ph.D. research at Rensselaer Polytechnic Institute developed a cross-domain interoperability framework that integrates building information modeling (BIM), building energy modeling, building automation systems and occupant behavior.';
+
+const themePubs = publications.filter((p) => p.themes.includes(SLUG));
+const groups = groupPublications(themePubs);
+const themeRecent = recent.filter((r) => r.theme === SLUG);
+const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
+const vids = videos.filter((v) => v.theme === SLUG);
+// The theme's featured tool (software.yml) and the code behind the demo video.
+const tool = softwareById('gbobxml');
+const demoCode = softwareById('case-dashboard');
+const demoPaper = pubById('icccbe2024');
+const bs = pubById('bs2025');
+
+// Prototype cards (page text). "papers" are publication ids on this page; "talk" links to the Talks section.
+const cards: { kick: string; title: string; text: string; papers?: string[]; talk?: boolean }[] = [
+  { kick: 'BIM to building automation', title: 'IFC-to-Brick converter', text: 'A SHACL-based converter from IFC to the Brick schema, developed with industry experts from Autodesk, Solibri and Trimble.', talk: true },
+  { kick: 'BIM standards', title: 'IFC4.3-to-ECS translator', text: 'A translator from IFC 4.3 to ECS, from the same collaboration. I demonstrated the outcomes at the IFC Implementers Meeting of buildingSMART International.', talk: true },
+  { kick: 'Energy model to occupant behavior', title: 'obXML v1.4', text: 'An enhanced obXML, the DOE-supported occupant behavior schema used with EnergyPlus: 154 enhancements that improve its interoperability with BIM models.', papers: ['bs2025'] },
+  { kick: 'Occupant behavior simulation', title: 'obFMU in Python', text: 'A Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM. I also updated the obFMU Application Guide and the tutorial IDF files for EnergyPlus 24.1.0.' },
+];
+const talkLabel = themeTalks.find((t) => t.organizer === 'buildingSMART International');
+
+const sections = [
+  { id: 'approach', label: 'Approach', show: true },
+  { id: 'prototypes', label: 'Prototypes', show: true },
+  { id: 'code', label: 'Design + code', show: true },
+  { id: 'demo', label: 'Demo', show: vids.length > 0 },
+  { id: 'publications', label: 'Publications', show: themePubs.length > 0 },
+  { id: 'talk', label: plural('Talk', themeTalks.length), show: themeTalks.length > 0 },
+].filter((s) => s.show);
+const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 ---
-<ThemeStub slug="interoperable-digital-twins" />
+<Base title={theme.title} description={theme.sentence} ogType="article">
+  <PageHead
+    crumbs={[{ label: 'Research', href: 'research/' }, { label: `Theme ${themeNo} of ${themes.length}` }]}
+    title={theme.title}
+    lede={lede}
+    toc={sections.map((s) => ({ id: s.id, label: s.label }))}
+  >
+    {themeRecent.length > 0 && (
+      <div class="note" data-hero style="--hi:3">
+        <p class="kick" id="recent-h">Projects</p>
+        <ul class="plist" aria-labelledby="recent-h">
+          {themeRecent.map((r) => (
+            <li><a href={url(`#proj-${r.id}`)}>{r.title}</a><span class="mono">{spanPeriod(r.start, r.end)}</span></li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </PageHead>
+
+  <section id="approach" class="sec g12" aria-labelledby="h-approach">
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('approach')}</span><h2 id="h-approach">Approach</h2></div><p class="sec-intro">The framework connects four domains that each keep their own data standards: BIM, building energy modeling, building automation and occupant behavior. Its prototypes translate between those standards, among them IFC, Brick, gbXML and obXML.</p></header>
+    <div class="spread body-f">
+      <figure class="fig main" data-reveal="fig">
+        <div class="sheet"><Idt /></div>
+        <figcaption><span class="pn">Concept</span></figcaption>
+      </figure>
+      <div class="aside" data-reveal>
+        <div class="note">
+          <p class="kick">Ph.D. research</p>
+          <p>Eight peer-reviewed publications came out of the framework, among them the journal article in Building Simulation and conference papers at CAAD Futures, ICCCBE and ASCE i3CE.</p>
+        </div>
+        <div class="note">
+          <p class="kick">Berkeley Lab</p>
+          <p>I did the obXML and obFMU work as an affiliate researcher at Lawrence Berkeley National Laboratory, hosted by Dr. Tianzhen Hong.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prototypes" class="sec g12" aria-labelledby="h-prototypes">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('prototypes')}</span><h2 id="h-prototypes">Prototypes</h2></div></header>
+    <ul class="checks two body-r" data-reveal-group>
+      {cards.map((c) => (
+        <li>
+          <p class="kick">{c.kick}</p><h3 class="h3">{c.title}</h3><p class="d">{c.text}</p>
+          {c.papers && <p class="related">Paper: <Fragment set:html={c.papers.map((id) => `<a href="#p-${id}">${pubById(id).short}</a>`).join(' · ')} /></p>}
+          {c.talk && talkLabel && <p class="related">Talk: <a href="#talk">buildingSMART International, {talkLabel.date.slice(0, 4)}</a></p>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="code" class="sec g12" aria-labelledby="h-code">
+    <header data-reveal class="sec-head"><div class="hd"><span class="num">{num('code')}</span><h2 id="h-code">Design <span class="nw">+ code</span></h2></div><p class="sec-intro">The {tool.name}, released with the Building Simulation paper: the schema it fills, and what it is built with.</p></header>
+    <div class="spread body-f">
+      <figure class="fig main" data-reveal="fig">
+        <div class="sheet dgf-sheet"><ProjectObxml /></div>
+        <figcaption><span class="cap">{tool.caption} After Chung et al., Building Simulation 2025.</span><a class="doi" href={`https://doi.org/${bs.doi}`} aria-label="DOI for the Building Simulation 2025 paper">[DOI]</a></figcaption>
+      </figure>
+      <div class="aside orbit" data-reveal>
+        <div class="prod"><p class="name">{tool.name}</p><p class="meta">{softwareMeta(tool)}</p></div>
+        <p class="d">{tool.description}</p>
+        <div class="stack">
+          <p class="kick" id="stack-h">Stack</p>
+          <ul class="ec-tags" aria-labelledby="stack-h">
+            {tool.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+        {tool.repo && <a class="repo" href={tool.repo}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>Source code on GitHub</b><i>{repoSlug(tool.repo)}</i></span></a>}
+      </div>
+    </div>
+    {tool.features.length > 0 && (
+      <ul class="feats body-f" data-reveal-group aria-label={`What the ${tool.name} does`}>
+        {tool.features.map((f) => <li><p class="kick">{f.label}</p><p>{f.text}</p></li>)}
+      </ul>
+    )}
+  </section>
+
+  {vids.length > 0 && (
+    <section id="demo" class="sec g12" aria-labelledby="h-demo">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('demo')}</span><h2 id="h-demo">Demo</h2></div></header>
+      <div class="body-r">
+        <div class="vids" data-reveal-group>
+          {vids.map((v) => <Video v={v} />)}
+        </div>
+        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a> · Code: <a href={demoCode.repo}>{demoCode.name}</a></p>
+      </div>
+    </section>
+  )}
+
+  {themePubs.length > 0 && (
+    <section id="publications" class="sec g12" aria-labelledby="h-pubs">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('publications')}</span><h2 id="h-pubs">Publications</h2></div></header>
+      <div class="body-r">
+        {groups.map((g) => (
+          <>
+            <p class="kick grp">{plural(PUB_GROUP_LABEL[g.type], g.items.length)}</p>
+            <PubList items={g.items} variant="full" />
+          </>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {themeTalks.length > 0 && (
+    <section id="talk" class="sec g12" aria-labelledby="h-talk">
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('talk')}</span><h2 id="h-talk">{plural('Talk', themeTalks.length)}</h2></div></header>
+      <TalkList items={themeTalks} class="body-r" />
+    </section>
+  )}
+
+  <ThemeNav slug={SLUG} />
+</Base>

@@ -599,3 +599,37 @@ h2{font:600 clamp(1.9rem,3vw,2.6rem)/1.02 var(--display);font-stretch:112%;lette
 @media print{
   .js-motion :is([data-reveal],[data-reveal-group] > *,[data-hero]){opacity:1!important;transform:none!important;animation:none!important}
 }
+
+/* ===== 4. Stage 2 content pages (research themes 1 and 3, Software, Publications, Talks) ===== */
+/* Card grids with two columns (theme pages: four prototypes, two studies). */
+.checks.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* A project drawing (300 x 356 frame) inside a wide figure keeps the size it has on the homepage cards. */
+.dgf-sheet{padding:18px 12px}
+.dgf-sheet .dgf{max-width:360px;margin:0 auto}
+/* Paper and code line under a theme page's demo video. */
+.vid-rel{margin-top:14px}
+/* Software page: one row per tool with a figure (drawing or interface screenshot, columns 1 to 6) and its
+   name, stack and code (columns 7 to 12); tools without a figure sit in a three-column grid. */
+.swrow{display:grid;grid-template-columns:subgrid;row-gap:24px;align-items:start}
+.swrow + .swrow,.swrow + .sw-plain{margin-top:56px}
+.sw-fig{grid-column:1 / span 6;min-width:0}
+.sw-shot{padding:0;border-color:var(--rule)}
+.sw-info{grid-column:7 / -1;min-width:0;display:flex;flex-direction:column;gap:18px}
+.sw-info .d{font-size:1.06rem}
+.sw-info .repo{align-self:flex-start;margin-top:4px}
+.sw-private{font:400 .8rem/1.5 var(--mono);color:var(--muted)}
+.sec-intro .go{font:500 .95rem var(--display);white-space:nowrap;margin-left:4px}
+.ec-tags.sm li{font-size:.72rem;padding:2px 7px}
+.sw-plain li{gap:10px}
+/* Software page: languages and tools from the CV, one labeled group of tags each. */
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 32px}
+.skills > li{display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid var(--rule);min-width:0}
+@media (max-width:900px){
+  .sw-fig,.sw-info{grid-column:1 / -1}
+  .sw-fig{max-width:640px}
+}
+@media (max-width:640px){
+  .checks.two,.skills{grid-template-columns:minmax(0,1fr)}
+  .dgf-sheet{padding:10px 6px}
+  .swrow + .swrow,.swrow + .sw-plain{margin-top:44px}
+}

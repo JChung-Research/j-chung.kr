@@ -1,11 +1,119 @@
 ---
-import Stub from '../layouts/Stub.astro';
-import { profile } from '../lib/data';
+// Software: every tool in software.yml, by research theme, each pairing design (a drawing or an interface
+// screenshot) with code (language, stack, repository). Private entries show a description and no link.
+// Then the "Languages & tools" strip (skills.yml, from the CV's skills section).
+// Every sentence here is listed with its source in
+// personal-website/research/compare-2026-11-01-stage2/source-check.md.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import ProjectDiagram from '../components/diagrams/ProjectDiagram.astro';
+import { url } from '../lib/site';
+import { profile, themes, software, skills, pubById, videoById, repoSlug, softwareMeta, type Software } from '../lib/data';
+
+const description = 'The software I write for my research: what each tool does, the languages it uses, and its code.';
+const groups = themes
+  .map((t) => ({ theme: t, items: software.filter((s) => s.theme === t.slug) }))
+  .filter((g) => g.items.length > 0);
+const sections = [
+  ...groups.map((g) => ({ id: g.theme.slug, label: g.theme.title })),
+  { id: 'languages', label: 'Languages & tools' },
+];
+const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
+const hasFigure = (s: Software) => Boolean(s.drawing || s.image);
+const paperLinks = (s: Software) =>
+  s.papers.map((id) => { const p = pubById(id); return { href: `https://doi.org/${p.doi}`, label: p.short }; });
+const videoLink = (s: Software) => {
+  if (!s.video) return undefined;
+  const v = videoById(s.video);
+  return { href: url(`research/${v.theme}/#video-${v.id}`), label: `${v.short} (${v.length})` };
+};
+const publicCount = software.filter((s) => s.visibility === 'public').length;
+// Small counts as words, so that a sentence does not start with a numeral.
+const WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+const word = (n: number) => WORDS[n] ?? String(n);
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 ---
-<Stub
-  title="Software"
-  description="The software I write for my research: what each tool does, the languages it uses, and its code."
-  crumbs={[{ label: 'Home', href: '' }, { label: 'Software' }]}
->
-  <p data-reveal class="more"><a href={profile.links.github}>GitHub</a></p>
-</Stub>
+<Base title="Software" description={description}>
+  <PageHead
+    crumbs={[{ label: 'Home', href: '' }, { label: 'Software' }]}
+    title="Software"
+    lede={description}
+    toc={sections}
+  >
+    <div class="note" data-hero style="--hi:3">
+      <p class="kick">Code</p>
+      <p>{cap(word(software.length))} tools from my papers and projects. The code of {word(publicCount)} is public on GitHub; the others are described without a link.</p>
+      <p class="more"><a href={profile.links.github}>GitHub ({profile.links.github_handle})</a></p>
+    </div>
+  </PageHead>
+
+  {groups.map((g) => {
+    const withFig = g.items.filter(hasFigure);
+    const plain = g.items.filter((s) => !hasFigure(s));
+    return (
+      <section id={g.theme.slug} class="sec g12" aria-labelledby={`h-${g.theme.slug}`}>
+        <header data-reveal class="sec-head"><div class="hd"><span class="num">{num(g.theme.slug)}</span><h2 id={`h-${g.theme.slug}`}>{g.theme.title}</h2></div><p class="sec-intro">{g.theme.card} <a class="go" href={url(`research/${g.theme.slug}/`)}>Theme page</a></p></header>
+        {withFig.map((s) => {
+          const papers = paperLinks(s);
+          const video = videoLink(s);
+          return (
+            <div class="swrow body-f" id={`sw-${s.id}`}>
+              <figure class="fig sw-fig" data-reveal="fig">
+                <div class={s.drawing ? 'sheet dgf-sheet' : 'sheet sw-shot'}>
+                  {s.drawing ? <ProjectDiagram name={s.drawing} /> : <img src={url(s.image!)} width="1280" height="720" alt={s.image_alt} loading="lazy" decoding="async">}
+                </div>
+                {s.caption && <figcaption><span class="cap">{s.caption}</span></figcaption>}
+              </figure>
+              <div class="sw-info" data-reveal>
+                <div class="prod"><p class="name">{s.name}</p><p class="meta">{softwareMeta(s)}</p></div>
+                <p class="d">{s.description}</p>
+                {s.stack.length > 0 && (
+                  <div class="stack">
+                    <p class="kick" id={`stack-${s.id}`}>Stack</p>
+                    <ul class="ec-tags" aria-labelledby={`stack-${s.id}`}>{s.stack.map((x) => <li>{x}</li>)}</ul>
+                  </div>
+                )}
+                {(papers.length > 0 || video) && (
+                  <p class="related">
+                    {papers.length > 0 && <>{papers.length === 1 ? 'Paper' : 'Papers'}: <Fragment set:html={papers.map((p) => `<a href="${p.href}">${p.label}</a>`).join(' · ')} /></>}
+                    {papers.length > 0 && video && <br />}
+                    {video && <>Video: <a href={video.href}>{video.label}</a></>}
+                  </p>
+                )}
+                {s.repo
+                  ? <a class="repo" href={s.repo}><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-github"/></svg><span><b>Source code on GitHub</b><i>{repoSlug(s.repo)}</i></span></a>
+                  : <p class="sw-private">Code not public</p>}
+              </div>
+            </div>
+          );
+        })}
+        {plain.length > 0 && (
+          <ul class="tools sw-plain body-f" data-reveal-group>
+            {plain.map((s) => {
+              const papers = paperLinks(s);
+              return (
+                <li id={`sw-${s.id}`}>
+                  <p class="name">{s.name}</p>
+                  {softwareMeta(s) && <p class="meta">{softwareMeta(s)}</p>}
+                  <p class="d">{s.description}</p>
+                  {s.stack.length > 0 && <ul class="ec-tags sm" aria-label={`${s.name} stack`}>{s.stack.map((x) => <li>{x}</li>)}</ul>}
+                  {papers.length > 0 && <p class="related">{papers.length === 1 ? 'Paper' : 'Papers'}: <Fragment set:html={papers.map((p) => `<a href="${p.href}">${p.label}</a>`).join(' · ')} /></p>}
+                  {s.repo ? <p class="mono"><a class="ref" href={s.repo}>[repo]</a></p> : <p class="sw-private">Code not public</p>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+    );
+  })}
+
+  <section id="languages" class="sec g12" aria-labelledby="h-languages">
+    <header data-reveal class="sec-head side"><div class="hd"><span class="num">{num('languages')}</span><h2 id="h-languages">Languages <span class="nw">&amp; tools</span></h2></div></header>
+    <ul class="skills body-r" data-reveal-group>
+      {skills.map((g, i) => (
+        <li><p class="kick" id={`sk-${i}`}>{g.group}</p><ul class="ec-tags" aria-labelledby={`sk-${i}`}>{g.items.map((x) => <li>{x}</li>)}</ul></li>
+      ))}
+    </ul>
+  </section>
+</Base>

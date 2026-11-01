@@ -1,11 +1,36 @@
 ---
-import Stub from '../layouts/Stub.astro';
-import { profile } from '../lib/data';
+// Publications: every entry in publications.yml, grouped by type (PUB_TYPES order), newest first within a group.
+// Each entry carries its DOI, its open-access PDF when there is one, code and other links, and its theme pages.
+// The homepage shows the newest three marked selected: true.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PubList from '../components/PubList.astro';
+import { profile, publications, groupPublications, plural, PUB_GROUP_LABEL } from '../lib/data';
+
+const description = 'Journal articles, conference papers, technical reports, abstracts, articles and patents, newest first in each group.';
+const groups = groupPublications(publications);
+const sections = groups.map((g) => ({ id: g.type, label: plural(PUB_GROUP_LABEL[g.type], g.items.length) }));
 ---
-<Stub
-  title="Publications"
-  description="Journal articles, conference papers and technical reports."
-  crumbs={[{ label: 'Home', href: '' }, { label: 'Publications' }]}
->
-  <p data-reveal class="more"><a href={profile.links.scholar}>Google Scholar</a></p>
-</Stub>
+<Base title="Publications" description={description}>
+  <PageHead
+    crumbs={[{ label: 'Home', href: '' }, { label: 'Publications' }]}
+    title="Publications"
+    lede={description}
+    toc={sections}
+  >
+    <div class="note" data-hero style="--hi:3">
+      <p class="kick">Links</p>
+      <p>Where available, entries link to their DOI or other record and to an open-access PDF.</p>
+      <p class="more"><a href={profile.links.scholar}>Google Scholar</a><a href={profile.links.orcid}>ORCID</a></p>
+    </div>
+  </PageHead>
+
+  {groups.map((g, i) => (
+    <section id={g.type} class="sec g12" aria-labelledby={`h-${g.type}`}>
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{String(i + 1).padStart(2, '0')}</span><h2 id={`h-${g.type}`}>{plural(PUB_GROUP_LABEL[g.type], g.items.length)}</h2></div></header>
+      <div class="body-r">
+        <PubList items={g.items} variant="full" showThemes />
+      </div>
+    </section>
+  ))}
+</Base>

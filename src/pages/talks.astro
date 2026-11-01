@@ -1,8 +1,27 @@
 ---
-import Stub from '../layouts/Stub.astro';
+// Talks: every entry in talks.yml (the CV's presentations and talks), newest first, one section per year.
+// Talks also appear on the theme pages listed in their "themes" field.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import TalkList from '../components/TalkList.astro';
+import { talks, sortByDateDesc } from '../lib/data';
+
+const description = 'Talks, posters and a career panel, newest first.';
+const items = sortByDateDesc(talks);
+const years = [...new Set(items.map((t) => t.date.slice(0, 4)))];
 ---
-<Stub
-  title="Talks"
-  description="Conference talks, invited talks and posters."
-  crumbs={[{ label: 'Home', href: '' }, { label: 'Talks' }]}
-/>
+<Base title="Talks" description={description}>
+  <PageHead
+    crumbs={[{ label: 'Home', href: '' }, { label: 'Talks' }]}
+    title="Talks"
+    lede={description}
+    toc={years.map((y) => ({ id: `y${y}`, label: y }))}
+  />
+
+  {years.map((y, i) => (
+    <section id={`y${y}`} class="sec g12" aria-labelledby={`h-${y}`}>
+      <header data-reveal class="sec-head side"><div class="hd"><span class="num">{String(i + 1).padStart(2, '0')}</span><h2 id={`h-${y}`}>{y}</h2></div></header>
+      <TalkList items={items.filter((t) => t.date.startsWith(y))} showThemes class="body-r" />
+    </section>
+  ))}
+</Base>
