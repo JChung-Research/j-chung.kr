@@ -32,8 +32,6 @@ const vids = videos.filter((v) => v.theme === SLUG);
 // The theme's featured tool (software.yml) and the code behind the demo video.
 const tool = softwareById('case-dashboard');
 const toolVideo = tool.video ? videoById(tool.video) : undefined;
-const demoCode = softwareById('case-dashboard');
-const demoPaper = pubById('icccbe2024');
 const icccbe = pubById('icccbe2024');
 
 // Prototype cards (page text). "papers" are publication ids on this page; "talk" links to the Talks section;
@@ -143,7 +141,6 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
         <div class="vids" data-reveal-group>
           {vids.map((v) => <Video v={v} />)}
         </div>
-        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a> · Code: <a href={demoCode.repo}>{demoCode.name}</a></p>
       </div>
     </section>
   )}

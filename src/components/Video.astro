@@ -3,11 +3,13 @@
 // player (youtube-nocookie.com) loads only when the visitor clicks (script in Base.astro). Without JS the poster
 // links to the video on YouTube.
 import { url } from '../lib/site';
-import { formatYm } from '../lib/data';
+import { formatYm, pubById, softwareById } from '../lib/data';
 import type { videos } from '../lib/data';
 
 interface Props { v: (typeof videos)[number] }
 const { v } = Astro.props;
+const paper = v.paper ? pubById(v.paper) : undefined;
+const code = v.code ? softwareById(v.code) : undefined;
 ---
 <figure class="vid" id={`video-${v.id}`}>
   <a class="vid-play" href={`https://www.youtube.com/watch?v=${v.youtube}`} data-yt={v.youtube} data-title={v.title} aria-label={`Play video: ${v.title} (${v.length})`}>
@@ -15,5 +17,5 @@ const { v } = Astro.props;
     <span class="vid-btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" focusable="false"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
     <span class="vid-len" aria-hidden="true">{v.length}</span>
   </a>
-  <figcaption><b>{v.title}</b><span class="vid-line">{v.line}</span><span class="vid-meta">{formatYm(v.date)} · {v.length} · YouTube</span></figcaption>
+  <figcaption><b>{v.title}</b><span class="vid-line">{v.line}</span><span class="vid-meta">{formatYm(v.date)} · {v.length} · YouTube</span>{(paper || code) && <span class="related vid-rel">{paper && <>Paper: <a href={`https://doi.org/${paper.doi}`}>{paper.short}</a></>}{paper && code && ' · '}{code && (code.repo ? <>Code: <a href={code.repo}>{code.name}</a></> : <>Code: {code.name}</>)}</span>}</figcaption>
 </figure>

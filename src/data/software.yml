@@ -157,6 +157,7 @@
   image: images/software/comfit-ui.jpg
   image_alt: "The Comfit web interface: a 3D model viewer with camera and geometry controls, status with the MQTT connection and real-time readings, data controls, object types with color and opacity, and a data table of the selected object."
   caption: The Comfit web interface, from the Comfit-Demo repository.
+  video: comfit-iaq
 
 - id: scr-nodered
   name: Node-RED API for the Smart Conference Room

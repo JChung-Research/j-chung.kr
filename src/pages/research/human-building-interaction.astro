@@ -31,7 +31,6 @@ const themeTalks = sortByDateDesc(talks.filter((t) => t.themes.includes(SLUG)));
 const vids = videos.filter((v) => v.theme === SLUG);
 // The theme's featured tool (software.yml), and the code behind the demo video.
 const tool = softwareById('gbobxml');
-const demoPaper = pubById('i3ce2024');
 const bs = pubById('bs2025');
 
 // Study cards (page text). "papers" are publication ids on this page; "video" links to a video player.
@@ -163,7 +162,6 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
         <div class="vids" data-reveal-group>
           {vids.map((v) => <Video v={v} />)}
         </div>
-        <p class="related vid-rel" data-reveal>Paper: <a href={`#p-${demoPaper.id}`}>{demoPaper.short}</a></p>
       </div>
     </section>
   )}

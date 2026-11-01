@@ -10,6 +10,8 @@
 #   date      upload month "YYYY-MM", in quotes
 #   line      one sentence on what the video shows, traceable to the paper or the code
 #   theme     the theme page that shows it
+#   paper     optional publication id (publications.yml), shown under the video
+#   code      optional software id (software.yml), shown under the video
 #
 # Poster for a new video: save https://i.ytimg.com/vi/<youtube>/maxresdefault.jpg as public/images/videos/<youtube>.jpg.
 
@@ -23,6 +25,8 @@
     The BIM and IoT-based building monitoring system of the CASE laboratory at RPI: sensor readings on the 3D BIM
     model, with real-time temperature and humidity and their records.
   theme: interoperable-digital-twins
+  paper: icccbe2024
+  code: case-dashboard
 
 - id: conference-room
   youtube: QrzMWPwNgBs
@@ -34,3 +38,17 @@
     A web platform that links BIM, IoT sensors and the building automation system of a conference room: it tracks the
     occupant on the BIM model and controls the lighting.
   theme: human-building-interaction
+  paper: i3ce2024
+  code: scr-nodered
+
+- id: comfit-iaq
+  youtube: gqgwoeNuSBU
+  title: BIM & IoT-based Web Platform for Monitoring Indoor Air Quality
+  short: Comfit indoor air quality monitoring
+  length: "1:36"
+  date: "2022-05"
+  line: >-
+    Comfit, a web platform for non-experts to monitor indoor thermal comfort and air quality: the BIM model as
+    ifcJSON, live sensor readings over MQTT, and their history in Google Sheets.
+  theme: human-building-interaction
+  code: comfit

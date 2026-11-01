@@ -139,6 +139,8 @@ const Videos = z.array(
     date: ym,
     line: text,
     theme: themeSlug,
+    paper: opt(str),
+    code: opt(str),
   }),
 );
 
@@ -281,6 +283,10 @@ export type Theme = (typeof themes)[number];
     if (r.code && !swIds.has(r.code)) throw new Error(`recent.yml (${r.id}): unknown software id "${r.code}"`);
     if (r.code && !software.find((s) => s.id === r.code)!.repo) throw new Error(`recent.yml (${r.id}): software "${r.code}" has no public repository to link`);
     if (r.video && !videos.some((v) => v.id === r.video)) throw new Error(`recent.yml (${r.id}): unknown video id "${r.video}"`);
+  }
+  for (const v of videos) {
+    if (v.paper && !pubIds.has(v.paper)) throw new Error(`videos.yml (${v.id}): unknown paper id "${v.paper}"`);
+    if (v.code && !swIds.has(v.code)) throw new Error(`videos.yml (${v.id}): unknown software id "${v.code}"`);
   }
   const swDup = software.map((s) => s.id).filter((id, i, a) => a.indexOf(id) !== i);
   if (swDup.length) throw new Error(`software.yml: duplicate id ${swDup.join(', ')}`);
