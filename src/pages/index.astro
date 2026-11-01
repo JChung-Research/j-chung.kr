@@ -9,13 +9,15 @@ import { url, absUrl } from '../lib/site';
 import {
   profile, education, news, software, themes, recent,
   sortByDateDesc, formatYm, newsHtml, homePublications,
-  educationFieldHtml, headlineHtml, pubById, softwareById, themeBySlug, spanPeriod, videoById,
+  educationFieldHtml, headlineHtml, pubById, softwareById, themeBySlug, spanPeriod, videoById, softwareMeta,
 } from '../lib/data';
 
 // Highlights only: the newest news items and three selected publications; the full lists have their own pages.
 const HOME_NEWS_COUNT = 3;
 const latestNews = sortByDateDesc(news).slice(0, HOME_NEWS_COUNT);
 const L = profile.links;
+// Software highlights: the entries marked home: true in software.yml (file order); /software/ lists all.
+const homeSoftware = software.filter((s) => s.home);
 
 // Recent Projects: paper and report links go to the DOI, code links to the repository.
 const pubLink = (id: string) => {
@@ -124,8 +126,8 @@ const jsonLd = {
     <header data-reveal class="sec-head"><div class="hd"><span class="num">03</span><h2 id="h-sw">Software</h2></div><p class="sec-intro">The software I write for my research: what each tool does, the languages it uses, and its code.</p></header>
     <div class="body-r">
       <ul class="tools" data-reveal-group>
-        {software.map((s) => (
-          <li id={`sw-${s.id}`}><p class="name">{s.name}</p><p class="meta">{[s.full_name, s.language, s.license && `${s.license} License`].filter(Boolean).join(' · ')}</p><p class="d">{s.description}</p><p class="mono"><a class="ref" href={s.repo}>[repo]</a></p></li>
+        {homeSoftware.map((s) => (
+          <li id={`sw-${s.id}`}><p class="name">{s.name}</p><p class="meta">{softwareMeta(s)}</p><p class="d">{s.description}</p>{s.repo && <p class="mono"><a class="ref" href={s.repo}>[repo]</a></p>}</li>
         ))}
       </ul>
       <p data-reveal class="more"><a href={url('software/')}>See all software</a></p>

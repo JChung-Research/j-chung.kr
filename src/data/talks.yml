@@ -1,11 +1,13 @@
-# Talks, posters and presentations. Any order; pages sort newest first.
-# Stage 2 fills this file; the one entry below is shown on the Grid-Interactive Efficient Buildings page.
+# Talks, posters and presentations: the CV's "Presentations & invited talks" section. Any order; pages sort newest
+# first. Session chairing is service, not a talk, and is not listed here.
 #   date       YYYY-MM-DD, in quotes
-#   title      talk title
+#   title      talk title, as on the CV
 #   event      event or session name (set in italics)
 #   organizer  optional, e.g. IBPSA-USA
 #   place      optional city
-#   kind       talk | invited | poster | panel | workshop
+#   kind       talk | invited | poster | panel | workshop. The CV's [Oral] is "talk", [Poster] is "poster"; use
+#              "invited" only where the CV marks that talk as invited.
+#   note       optional short fact from the CV, e.g. a prize (shown after the event)
 #   link       optional URL (slides, recording or event page)
 #   themes     research theme slugs (the talk appears on those theme pages)
 #
@@ -16,14 +18,110 @@
 #   organizer: ASHRAE
 #   place: Chicago
 #   kind: talk
+#   note:
 #   link:
 #   themes: [grid-interactive-efficient-buildings]
+#
+# Checked against the CV (CV_Jihoon Chung_20260609) on 2026-11-01. Two CV dates disagree with other records; see
+# personal-website/research/compare-2026-11-01-stage2/source-check.md (ISARC 2020, Reunion & Homecoming 2024).
 
 - date: "2026-05-13"
   title: Bridging the Gap Between Smart Building Devices and Accessible Energy Management Software for Small and Medium-Sized Commercial Buildings
   event: "Batter Up! Pitch your SimBuild 2026 Sessions"
   organizer: IBPSA-USA
-  place:
   kind: talk
-  link:
   themes: [grid-interactive-efficient-buildings]
+
+- date: "2024-12-03"
+  title: "Digital Twin: Multidisciplinary Co-Simulation Ecosystem"
+  event: GRIDD Lunch & Learn
+  organizer: École de technologie supérieure, University of Québec
+  kind: talk
+  themes: [interoperable-digital-twins]
+
+- date: "2024-08-29"
+  title: IFC Simplification and Granular Component Demo & IFC-LD / SHACL Implementation Developments
+  event: General Assembly of Implementers
+  organizer: buildingSMART International
+  kind: talk
+  themes: [interoperable-digital-twins]
+
+- date: "2024-04-11"
+  title: How is Programming Used in Architecture & Building Technology?
+  event: Computer Science Career Panel
+  organizer: El Camino High School
+  kind: panel
+  themes: []
+
+# The CV gives September 27, 2023 for this poster, but names the event Reunion & Homecoming 2024 and lists it between
+# the December 3, 2024 and August 29, 2024 talks (the 2023 edition is the October 13, 2023 entry below). Dated 2024 from
+# the event name and the CV's order; the owner is asked to confirm.
+- date: "2024-09-27"
+  title: A framework of BIM & IoT-based Building Infrastructure for Monitoring Indoor Air Quality and Occupant Behavior
+  event: Research Showcase, Reunion & Homecoming 2024
+  organizer: RPI
+  kind: poster
+  themes: [human-building-interaction]
+
+- date: "2023-10-13"
+  title: A framework of BIM & IoT-based Building Infrastructure for Monitoring Indoor Air Quality and Occupant Behavior
+  event: Research Showcase, Reunion & Homecoming 2023
+  organizer: RPI
+  kind: poster
+  themes: [human-building-interaction]
+
+- date: "2023-08-17"
+  title: Sustainability through Optimal Design of Buildings for NV and Post-Occupancy Using Updated Comfort Models
+  event: Research Connections, Summer Intern Series
+  organizer: Autodesk
+  kind: talk
+  themes: [human-building-interaction]
+
+- date: "2023-08-08"
+  title: Daily Flooding Risk Assessment Map for Medical Infrastructures using Machine Learning Algorithm
+  event: "AmeriGEO Week 2023: Data Driven Solutions for a Sustainable Planet"
+  kind: poster
+  themes: []
+
+- date: "2023-05-12"
+  title: Towards an Indoor Environmental Quality Management Ontology
+  event: 2023 8th Annual Graduate Research Symposium
+  organizer: RPI
+  kind: talk
+  themes: [human-building-interaction]
+
+- date: "2023-05-12"
+  title: A framework for monitoring and identifying indoor air pollutants based on BIM with IoT sensors
+  event: 2023 8th Annual Graduate Research Symposium
+  organizer: RPI
+  kind: poster
+  themes: [human-building-interaction]
+
+- date: "2022-11-02"
+  title: Air Quality Monitoring System based on BIM & IoT
+  event: "EBESS Industry Workshop: Well-being & Sustainability in the Built Environment"
+  organizer: RPI
+  kind: poster
+  themes: [human-building-interaction]
+
+- date: "2022-05-13"
+  title: Air Quality Monitoring System based on BIM & IoT
+  event: 2022 7th Annual Graduate Research Symposium
+  organizer: RPI
+  kind: poster
+  note: Also an oral presentation, 3rd prize in the podium presentations
+  themes: [human-building-interaction]
+
+# The CV dates this talk October 28, 2022; the 37th ISARC was held in October 2020 (the CV's own proceedings entry:
+# 27 to 28 Oct. 2020; IAARC and Crossref: 2020). Dated to the conference.
+- date: "2020-10-28"
+  title: A Systematic Review of 3D Concrete Printers from 1997 to 2020
+  event: 37th International Symposium on Automation and Robotics in Construction (ISARC)
+  kind: talk
+  themes: []
+
+- date: "2018-11-30"
+  title: Performance Evaluation Criteria for Building 3D Printing
+  event: 2018 Annual Conference of KICEM
+  kind: talk
+  themes: []

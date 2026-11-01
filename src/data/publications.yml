@@ -1,23 +1,32 @@
-# Publications. Any order; pages sort newest first (year, then month).
+# Publications: everything published or formally released (the CV's journal, conference, abstract, patent and article
+# sections, plus the OSTI technical reports). Work in progress, submitted or under review is never listed.
+# Any order; pages sort newest first (year, then month) and group by type.
 #
 #   id         short unique id; the entry's anchor becomes #p-<id> (e.g. #p-sb2026)
-#   type       journal | conference | report
-#   title      as published
+#   type       journal | conference | report | abstract | article | patent
+#              (groups on /publications/, in that order: Journal articles, Conference papers, Technical reports,
+#              Abstracts, Articles, Patents)
+#   title      as published (patents: the CV's exact wording)
 #   authors    list in citation form; the entry equal to profile.yml "citation_name" ("Chung, J.")
-#              is set in bold. End the list with "et al." to shorten it.
-#   venue      journal or proceedings name (set in italics)
-#   place      optional, conference city (shown after the venue)
+#              is set in bold. End the list with "et al." to shorten it. Patents: the inventors, as on the CV.
+#   venue      journal or proceedings name (set in italics). Patents: the CV's number line, e.g.
+#              "Application Serial No. US20250238578A1" (not italic).
+#   place      optional, conference city, or a patent's country (shown after the venue)
 #   publisher  optional, shown after the venue when there is no place (e.g. for reports)
-#   year       publication year
-#   month      optional, 1 to 12 (theme pages show "May 2026")
+#   year       journals: issue year; proceedings and abstracts: the year the work was presented at the meeting
+#              (as on the CV; Springer and ASCE volumes can carry the following year); reports: OSTI release date;
+#              patents: publication or grant year
+#   month      optional, 1 to 12, on the same rule (theme pages and /publications/ show "May 2026")
 #   volume, issue, pages, number   optional; number = article number (e.g. 116367)
 #   doi        DOI without "https://doi.org/"
-#   pdf        optional full URL of an open PDF
+#   pdf        optional full URL of an open-access PDF (checked to answer 200 with a PDF)
 #   code       optional full URL of a code repository
+#   link       optional { url, label } for entries without a DOI (patent page, NTRS record, blog post), shown
+#              as "[label]"
 #   bibtex     citation key
 #   short      short label used in "Paper:" links (e.g. "SimBuild 2026")
 #   themes     research theme slugs: interoperable-digital-twins, grid-interactive-efficient-buildings,
-#              human-building-interaction
+#              human-building-interaction (the entry is listed on those theme pages)
 #   selected   true = eligible for "Selected publications" on the homepage (the newest three are shown)
 #
 # Example:
@@ -34,6 +43,12 @@
 #   short: Energy and Buildings 2027
 #   themes: [grid-interactive-efficient-buildings]
 #   selected: false
+#
+# Every entry was checked against the paper or report and against Crossref (or the publisher's record where Crossref
+# has none) on 2026-11-01; differences from the CV are listed in
+# personal-website/research/compare-2026-11-01-stage2/source-check.md.
+
+# ---------- Technical reports ----------
 
 - id: tm4715
   type: report
@@ -80,21 +95,7 @@
   themes: [grid-interactive-efficient-buildings]
   selected: false
 
-- id: sb2026
-  type: conference
-  title: Simulation-Based Validation of an Open-Source, Scalable Framework for Building Energy Management in Small and Medium-Sized Commercial Buildings
-  authors: ["Chung, J.", "Huang, S.", "Lian, J.", "Katipamula, S.", "Lutes, R."]
-  venue: Proceedings of SimBuild 2026
-  place: Minneapolis
-  publisher: IBPSA-USA
-  year: 2026
-  month: 5
-  doi: 10.26868/30680611.2026.1365
-  pdf: https://publications.ibpsa.org/proceedings/simbuild/2026/papers/simbuild2026_1365.pdf
-  bibtex: chung2026simbuild
-  short: SimBuild 2026
-  themes: [grid-interactive-efficient-buildings]
-  selected: true
+# ---------- Journal articles ----------
 
 - id: eb2025
   type: journal
@@ -102,6 +103,7 @@
   authors: ["Lu, Y.", "Ma, N.", "Arsano, A. Y.", "Brown, N.", "Chung, J.", "et al."]
   venue: Energy and Buildings
   year: 2025
+  month: 11
   volume: 347
   number: 116367
   doi: 10.1016/j.enbuild.2025.116367
@@ -116,14 +118,81 @@
   authors: ["Chung, J.", "Hong, T.", "Malik, J.", "Shelden, D."]
   venue: Building Simulation
   year: 2025
+  month: 9
   volume: 18
   issue: 9
   pages: 2435-2458
   doi: 10.1007/s12273-025-1313-z
+  code: https://github.com/JChung-Research/gb-obXML-Converter
   bibtex: chung2025occupant
   short: Building Simulation 2025
   themes: [interoperable-digital-twins]
   selected: true
+
+- id: autcon2021
+  type: journal
+  title: Framework for Technical Specifications of 3D Concrete Printers
+  authors: ["Chung, J.", "Lee, G.", "Kim, J.-H."]
+  venue: Automation in Construction
+  year: 2021
+  month: 7
+  volume: 127
+  number: 103732
+  doi: 10.1016/j.autcon.2021.103732
+  bibtex: chung2021specifications
+  short: Automation in Construction 2021
+  themes: []
+  selected: false
+
+- id: kjcem2020
+  type: journal
+  title: A Comparative Analysis of the Classification System for Three-Dimensional Concrete Printers
+  authors: ["Chung, J.", "Lee, G.", "Kim, J.-H.", "Choi, J."]
+  venue: Korean Journal of Construction Engineering and Management
+  year: 2020
+  month: 3
+  volume: 21
+  issue: 2
+  pages: 3-14
+  doi: 10.6106/KJCEM.2020.21.2.003
+  bibtex: chung2020classification
+  short: KJCEM 2020
+  themes: []
+  selected: false
+
+# ---------- Conference papers ----------
+
+- id: sb2026
+  type: conference
+  title: Simulation-Based Validation of an Open-Source, Scalable Framework for Building Energy Management in Small and Medium-Sized Commercial Buildings
+  authors: ["Chung, J.", "Huang, S.", "Lian, J.", "Katipamula, S.", "Lutes, R."]
+  venue: Proceedings of SimBuild 2026
+  place: Minneapolis
+  publisher: IBPSA-USA
+  year: 2026
+  month: 5
+  pages: 764-775
+  doi: 10.26868/30680611.2026.1365
+  pdf: https://publications.ibpsa.org/proceedings/simbuild/2026/papers/simbuild2026_1365.pdf
+  bibtex: chung2026simbuild
+  short: SimBuild 2026
+  themes: [grid-interactive-efficient-buildings]
+  selected: true
+
+- id: bigcomp2025
+  type: conference
+  title: Exploring Flooded Fraction Prediction through Machine Learning Models Focusing on Medical Infrastructure in the Southeast U.S. Coastal Areas
+  authors: ["Chung, J.", "Neo, K.", "Khan, M.", "Cruz, E.", "Zheng, Z.", "Munasinghe, T.", "Wei, J. C."]
+  venue: Proceedings of IEEE BigComp 2025
+  place: Kota Kinabalu
+  year: 2025
+  month: 2
+  pages: 49-56
+  doi: 10.1109/BigComp64353.2025.00017
+  bibtex: chung2025flooded
+  short: IEEE BigComp 2025
+  themes: []
+  selected: false
 
 - id: icccbe2024
   type: conference
@@ -132,23 +201,41 @@
   venue: Proceedings of ICCCBE 2024
   place: Montreal
   year: 2024
+  month: 8
   pages: 39-53
   doi: 10.1007/978-3-031-84208-5_4
+  code: https://github.com/JChung-Research/case-dashboard
   bibtex: chung2024ifcjson
   short: ICCCBE 2024
-  themes: [human-building-interaction]
+  themes: [human-building-interaction, interoperable-digital-twins]
   selected: true
+
+- id: i3ce2024
+  type: conference
+  title: "Towards a Real-Time Occupant Behavior Monitoring System: A Preliminary Study on Integrating BIM, IoT Sensors, and BAS"
+  authors: ["Chung, J.", "Shelden, D.", "Karlicek, B."]
+  venue: Computing in Civil Engineering 2024 (ASCE i3CE 2024)
+  place: Pittsburgh
+  year: 2024
+  month: 7
+  pages: 1069-1078
+  doi: 10.1061/9780784486115.113
+  bibtex: chung2024occupant
+  short: ASCE i3CE 2024
+  themes: [human-building-interaction]
+  selected: false
 
 - id: sb2024
   type: conference
   title: Sustainability through Optimal Design of Buildings for Natural Ventilation using Updated Comfort and Occupancy Models
-  authors: ["Chung, J.", "Shahmansouri, N.", "Stoddart, J.", "Goldstein, R.", "Locke, J."]
+  authors: ["Chung, J.", "Shahmansouri, N.", "Goldstein, R.", "Stoddart, J.", "Locke, J."]
   venue: Proceedings of SimBuild 2024
   place: Denver
   year: 2024
   month: 5
   pages: 849-860
   doi: 10.26868/30680611.2024.2172
+  pdf: https://publications.ibpsa.org/proceedings/simbuild/2024/papers/simbuild2024_2172.pdf
   bibtex: chung2024ventilation
   short: SimBuild 2024
   themes: [human-building-interaction]
@@ -161,8 +248,184 @@
   venue: CAAD Futures 2023
   place: Delft
   year: 2023
+  month: 7
+  pages: 518-531
   doi: 10.1007/978-3-031-37189-9_34
   bibtex: chung2023pollutants
   short: CAAD Futures 2023
   themes: [human-building-interaction]
   selected: true
+
+- id: swocot2023
+  type: conference
+  title: Towards an Indoor Environmental Quality Management Ontology
+  authors: ["Chung, J.", "Jacoby-Cooper, G.", "Rook, K.", "Santos, H.", "Shelden, D.", "Kendall, E. F.", "McGuinness, D. L."]
+  venue: Proceedings of SWoCoT 2023 at ESWC 2023 (CEUR-WS Vol. 3412)
+  place: Hersonissos
+  year: 2023
+  month: 5
+  pages: 16-26
+  pdf: https://ceur-ws.org/Vol-3412/paper2.pdf
+  bibtex: chung2023ieq
+  short: SWoCoT 2023
+  themes: [human-building-interaction]
+  selected: false
+
+- id: isarc2020
+  type: conference
+  title: A Systematic Review of the Geographic and Chronological Distributions of 3D Concrete Printers from 1997 to 2020
+  authors: ["Chung, J.", "Lee, G.", "Kim, J.-H."]
+  venue: Proceedings of ISARC 2020
+  place: Kitakyushu
+  year: 2020
+  month: 10
+  pages: 84-89
+  doi: 10.22260/ISARC2020/0014
+  pdf: https://www.iaarc.org/publications/fulltext/ISARC_2020_Paper_156.pdf
+  bibtex: chung2020review
+  short: ISARC 2020
+  themes: []
+  selected: false
+
+- id: icccbe2020
+  type: conference
+  title: Construction Field Management Using a Popular Text Messenger
+  authors: ["Lee, G.", "Cho, J.", "Song, T.", "Roh, H.", "Jung, J.", "Chung, J.", "Yong, G.", "Jeong, D."]
+  venue: Proceedings of ICCCBE 2020
+  year: 2020
+  pages: 971-979
+  doi: 10.1007/978-3-030-51295-8_67
+  bibtex: lee2020messenger
+  short: ICCCBE 2020
+  themes: []
+  selected: false
+
+- id: kicem2018
+  type: conference
+  title: Performance Evaluation Criteria for Building 3D Printing Focused on Concrete Properties
+  authors: ["Chung, J.", "Lee, G.", "Kim, J.-H."]
+  venue: Proceedings of the 2018 KICEM Annual Conference
+  year: 2018
+  month: 11
+  pages: 27-28
+  bibtex: chung2018criteria
+  short: KICEM 2018
+  themes: []
+  selected: false
+
+# ---------- Abstracts ----------
+
+- id: aogs2024
+  type: abstract
+  title: "Advancing Open Science in Atmospheric Research: Integrating Data Usability and Machine Learning"
+  authors: ["Wei, J.", "Gerasimov, I.", "Munasinghe, T.", "Chung, J.", "Cruz, E.", "Neo, K.", "Yu, Y. T.", "Zheng, Z.", "Khan, M."]
+  venue: AOGS 2024 21st Annual Meeting
+  year: 2024
+  month: 6
+  link: { url: "https://ntrs.nasa.gov/citations/20240007793", label: NTRS }
+  bibtex: wei2024openscience
+  short: AOGS 2024
+  themes: []
+  selected: false
+
+- id: nsf2024
+  type: abstract
+  title: Distributed Semantics to Support Built Environment Digital Twins
+  authors: ["Chung, J.", "Hong, T.", "Karlicek, R.", "Santos, H.", "Shelden, D.", "Sparks, D."]
+  venue: NSF Workshop on Sustainable Computing for Sustainability 2024
+  place: Alexandria
+  year: 2024
+  month: 4
+  bibtex: chung2024semantics
+  short: NSF workshop 2024
+  themes: [interoperable-digital-twins]
+  selected: false
+
+- id: agu2023
+  type: abstract
+  title: Prediction of Flooded Fraction using Machine Learning Algorithm
+  authors: ["Chung, J.", "Neo, K.", "Mukherjee, I.", "Munasinghe, T."]
+  venue: AGU 2023 Annual Meeting
+  year: 2024
+  month: 1
+  link: { url: "https://agu.confex.com/agu/fm23/meetingapp.cgi/Paper/1368965", label: AGU }
+  bibtex: chung2024flooded
+  short: AGU 2023
+  themes: []
+  selected: false
+
+# ---------- Articles ----------
+
+- id: rpiblog2024
+  type: article
+  title: Want To Be More Comfortable Indoors? Let Your Building Help
+  authors: ["Chung, J."]
+  venue: Every Day Matters
+  publisher: RPI blog
+  year: 2024
+  month: 1
+  link: { url: "https://everydaymatters.rpi.edu/want-to-be-more-comfortable-indoors-let-your-building-help", label: Blog }
+  bibtex: chung2024comfortable
+  short: Every Day Matters 2024
+  themes: [human-building-interaction]
+  selected: false
+
+- id: bc2021
+  type: article
+  title: On What Basis Should We Buy a 3D Concrete Printer?
+  authors: ["Lee, G.", "Chung, J.", "Kim, J.-H."]
+  venue: Building Construction
+  year: 2021
+  month: 12
+  volume: 21
+  issue: 4
+  pages: 31-34
+  link: { url: "https://kiss.kstudy.com/Detail/Ar?key=3922747", label: KISS }
+  bibtex: lee2021printer
+  short: Building Construction 2021
+  themes: []
+  selected: false
+
+# ---------- Patents (the CV's exact wording) ----------
+
+- id: us20250238578
+  type: patent
+  title: Generation and Simulation of Building Designs for Energy and Comfort Performance
+  authors: ["Chung, J.", "Stoddart, J.", "Locke, J. H.", "Goldstein, R.", "Shahmansouri, N."]
+  venue: Application Serial No. US20250238578A1
+  place: United States
+  year: 2025
+  month: 7
+  link: { url: "https://patents.google.com/patent/US20250238578A1/en", label: Google Patents }
+  bibtex: chung2025patent578
+  short: US20250238578A1
+  themes: [human-building-interaction]
+  selected: false
+
+- id: us20250238566
+  type: patent
+  title: Generation and Simulation of Building Designs for Energy and Comfort Performance
+  authors: ["Chung, J.", "Stoddart, J.", "Locke, J. H.", "Goldstein, R.", "Shahmansouri, N."]
+  venue: Application Serial No. US20250238566A1
+  place: United States
+  year: 2025
+  month: 7
+  link: { url: "https://patents.google.com/patent/US20250238566A1/en", label: Google Patents }
+  bibtex: chung2025patent566
+  short: US20250238566A1
+  themes: [human-building-interaction]
+  selected: false
+
+- id: kr102207535
+  type: patent
+  title: 3D printer for construction with continuous printing on the go and 3D printing system comprising it
+  authors: ["Kim, J.", "Lee, G.", "Lee, D.", "Lee, J.", "Chung, J."]
+  venue: Korean Patent No. KR102207535B1
+  place: South Korea
+  year: 2021
+  month: 1
+  link: { url: "https://patents.google.com/patent/KR102207535B1/en", label: Google Patents }
+  bibtex: kim2021printer
+  short: KR102207535B1
+  themes: []
+  selected: false

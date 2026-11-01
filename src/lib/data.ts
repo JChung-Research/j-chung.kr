@@ -15,6 +15,7 @@ import talksRaw from '../data/talks.yml?raw';
 import teachingRaw from '../data/teaching.yml?raw';
 import serviceRaw from '../data/service.yml?raw';
 import videosRaw from '../data/videos.yml?raw';
+import skillsRaw from '../data/skills.yml?raw';
 
 const ym = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'use YYYY-MM in quotes, e.g. "2026-09"');
 const ymd = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'use YYYY-MM-DD in quotes');
@@ -73,7 +74,7 @@ const News = z.array(
 const Publications = z.array(
   z.object({
     id: z.string().regex(/^[a-z0-9-]+$/, 'lowercase letters, digits and hyphens only'),
-    type: z.enum(['journal', 'conference', 'report']),
+    type: z.enum(['journal', 'conference', 'report', 'abstract', 'article', 'patent']),
     title: text,
     authors: z.array(str).min(1),
     venue: str,
@@ -88,6 +89,7 @@ const Publications = z.array(
     doi: opt(str),
     pdf: opt(z.string().url()),
     code: opt(z.string().url()),
+    link: opt(z.object({ url: z.string().url(), label: str })),
     bibtex: str,
     short: str,
     themes: z.array(themeSlug).default([]),
@@ -146,13 +148,33 @@ const Software = z.array(
     name: str,
     full_name: opt(str),
     description: text,
-    language: str,
+    language: opt(str),
     stack: z.array(str).default([]),
-    repo: z.string().url(),
+    visibility: z.enum(['public', 'private']),
+    repo: opt(z.string().url()),
     license: opt(str),
     theme: themeSlug,
+    home: z.boolean().default(false),
+    drawing: opt(z.enum(['orbit', 'medical', 'obxml', 'ifcjson'])),
+    image: opt(str),
+    image_alt: opt(text),
+    caption: opt(text),
+    papers: z.array(str).default([]),
+    video: opt(str),
     credit: opt(text),
     features: z.array(z.object({ label: str, text: text })).default([]),
+  }).superRefine((s, ctx) => {
+    if (s.visibility === 'public' && !s.repo) ctx.addIssue({ code: 'custom', path: ['repo'], message: 'public entries need the repository URL' });
+    if (s.visibility === 'private' && s.repo) ctx.addIssue({ code: 'custom', path: ['repo'], message: 'private entries link no repository' });
+    if (s.image && !s.image_alt) ctx.addIssue({ code: 'custom', path: ['image_alt'], message: 'an image needs image_alt' });
+    if (s.image && s.drawing) ctx.addIssue({ code: 'custom', path: ['image'], message: 'use either drawing or image, not both' });
+  }),
+);
+
+const Skills = z.array(
+  z.object({
+    group: str,
+    items: z.array(str).min(1),
   }),
 );
 
@@ -177,6 +199,7 @@ const Talks = z.array(
     organizer: opt(str),
     place: opt(str),
     kind: z.enum(['talk', 'invited', 'poster', 'panel', 'workshop']).default('talk'),
+    note: opt(text),
     link: opt(z.string().url()),
     themes: z.array(themeSlug).default([]),
   }),
@@ -229,6 +252,7 @@ export const talks = load('talks.yml', talksRaw, Talks);
 export const teaching = load('teaching.yml', teachingRaw, Teaching);
 export const service = load('service.yml', serviceRaw, Service);
 export const videos = load('videos.yml', videosRaw, Videos);
+export const skills = load('skills.yml', skillsRaw, Skills);
 export const videoById = (id: string) => videos.find((v) => v.id === id)!;
 
 export type Publication = (typeof publications)[number];
@@ -255,8 +279,16 @@ export type Theme = (typeof themes)[number];
       if (id && !pubIds.has(id)) throw new Error(`recent.yml (${r.id}): unknown ${key} id "${id}"`);
     }
     if (r.code && !swIds.has(r.code)) throw new Error(`recent.yml (${r.id}): unknown software id "${r.code}"`);
+    if (r.code && !software.find((s) => s.id === r.code)!.repo) throw new Error(`recent.yml (${r.id}): software "${r.code}" has no public repository to link`);
     if (r.video && !videos.some((v) => v.id === r.video)) throw new Error(`recent.yml (${r.id}): unknown video id "${r.video}"`);
   }
+  const swDup = software.map((s) => s.id).filter((id, i, a) => a.indexOf(id) !== i);
+  if (swDup.length) throw new Error(`software.yml: duplicate id ${swDup.join(', ')}`);
+  for (const s of software) {
+    for (const id of s.papers) if (!pubIds.has(id)) throw new Error(`software.yml (${s.id}): unknown paper id "${id}"`);
+    if (s.video && !videos.some((v) => v.id === s.video)) throw new Error(`software.yml (${s.id}): unknown video id "${s.video}"`);
+  }
+  if (software.filter((s) => s.home).length > 3) throw new Error('software.yml: at most three entries can have home: true');
   for (const p of projects) {
     if (p.report_doi && !dois.has(p.report_doi)) {
       throw new Error(`projects.yml: report_doi ${p.report_doi} is not in publications.yml`);
@@ -336,9 +368,10 @@ export function authorsHtml(authors: string[]): string {
 export function venueHtml(p: Publication): string {
   const where = p.place ?? p.publisher;
   const vol = p.volume !== undefined ? `${p.volume}${p.issue !== undefined ? `(${p.issue})` : ''}` : undefined;
-  const pages = p.pages ? (p.type === 'journal' ? p.pages : `pp. ${p.pages}`) : undefined;
+  const pages = p.pages ? (p.type === 'journal' || p.type === 'article' ? p.pages : `pp. ${p.pages}`) : undefined;
   const tail = [vol, pages, p.number !== undefined ? String(p.number) : undefined].filter(Boolean) as string[];
-  if (p.type === 'journal') {
+  if (p.type === 'patent') return `${escapeHtml(p.venue)}${where ? `, ${escapeHtml(where)}` : ''}.`;
+  if (p.type === 'journal' || p.type === 'article') {
     const head = `<i>${escapeHtml(p.venue)}</i>${where ? `, ${escapeHtml(where)}` : ''}`;
     return tail.length ? `${head}, ${tail.map(escapeHtml).join(', ')}.` : `${head}.`;
   }
@@ -348,7 +381,11 @@ export function venueHtml(p: Publication): string {
 
 /** Accessible name used in "[DOI]" / "[PDF]" link labels. */
 export function pubLabel(p: Publication): string {
-  return p.type === 'report' ? p.short : `the ${p.short} paper`;
+  if (p.type === 'report') return p.short;
+  if (p.type === 'patent') return `patent ${p.short}`;
+  if (p.type === 'abstract') return `the ${p.short} abstract`;
+  if (p.type === 'article') return `the ${p.short} article`;
+  return `the ${p.short} paper`;
 }
 
 export function pubById(id: string): Publication {
@@ -396,6 +433,7 @@ export function pubLinksHtml(p: Publication, full: boolean): string {
   if (p.doi) links.push(`<a class="doi" href="https://doi.org/${escapeHtml(p.doi)}" aria-label="DOI for ${label}">[DOI]</a>`);
   if (full && p.pdf) links.push(`<a class="doi" href="${escapeHtml(p.pdf)}" aria-label="PDF of ${label}">[PDF]</a>`);
   if (full && p.code) links.push(`<a class="doi" href="${escapeHtml(p.code)}" aria-label="Code for ${label}">[Code]</a>`);
+  if (p.link) links.push(`<a class="doi" href="${escapeHtml(p.link.url)}" aria-label="${escapeHtml(p.link.label)} page for ${label}">[${escapeHtml(p.link.label)}]</a>`);
   return [venueHtml(p), ...links].join(' ');
 }
 
@@ -430,8 +468,37 @@ export const HOME_PUB_COUNT = 3;
 export const homePublications = sortPublications(publications.filter((p) => p.selected)).slice(0, HOME_PUB_COUNT);
 export const homePubIds = new Set(homePublications.map((p) => p.id));
 
+/** Publication groups, in the order pages list them. */
+export const PUB_TYPES = ['journal', 'conference', 'report', 'abstract', 'article', 'patent'] as const;
+
 export const PUB_GROUP_LABEL: Record<Publication['type'], string> = {
   journal: 'Journal article',
   conference: 'Conference paper',
   report: 'Technical report',
+  abstract: 'Abstract',
+  article: 'Article',
+  patent: 'Patent',
 };
+
+/** A theme's (or any) publications, newest first, grouped by type in PUB_TYPES order; empty groups dropped. */
+export function groupPublications(list: Publication[]) {
+  const sorted = sortPublications(list);
+  return PUB_TYPES.map((type) => ({ type, items: sorted.filter((p) => p.type === type) })).filter((g) => g.items.length > 0);
+}
+
+export type Talk = (typeof talks)[number];
+export type Software = (typeof software)[number];
+
+/** Small label for a talk's kind. */
+export const TALK_KIND_LABEL: Record<Talk['kind'], string> = {
+  talk: 'Talk',
+  invited: 'Invited talk',
+  poster: 'Poster',
+  panel: 'Panel',
+  workshop: 'Workshop',
+};
+
+/** Small caps line of a software entry: full name, language, license. */
+export function softwareMeta(s: Software): string {
+  return [s.full_name, s.language, s.license && `${s.license} License`].filter(Boolean).join(' · ');
+}

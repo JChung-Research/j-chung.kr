@@ -1,0 +1,35 @@
+# Languages and tools: the "Languages & tools" strip on /software/, from the CV's SKILLS section
+# (CV_Jihoon Chung_20260609). Groups in the order shown. Items keep the CV's names; only the capitalization is
+# normalized (JAVA as Java, Tensorflow as TensorFlow, Pytorch as PyTorch, Sketchup as SketchUp, Contam as CONTAM).
+# The CV's "Others" group is split into simulation, semantic web, and machine learning and statistics; its
+# "Machining" group is shown as hardware and fabrication; "CAD/CAE" as CAD, BIM and analysis.
+#   group  label of the group
+#   items  list of names
+#
+# Example:
+# - group: Programming languages
+#   items: [Python, TypeScript]
+
+- group: Programming languages
+  items: [Python, C#, Java, C++, JavaScript, TypeScript, P5 Processing, SPARQL, SQL]
+
+- group: JavaScript libraries and tools
+  items: [React.js, Node.js, Three.js, ifc.js, Express.js, Node-RED]
+
+- group: Simulation
+  items: [OpenStudio, EnergyPlus, CONTAM, Functional Mockup Unit, obFMU, EnergyPlusFMU, ContamFMU]
+
+- group: Semantic web
+  items: [SHACL, Protégé]
+
+- group: Machine learning and statistics
+  items: [TensorFlow, Keras, PyTorch, SPSS]
+
+- group: CAD, BIM and analysis
+  items: [Rhino, Grasshopper, Ladybug, Honeybee, Butterfly, Revit, Dynamo, SketchUp, CATIA, AutoCAD, Midas Civil]
+
+- group: Design
+  items: [Adobe Photoshop, Illustrator, InDesign, Premiere Pro, Lightroom, Experience Design]
+
+- group: Hardware and fabrication
+  items: [Arduino, Raspberry Pi, 3D printer, Laser cutter]

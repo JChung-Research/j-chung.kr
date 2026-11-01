@@ -1,13 +1,25 @@
-# Software, in the order shown on the homepage.
+# Software: every tool the owner built or co-built that is named on the CV or in a published paper. /software/ lists all
+# of them by theme (file order within a theme); the homepage shows the entries marked home: true, in file order.
 #   id           short unique id; anchor becomes #sw-<id>
 #   name         display name
 #   full_name    optional long name (shown in the small caps line)
 #   description  one sentence: what the tool does
-#   language     main language (shown in the small caps line)
-#   stack        list of technologies (shown as tags on theme pages)
-#   repo         repository URL
-#   license      optional, e.g. MIT (shown as "MIT License"); leave empty if not stated
-#   theme        research theme slug
+#   language     optional main language(s) (shown in the small caps line); leave empty if no public source states it
+#   stack        list of technologies, from the repository (README, languages, files) or the paper (shown as tags)
+#   visibility   public | private. public = the code is on GitHub and "repo" links to it; private = no public
+#                repository (the page says "Code not public" and links nothing)
+#   repo         repository URL, only for public entries
+#   license      optional, e.g. MIT (shown as "MIT License"); leave empty if the repository states none
+#   theme        research theme slug (section on /software/; the theme page may feature it)
+#   home         true = also listed in the homepage Software section (keep it to three)
+#   drawing      optional project drawing shown with the entry: orbit | medical | obxml | ifcjson
+#                (src/components/diagrams/Project<Name>.astro)
+#   image        optional image inside public/, e.g. images/videos/<youtube>.jpg (the owner's interface screenshots);
+#                used when there is no drawing. image_alt describes it.
+#   image_alt    alternative text for image
+#   caption      optional caption for the drawing or image
+#   papers       optional publication ids (publications.yml) that describe the tool, linked as "Paper:"
+#   video        optional video id (videos.yml), linked to its player on the theme page
 #   credit       optional sentence on what it builds on (theme page)
 #   features     optional list of { label, text } (theme page)
 #
@@ -17,9 +29,14 @@
 #   description: What it does, in one sentence.
 #   language: Python
 #   stack: [Python, Brick Schema]
+#   visibility: public
 #   repo: https://github.com/JChung-Research/newtool
 #   license: MIT
 #   theme: interoperable-digital-twins
+#   home: false
+#   papers: [eb2027]
+
+# ---------- Grid-Interactive Efficient Buildings ----------
 
 - id: orbit
   name: ORBIT
@@ -27,9 +44,14 @@
   description: Open-source, scalable software platform for building energy management in small and medium-sized commercial buildings.
   language: TypeScript
   stack: [Next.js, React, TypeScript, Python, VOLTTRON, GraphQL, Prisma, Docker, BACnet, Modbus, Brick Schema]
+  visibility: public
   repo: https://github.com/JChung-Research/ornl-building-interactive-toolkit
   license: Apache-2.0
   theme: grid-interactive-efficient-buildings
+  home: true
+  drawing: orbit
+  caption: A chart configuration in the ORBIT example YAML file and the chart the web interface renders from it.
+  papers: [sb2026, tm4715]
   credit: Built on PNNL's VOLTTRON middleware and AEMS framework, and extended at ORNL.
   features:
     - label: Devices
@@ -41,20 +63,108 @@
     - label: Deployment
       text: Containerized with Docker Compose.
 
+# ---------- Interoperable Digital Twins ----------
+
 - id: gbobxml
   name: gb-obXML Converter
   description: Translates gbXML to obXML so that occupant behavior models can enter BIM-to-BEM simulation workflows.
-  language: XSLT
-  stack: [XSLT]
+  language: Python, XSLT
+  stack: [Python, XSLT, lxml, xmlschema, gbXML v7.04, obXML v1.4]
+  visibility: public
   repo: https://github.com/JChung-Research/gb-obXML-Converter
   license: MIT
   theme: interoperable-digital-twins
+  home: true
+  drawing: obxml
+  caption: The obXML v1.4 schema tree, with the elements new in v1.4 and the elements the converter fills from gbXML.
+  papers: [bs2025]
+  features:
+    - label: Validate
+      text: Checks the input file against the gbXML v7.04 schema.
+    - label: Transform
+      text: Maps gbXML elements to obXML elements with XSLT rules kept apart from the code.
+    - label: Check
+      text: Validates the generated file against the obXML v1.4 schema.
+    - label: Reuse
+      text: Runs from the command line; its core module can be built into other Python applications.
+
+- id: ifc-brick
+  name: IFC-to-Brick converter
+  description: SHACL-based converter from IFC to the Brick schema, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
+  stack: [SHACL, IFC, Brick Schema]
+  visibility: private
+  theme: interoperable-digital-twins
+  home: false
+
+- id: ifc-ecs
+  name: IFC4.3-to-ECS translator
+  description: Translator from IFC 4.3 to ECS, a prototype developed in collaboration with industry experts from Autodesk, Solibri and Trimble.
+  stack: [IFC 4.3]
+  visibility: private
+  theme: interoperable-digital-twins
+  home: false
+
+- id: pyobfmu
+  name: obFMU in Python
+  description: Python version of obFMU, the C++ occupant behavior simulator, for integration with data-driven occupant behavior modeling and BIM.
+  language: Python
+  stack: [Python, obXML, Functional Mockup Unit]
+  visibility: private
+  theme: interoperable-digital-twins
+  home: false
+
+# ---------- Human-Building Interaction ----------
+
+- id: case-dashboard
+  name: CASE dashboard
+  description: Web dashboard of the ifcJSON-based monitoring platform, showing real-time sensor data on the 3D BIM model of a university laboratory.
+  language: JavaScript
+  stack: [JavaScript, Three.js, Chart.js, Bootstrap, jQuery, ifcJSON]
+  visibility: public
+  repo: https://github.com/JChung-Research/case-dashboard
+  license: MIT
+  theme: human-building-interaction
+  home: false
+  image: images/videos/zWMlJOSf1o0.jpg
+  image_alt: "The CASE dashboard: a 3D BIM model of the laboratory with sensor labels, beside panels for visualization options, real-time temperature and humidity gauges, data records, object types and a data table."
+  caption: The dashboard in the video linked from the ICCCBE 2024 paper.
+  papers: [icccbe2024]
+  video: case-dashboard
+  credit: The dashboard is the application layer of the platform; the other three layers are described in the paper.
+  features:
+    - label: Sensor layer
+      text: Ambient, desk occupancy and proximity sensors in the laboratory.
+    - label: Network layer
+      text: LoRaWAN and Zigbee gateways forward the readings in real time to a Node-RED server.
+    - label: Middleware layer
+      text: The server stores the readings in MongoDB and serves them over an HTTP API; the Revit model becomes ifcJSON linked data with Brick and ifcOWL terms.
+    - label: Application layer
+      text: The dashboard renders the BIM model with Three.js and shows the live data in gauges and line charts.
 
 - id: comfit
   name: Comfit
   description: Prototype digital twin dashboard that visualizes IoT sensor data on a BIM model in real time.
   language: JavaScript
-  stack: [JavaScript]
+  stack: [JavaScript, Three.js, MQTT.js, ifcJSON, IfcOpenShell, DataTables, Bootstrap, Google Sheets API]
+  visibility: public
   repo: https://github.com/JChung-Research/Comfit-Demo
   license: MIT
   theme: human-building-interaction
+  home: true
+  image: images/videos/QrzMWPwNgBs.jpg
+  image_alt: "Comfit in a web browser beside a camera view of a conference room: the room's BIM model with the occupant shown at the table, and controls for occupant tracking, lighting, color temperature and light intensity."
+  caption: Comfit in the conference room, from the video linked in the ASCE i3CE 2024 paper.
+  papers: [i3ce2024]
+  video: comfit-lighting
+
+- id: scr-nodered
+  name: Node-RED API for the Smart Conference Room
+  description: Node-RED API for remote access to real-time data from the sensors and HVAC in the Smart Conference Room at RPI.
+  language: Node-RED
+  stack: [Node-RED, ROS, HTTP API, JSON]
+  visibility: public
+  repo: https://github.com/JChung-Research/scr.NodeRED_API
+  license: MIT
+  theme: human-building-interaction
+  home: false
+  papers: [i3ce2024]
